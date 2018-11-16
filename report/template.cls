@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{altacv}[2018/09/13 NikDim template for LaTeX reports]
+\ProvidesClass{template}[2018/09/13 NikDim template for LaTeX reports]
 
 
 \LoadClass{article}
@@ -29,7 +29,11 @@
 \RequirePackage[nice]{nicefrac}
 \RequirePackage[framed,numbered]{matlab-prettifier}
 
-
+\RequirePackage{amssymb}
+\RequirePackage{amsmath}
+\RequirePackage{multirow}
+\RequirePackage{nicefrac}
+\RequirePackage{bm}
 
 \colorlet{accent}{blue!70!black}
 \colorlet{heading}{black}
@@ -50,6 +54,7 @@
 \RequirePackage{titlesec}
 \RequirePackage{xstring}
 \RequirePackage{datetime}
+
 % \RequirePackage{marginfix}
 
 %
@@ -58,6 +63,13 @@
 %
 %
 \newcommand{\classname}[1]{\def\@classname{#1}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\renewcommand{\j}{\ensuremath{\text{j}}}
+\newcommand{\qeda}{\tag*{$\blacksquare$}}
+\numberwithin{equation}{section}
+\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\DeclareMathOperator*{\argmax}{argmax} 
+\DeclareMathOperator*{\argmin}{argmin} 
 
 \newcommand{\maketitlepage}
 {
