@@ -70,6 +70,11 @@
 \newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
 \DeclareMathOperator*{\argmax}{argmax} 
 \DeclareMathOperator*{\argmin}{argmin} 
+\pagestyle{fancy}
+\cfoot{Σελίδα \thepage}
+%\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
 
 \newcommand{\maketitlepage}
 {
