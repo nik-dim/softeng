@@ -1,0 +1,18 @@
+<h1>Blogs</h1>
+
+<button><a routerLink='add'>Add blog</a></button>
+
+<ul class="blogs">
+  <li *ngFor="let blog of blogs">
+    <a routerLink="/blogs/{{ blog.id }}">
+      <span class="badge">{{ blog.id }}</span> {{ blog.title }}
+    </a>
+  </li>
+</ul>
+
+<a href="http://www.google.com">Press me</a>
+
+foreach blog in this.blogs
+  sduvhiaeuhfoes
+  fudoher
+endfor
