@@ -1,0 +1,33 @@
+\documentclass[]{template}
+
+\classname{ΤΕΧΝΟΛΟΓΙΑ ΛΟΓΙΣΜΙΚΟΥ}
+\title{1ο ΠΑΡΑΔΟΤΕΟ}
+\author{\texttt{saiko-killers}}
+
+
+\begin{document}
+	\maketitlepage
+	
+	\part{ΧΡΗΣΤΕΣ}
+	\foreach \i in {1,...,7}{
+		\input{users/req\i}
+		%	\newpage
+	}
+	\newpage
+	\setcounter{section}{0}
+	\part{ΙΔΙΟΚΤΗΤΕΣ ΠΡΑΤΗΡΙΩΝ ΥΓΡΩΝ ΚΑΥΣΙΜΩΝ}
+	\foreach \i in {1,...,7}{
+		\input{gas_stations/req\i}
+		%	\newpage
+	}
+	\newpage
+	\setcounter{section}{0}
+	\part{ΔΙΑΧΕΙΡΙΣΤΕΣ}
+	\foreach \i in {1,...,7}{
+		\input{administrators/req\i}
+		%	\newpage
+	}
+	\input{Appendix}
+
+
+\end{document}
