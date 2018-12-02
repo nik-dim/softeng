@@ -1,10 +1,14 @@
-# softeng 2018 SAIKO-KILLERS
+# SAIKO-KILLERS
 
-## Team
-The members of the team are (in alphabetical order):
-* Dimitriadis Nikolaos
-* Spyros Dontas
-* Thanas Leraj
-* Papaifantis Vasileios
-* Tzavaras Stefanos
-* Tsiourvas Asterios
+## Welcomeeee!
+
+Τα μέλη της ομάδας (με αλφαβητική σειρά) είναι:
+
+| Επώνυμο     | Όνομα     | ΑΜ       |
+| ----------- | --------- | -------- |
+| Δημητριάδης | Νικόλαος  | 03114016 |
+| Δοντάς      | Σπύρος    | 03114141 |
+| Λεράι       | Θανάς     | 03114156 |
+| Παπαϋφαντής | Βασίλειος | 03114029 |
+| Τζαβάρας    | Στέφανος  | 03114017 |
+| Τσιούρβας   | Αστέριος  | 03114133 |
