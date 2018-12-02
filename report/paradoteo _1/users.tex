@@ -1,16 +1,19 @@
 \documentclass[]{template}
 
 \classname{ΤΕΧΝΟΛΟΓΙΑ ΛΟΓΙΣΜΙΚΟΥ}
-\title{1ο ΠΑΡΑΔΟΤΕΟ}
+\title{Stakeholders Requirements Specification \\ \vspace*{5px} \texttt{ΧΡΗΣΤΕΣ}}
 \author{\texttt{saiko-killers}}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
 
 
 \begin{document}
 \maketitlepage
 
 \foreach \i in {1,...,7}{
-	\input{req\i}
-	\newpage
+	\input{users/req\i}
+%	\newpage
 }
 \input{Appendix}
 \end{document}
