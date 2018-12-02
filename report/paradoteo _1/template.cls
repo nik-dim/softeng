@@ -18,8 +18,8 @@
 	colorlinks,
 	citecolor = black,
 	filecolor = black,
-	linkcolor = black,
-	urlcolor = black
+	linkcolor = blue,
+	urlcolor = blue
 }
 \RequirePackage[parfill]{parskip}
 \RequirePackage{bookmark}
