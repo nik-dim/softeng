@@ -8,13 +8,15 @@
 
 `3/12/2018`
 
-Είναι το αρχείο `StRS.pdf`. Πρόκειται για τη συνένωση των αρχείων 
+Είναι το αρχείο `StRS-allInOne.pdf`. Πρόκειται για τη συνένωση των αρχείων 
 
-- users.pdf
-- gas_stations.pdf
-- administrators.pdf
+- `StRS-01.pdf`: χρήστες
+- `StRS-02.pdf`: ιδιοκτήτες πρατηρίων υγρών καυσίμων
+- `StRS-03.pdf`: διαχειριστές
 
-που βρίσκονται στο directory `report/`. Επομένως, ο αναγνώστης μπορεί να δει τα Stakeholder Requirements είτε ατομικά για κάθε stakeholder (στο directory `report/`) είτε συνολικά (εδώ).
+ Επιπλέον, ο αναγνώστης μπορεί να δει τα Stakeholder Requirements εστο directory `report/`, όπου πραγματοποιήθηκε το development τους.
+
+---
 
 
 
