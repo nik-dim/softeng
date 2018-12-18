@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.model.Blog;
+
 import java.util.ArrayList;
 import java.util.List;
 
