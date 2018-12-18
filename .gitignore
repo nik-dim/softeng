@@ -1,5 +1,14 @@
 
 project-softeng18b-rest-api-specs.pdf
+.vscode
+.vscode/
+*.classpath
+*.project
+.gradle/*
+.gradle/
+
+
+
 
 ##-----------------------JAVA-----------------------
 # Compiled class file
