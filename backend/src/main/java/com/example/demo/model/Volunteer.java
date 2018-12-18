@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Volunteer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String username;
     private String firstname;
@@ -20,11 +20,11 @@ public class Volunteer {
     private Date dateofreg;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        id = id;
     }
 
     public String getUsername() {
@@ -100,7 +100,7 @@ public class Volunteer {
     @Override
     public String toString() {
         return "Volunteer{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +

@@ -33,15 +33,15 @@ public class PriceController {
         return priceRepository.findAllByShopId(shop_id);
     }
 
-//    @GetMapping(value = "/volunteers/{volunteer_id}/prices")
-//    public List<Price> getAllPricesByVolunteerId(
-//            @PathVariable (value = "volunteer_id") Long volunteer_id){
-//        return priceRepository.findAllByVolunteerId(volunteer_id);
-//    }
+    @GetMapping(value = "/volunteers/{volunteer_id}/prices")
+    public List<Price> getAllPricesByVolunteerId(
+            @PathVariable (value = "volunteer_id") Long volunteer_id){
+        return priceRepository.findAllByVolunteerId(volunteer_id);
+    }
 
-//    @GetMapping(value = "/products/{product_id}/prices")
-//    public List<Price> getAllPricesByProductId(
-//            @PathVariable (value = "product_id") Long product_id){
-//        return priceRepository.findAllByProductId(product_id);
-//    }
+    @GetMapping(value = "/products/{product_id}/prices")
+    public List<Price> getAllPricesByProductId(
+            @PathVariable (value = "product_id") Long product_id){
+        return priceRepository.findAllByProductId(product_id);
+    }
 }

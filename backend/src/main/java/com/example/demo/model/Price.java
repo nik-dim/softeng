@@ -15,21 +15,21 @@ import java.util.Date;
 @IdClass(CompositeKey.class)
 public class Price implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    @JsonIgnore
+//    @JsonIgnore
     @Id
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)
-    @JsonIgnore
+//    @JsonIgnore
     @Id
     private Shop shop;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "volunteer_id", nullable = false)
-    @JsonIgnore
+//    @JsonIgnore
     @Id
     private Volunteer volunteer;
 

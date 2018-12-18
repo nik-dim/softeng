@@ -1,60 +1,139 @@
-useful links:
- - http://www.peachpit.com/articles/article.aspx?p=1752305&seqNum=2
- - https://stackoverflow.com/questions/20856/recommended-sql-database-design-for-tags-or-tagging
+create table test.blog
+(
+  id      int auto_increment
+    primary key,
+  title   varchar(45)  null,
+  content varchar(255) null
+);
 
-CREATE TABLE `test`.`shops` (
-  `id` BIGINT NOT NULL UNIQUE,
-  `name` VARCHAR(100) NOT NULL UNIQUE,
-  `address` VARCHAR(100) NOT NULL UNIQUE,
-  `lng` DOUBLE NOT NULL,
-  `lat` DOUBLE NOT NULL,
-  `withdrawn` BOOLEAN NOT NULL,
-  `brand` VARCHAR(100) NULL,
-  PRIMARY KEY (`id`));
+create table test.product
+(
+  id          bigint(100) auto_increment,
+  name        varchar(100) not null,
+  description varchar(300) not null,
+  category    varchar(20)  not null,
+  withdrawn   tinyint(1)   not null,
+  tag_id      bigint       null,
+  constraint id
+    unique (id),
+  constraint name
+    unique (name)
+);
 
-CREATE TABLE `test`.`ownstag` (
-  `idtag` BIGINT NOT NULL,
-  `id` BIGINT NOT NULL);
+alter table test.product
+  add primary key (id);
 
-CREATE TABLE `test`.`tag` (
-  `idtag` BIGINT NOT NULL UNIQUE,
-  `tag_name` VARCHAR(45) NOT NULL UNIQUE,
-  PRIMARY KEY (`idtag`));
+create table test.shop
+(
+  id        bigint(100) auto_increment,
+  name      varchar(100) not null,
+  address   varchar(100) not null,
+  lng       double       not null,
+  lat       double       not null,
+  withdrawn tinyint(1)   not null,
+  brand     varchar(100) null,
+  constraint address
+    unique (address),
+  constraint id
+    unique (id),
+  constraint name
+    unique (name)
+);
 
-CREATE TABLE `test`.`volunteers` (
-  `id` BIGINT NOT NULL,
-  `username` VARCHAR(20) NOT NULL UNIQUE,
-  `firstname` VARCHAR(20) NOT NULL,
-  `lastname` VARCHAR(20) NOT NULL,
-  `phone` VARCHAR(10) NOT NULL,
-  `email` VARCHAR(10) NOT NULL UNIQUE,
-  `dateofbirth` DATE NOT NULL,
-  `dateofreg` DATETIME NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);
+alter table test.shop
+  add primary key (id);
 
-CREATE TABLE `test`.`password` (
-  `volunteerid` BIGINT NOT NULL,
-  `password` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`password`, `volunteerid`));
+create table test.tag
+(
+  id    bigint(100) auto_increment
+    primary key,
+  value varchar(45) not null
+);
 
-CREATE TABLE `test`.`products` (
-  `id` BIGINT NOT NULL UNIQUE,
-  `name` VARCHAR(100) NOT NULL UNIQUE,
-  `description` VARCHAR(300) NOT NULL,
-  `category` VARCHAR(20) NOT NULL,
-  `withdrawn` BOOLEAN NOT NULL,
-  PRIMARY KEY (`id`));
+create table test.product_tag
+(
+  product_id bigint(100) not null,
+  tag_id     bigint(100) not null,
+  primary key (product_id, tag_id),
+  constraint p_id
+    foreign key (product_id) references product (id)
+      on update cascade on delete cascade,
+  constraint t_id
+    foreign key (tag_id) references tag (id)
+      on update cascade on delete cascade
+);
 
-CREATE TABLE `test`.`images` (
-  `id` BIGINT NOT NULL UNIQUE,
-  `path` VARCHAR(300) NOT NULL,
-  PRIMARY KEY (`id`));
+create index p_id_idx
+  on test.product_tag (product_id);
 
-CREATE TABLE `test`.`prices` (
-  `price` DOUBLE NOT NULL,
-  `date` DATE NOT NULL,
-  `productid` BIGINT NOT NULL,
-  `shopid` BIGINT NOT NULL,
-  `volunteerid` BIGINT NOT NULL);
+create index t_id_idx
+  on test.product_tag (tag_id);
+
+create table test.shop_tag
+(
+  shop_id bigint(100) not null,
+  tag_id  bigint(100) not null,
+  primary key (shop_id, tag_id),
+  constraint s_id
+    foreign key (shop_id) references shop (id)
+      on update cascade on delete cascade,
+  constraint tt_id
+    foreign key (tag_id) references tag (id)
+      on update cascade on delete cascade
+);
+
+create index s_id_idx
+  on test.shop_tag (shop_id);
+
+create index tt_id_idx
+  on test.shop_tag (tag_id);
+
+create table test.volunteer
+(
+  id          bigint(100) auto_increment,
+  username    varchar(20) not null,
+  firstname   varchar(20) not null,
+  lastname    varchar(20) not null,
+  phone       varchar(10) not null,
+  email       varchar(45) not null,
+  dateofbirth date        not null,
+  dateofreg   datetime    not null,
+  constraint email
+    unique (email),
+  constraint id_UNIQUE
+    unique (id),
+  constraint username
+    unique (username)
+);
+
+alter table test.volunteer
+  add primary key (id);
+
+create table test.price
+(
+  product_id   bigint(100) not null,
+  shop_id      bigint(100) not null,
+  volunteer_id bigint(100) not null,
+  value        double      not null,
+  timestamp    datetime    not null,
+  primary key (product_id, shop_id, volunteer_id, timestamp),
+  constraint pp_id
+    foreign key (product_id) references product (id)
+      on update cascade on delete cascade,
+  constraint ss_id
+    foreign key (shop_id) references shop (id)
+      on update cascade on delete cascade,
+  constraint vv_id
+    foreign key (volunteer_id) references volunteer (id)
+      on update cascade on delete cascade
+);
+
+create index shop_id_idx
+  on test.price (shop_id);
+
+create index timestamp_idx
+  on test.price (timestamp);
+
+create index volunteer_id_idx
+  on test.price (volunteer_id);
 
