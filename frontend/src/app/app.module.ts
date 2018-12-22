@@ -13,6 +13,7 @@ import { BlogAddComponent } from './blog-add/blog-add.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { StoresComponent } from './stores/stores.component';
 import { StoreDetailComponent } from './store-detail/store-detail.component';
+import { MapBoxComponent } from './map-box/map-box.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { StoreDetailComponent } from './store-detail/store-detail.component';
     BlogAddComponent,
     BlogDetailComponent,
     StoresComponent,
-    StoreDetailComponent
+    StoreDetailComponent,
+    MapBoxComponent
   ],
   imports: [
     BrowserModule,

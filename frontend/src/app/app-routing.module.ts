@@ -7,6 +7,7 @@ import { BlogAddComponent } from './blog-add/blog-add.component'
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { StoresComponent } from './stores/stores.component';
 import { StoreDetailComponent } from './store-detail/store-detail.component';
+import { MapBoxComponent } from './map-box/map-box.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'blogs/:id', component: BlogDetailComponent },
   { path: 'stores', component: StoresComponent },
   { path: 'stores/:id', component: StoreDetailComponent },
+  { path: 'map', component: MapBoxComponent },
   { path: 'about', component: AboutComponent }
 ];
 
