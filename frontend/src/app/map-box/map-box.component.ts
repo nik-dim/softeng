@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { MapService } from '../map.service';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import * as turf from '@turf/distance'
+import * as turf from '@turf/turf'
 
 @Component({
   selector: 'app-map-box',
@@ -63,34 +63,34 @@ export class MapBoxComponent implements OnInit {
       this.buildLocationList(this.markers);
     });
 
-  // Add an event listener for when a user clicks on the map
-  this.map.on('click', (event) => {
-    // Query all the rendered points in the view
-    var features = this.map.queryRenderedFeatures(event.point, { layers: ['locations'] });
-    if (features.length) {
-      var clickedPoint = features[0];
-      // 1. Fly to the point
-      this.flyToStore(clickedPoint);
-      // 2. Close all other popups and display popup for clicked store
-      this.createPopUp(clickedPoint);
-      // 3. Highlight listing in sidebar (and remove highlight for all other listings)
-      var activeItem = document.getElementsByClassName('active');
-      if (activeItem[0]) {
-        activeItem[0].classList.remove('active');
-      }
-      // Find the index of the store.features that corresponds to the clickedPoint that fired the event listener
-      var selectedFeature = clickedPoint.properties.name;
-
-      for (var i = 0; i < this.markers.features.length; i++) {
-        if (this.markers[i].properties.address === selectedFeature) {
-          var selectedFeatureIndex = i;
+    // Add an event listener for when a user clicks on the map
+    this.map.on('click', (event) => {
+      // Query all the rendered points in the view
+      var features = this.map.queryRenderedFeatures(event.point, { layers: ['locations'] });
+      if (features.length) {
+        var clickedPoint = features[0];
+        // 1. Fly to the point
+        this.flyToStore(clickedPoint);
+        // 2. Close all other popups and display popup for clicked store
+        this.createPopUp(clickedPoint);
+        // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+        var activeItem = document.getElementsByClassName('active');
+        if (activeItem[0]) {
+          activeItem[0].classList.remove('active');
         }
+        // Find the index of the store.features that corresponds to the clickedPoint that fired the event listener
+        var selectedFeature = clickedPoint.properties.name;
+
+        for (var i = 0; i < this.markers.features.length; i++) {
+          if (this.markers[i].properties.address === selectedFeature) {
+            var selectedFeatureIndex = i;
+          }
+        }
+        // Select the correct list item using the found index and add the active class
+        var listing = document.getElementById('listing-' + selectedFeatureIndex);
+        listing.classList.add('active');
       }
-      // Select the correct list item using the found index and add the active class
-      var listing = document.getElementById('listing-' + selectedFeatureIndex);
-      listing.classList.add('active');
-    }
-  });
+    });
 
     //var marker = new mapboxgl.Marker() // Initialize a new marker
     //.setLngLat([23.622641, 37.971786]) // Marker [lng, lat] coordinates
@@ -112,14 +112,16 @@ export class MapBoxComponent implements OnInit {
           features: []
         }
       });
-  
+
       this.map.addLayer({
         id: 'point',
         source: 'single-point',
         type: 'circle',
         paint: {
           'circle-radius': 10,
-          'circle-color': 'red'
+          'circle-color': '#007cbf',
+          'circle-stroke-width': 3,
+          'circle-stroke-color': '#fff'
         }
       });
   
@@ -127,12 +129,10 @@ export class MapBoxComponent implements OnInit {
       // `result` event is triggered when a user makes a selection
       // Add a marker at the result's coordinates
       geocoder.on('result', (event) => {
-        this.map.getSource('single-point').setData(event.result.geometry);
-
         var searchResult = event.result.geometry;
         this.map.getSource('single-point').setData(searchResult);
 
-        var options = {units: 'miles'};
+        var options = { units: 'miles' };
         this.markers.features.forEach(function(store) {
           Object.defineProperty(store.properties, 'distance', {
             value: turf.distance(searchResult, store.geometry, options),
@@ -141,6 +141,9 @@ export class MapBoxComponent implements OnInit {
             configurable: true
           });
         });
+        var myJson = JSON.stringify(this.markers);
+        console.log(myJson);
+
         this.markers.features.sort(function(a, b) {
           if (a.properties.distance > b.properties.distance) {
             return 1;
@@ -151,6 +154,7 @@ export class MapBoxComponent implements OnInit {
           // a must be equal to b
           return 0;
         });
+
         var listings = document.getElementById('listings');
         while (listings.firstChild) {
           listings.removeChild(listings.firstChild);
@@ -187,24 +191,8 @@ export class MapBoxComponent implements OnInit {
       if (prop.distance) {
         var roundedDistance = Math.round(prop.distance * 100) / 100;
         var details = listing.appendChild(document.createElement('div'));
-        details.innerHTML += '<p><strong>' + roundedDistance + ' miles away</strong></p>';
+        details.innerHTML += '<p><strong>' + roundedDistance + ' km away</strong></p>';
       }
-
-      // Add an event listener for the links in the sidebar listing
-      link.addEventListener('click', (event) => {
-        // Update the currentFeature to the store associated with the clicked link
-        var clickedListing = data.features[(link as any).dataPosition];
-        // 1. Fly to the point associated with the clicked link
-        this.flyToStore(clickedListing);
-        // 2. Close all other popups and display popup for clicked store
-        this.createPopUp(clickedListing);
-        // 3. Highlight listing in sidebar (and remove highlight for all other listings)
-        var activeItem = document.getElementsByClassName('active');
-        if (activeItem[0]) {
-          activeItem[0].classList.remove('active');
-        }
-        this.parentNode.classList.add('active');
-      });
       
       //******For Extra Information in the List ******/
       // Create a new div with the class 'details' for each store
