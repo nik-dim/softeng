@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
+import com.example.demo.TagSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,6 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tag")
+//@JsonSerialize(using = TagSerializer.class)
 public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +21,7 @@ public class Tag implements Serializable {
     private String value;
 
 
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Product> products;
 
@@ -46,7 +50,10 @@ public class Tag implements Serializable {
         this.products = products;
     }
 
-
+    public void addProduct(Product product) {
+        this.products.add(product);
+        product.getTags().add(this);
+    }
 
     public Tag() {}
 

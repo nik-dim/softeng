@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 
@@ -17,7 +19,9 @@ public class Volunteer {
     private String phone;
     private String email;
     private Date dateofbirth;
-    private Date dateofreg;
+
+//    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp dateofreg;
 
     public Long getId() {
         return id;
@@ -75,17 +79,17 @@ public class Volunteer {
         this.dateofbirth = dateofbirth;
     }
 
-    public Date getDateofreg() {
+    public Timestamp getDateofreg() {
         return dateofreg;
     }
 
-    public void setDateofreg(Date dateofreg) {
+    public void setDateofreg(Timestamp dateofreg) {
         this.dateofreg = dateofreg;
     }
 
     public Volunteer() {}
-    
-    public Volunteer(String username, String firstname, String lastname, String phone, String email, Date dateOfBirth, Date dateOfRegistration) {
+
+    public Volunteer(String username, String firstname, String lastname, String phone, String email, Date dateOfBirth, Timestamp dateOfRegistration) {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -94,6 +98,15 @@ public class Volunteer {
         this.dateofbirth = dateOfBirth;
         this.dateofreg = dateOfRegistration;
     }
+    public Volunteer(String username, String firstname, String lastname, String phone, String email, Date dateOfBirth) {
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.email = email;
+        this.dateofbirth = dateOfBirth;
+    }
+
 
 
 

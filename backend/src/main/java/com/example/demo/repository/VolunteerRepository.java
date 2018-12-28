@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface VolunteerRepository extends JpaRepository<Volunteer, Integer> {
-//    List<Volunteer> findByTitleContainingOrContentContaining(String text, String textAgain);
+    //    List<Volunteer> findByTitleContainingOrContentContaining(String text, String textAgain);
 }

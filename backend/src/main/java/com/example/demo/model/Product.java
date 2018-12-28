@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
 
+import com.example.demo.TagSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,13 +24,13 @@ public class Product implements Serializable {
     // add TAGS
     private Boolean withdrawn;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_tag",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
+    @JsonSerialize(using = TagSerializer.class)
     private List<Tag> tags ;
-
 
     public void addTag(Tag tag) {
         tags.add(tag);

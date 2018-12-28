@@ -14,5 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByIdBetweenAndWithdrawnInOrderByNameDesc(Long start,  Long end, Collection<Boolean> withdrawn);
     List<Product> findByIdBetweenAndWithdrawnInOrderByIdAsc(Long start,  Long end, Collection<Boolean> withdrawn);
     List<Product> findByIdBetweenAndWithdrawnInOrderByIdDesc(Long start,  Long end, Collection<Boolean> withdrawn);
-
+    List<Product> findByWithdrawn(Boolean withdrawn);
+//    Long countByWithdrawn(Collection<Boolean> withdrawn);
+    Product findById(long id);
 }
