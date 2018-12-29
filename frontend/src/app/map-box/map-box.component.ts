@@ -60,7 +60,7 @@ export class MapBoxComponent implements OnInit {
           'icon-allow-overlap': true
         }
       });
-      this.buildLocationList(this.markers);
+      //this.buildLocationList(this.markers);
     });
 
     // Add an event listener for when a user clicks on the map
@@ -132,10 +132,10 @@ export class MapBoxComponent implements OnInit {
         var searchResult = event.result.geometry;
         this.map.getSource('single-point').setData(searchResult);
 
-        var options = { units: 'miles' };
+        //var options = { units: 'kilometers' };
         this.markers.features.forEach(function(store) {
           Object.defineProperty(store.properties, 'distance', {
-            value: turf.distance(searchResult, store.geometry, options),
+            value: turf.distance(searchResult, store.geometry),
             writable: true,
             enumerable: true,
             configurable: true
@@ -168,7 +168,7 @@ export class MapBoxComponent implements OnInit {
 
   private buildLocationList(data) {
     // Iterate through the list of stores
-    for (var i = 0; i < data.features.length; i++) {
+    for (var i = 0; i < 10; i++) {
       var currentFeature = data.features[i];
       // Shorten data.feature.properties to just `prop` so we're not
       // writing this long form over and over again.
