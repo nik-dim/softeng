@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.controller;
 
+import com.example.demo.model.Blog;
+import com.example.demo.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,32 +9,31 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class BlogController {
 
     @Autowired
     BlogRepository blogRepository;
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/blog")
     public List<Blog> index(){
         return blogRepository.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @GetMapping("/blog/{id}")
     public Blog show(@PathVariable String id){
         int blogId = Integer.parseInt(id);
         return blogRepository.findById(blogId).get();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/blog/search")
     public List<Blog> search(@RequestBody Map<String, String> body){
         String searchTerm = body.get("text");
         return blogRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @PostMapping("/blog")
     public Blog create(@RequestBody Map<String, String> body){
         String title = body.get("title");
@@ -40,7 +41,7 @@ public class BlogController {
         return blogRepository.save(new Blog(title, content));
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @PutMapping("/blog/{id}")
     public Blog update(@PathVariable String id, @RequestBody Map<String, String> body){
         int blogId = Integer.parseInt(id);
@@ -51,7 +52,6 @@ public class BlogController {
         return blogRepository.save(blog);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("blog/{id}")
     public boolean delete(@PathVariable String id){
         int blogId = Integer.parseInt(id);

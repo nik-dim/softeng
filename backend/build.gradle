@@ -28,6 +28,10 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('com.google.code.gson:gson:2.8.5')
+    // https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20090211'
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4")
     runtimeOnly('mysql:mysql-connector-java')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
