@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "title": "test",
+        "content": "lorem ipsum...",
+        "date": "2018-09-09"
+    },
+    {
+        "id": 2,
+        "title": "test2",
+        "content": "kappa",
+        "date": "2018-09-09"
+    },
+    {
+        "id": 3,
+        "title": "test3",
+        "content": "kappa keepo",
+        "date": "2018-09-09"
+    },
+    {
+        "id": 4,
+        "title": "test4",
+        "content": "eimai poly omorfos",
+        "date": "2018-09-09"
+    },
+    {
+        "id": 5,
+        "title": "sakislerai",
+        "content": "saki ponas kai ftaiei o icardi",
+        "date": "2018-09-09"
+    }
+]
