@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface VolunteerRepository extends JpaRepository<Volunteer, Integer> {
     //    List<Volunteer> findByTitleContainingOrContentContaining(String text, String textAgain);
+    Volunteer findByUsername(String username);
+//    List<Volunteer> find();
 }

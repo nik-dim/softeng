@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "volunteer")
 public class Volunteer {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +20,7 @@ public class Volunteer {
     private String phone;
     private String email;
     private Date dateofbirth;
+    private String role;
 
 //    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp dateofreg;
@@ -85,6 +87,14 @@ public class Volunteer {
 
     public void setDateofreg(Timestamp dateofreg) {
         this.dateofreg = dateofreg;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Volunteer() {}

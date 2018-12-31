@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,7 +30,9 @@ public class VolunteerController {
     PasswordRepository passwordRepository;
 
 
+
     @GetMapping("/volunteers")
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public List<Volunteer> index(){
         return VolunteerRepository.findAll();
     }
@@ -39,29 +42,19 @@ public class VolunteerController {
 
     @PostMapping("/volunteers")
     @ResponseBody
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public Volunteer create(@RequestBody String body) throws IOException {
-        int x;
-
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(body);
         String pp = root.path("p").toString();
 
-//        Volunteer vol = mapper.readValues(root.path("v").toString(), Volunteer);
         Volunteer vol = mapper.readerFor(Volunteer.class).readValue(root.path("v"));
-//        String pp = (String)body.get("p");
         System.out.println(pp);
-//        return body.v;
         Password p = new Password(pp);
-//
         Volunteer vol1 = VolunteerRepository.save(vol);
         p.setVolunteer(vol1);
         passwordRepository.save(p);
-//        System.out.println(vol1.getId());
-//        Password pass = new Password(vol1, pp);
-//        pass = passwordRepository.save(pass);
-//        System.out.println(vol1.getId());
-        return vol1;
-//        return VolunteerRepository.save(body.p);
-    }
 
+        return vol1;
+    }
 }
