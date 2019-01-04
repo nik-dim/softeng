@@ -1,0 +1,7 @@
+<h1>Shops</h1>
+
+<ul>
+  <li *ngFor="let s of shops">
+    <a routerLink="/shops/{{ s.id }}">{{ s.name }}</a>
+  </li>
+</ul>

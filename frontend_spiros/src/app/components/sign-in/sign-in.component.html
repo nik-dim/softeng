@@ -1,0 +1,30 @@
+<h1>Sign in</h1>
+
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+
+  <label>
+    Username
+    <input type="text" class="form-control" formControlName="username" required >
+  </label>
+<!--
+  <div *ngIf="username.errors.required">
+        Username is required.
+  </div>
+-->
+  <label>
+    Password
+    <input type="text" class="form-control" formControlName="password" required >
+  </label>
+
+    <!--
+
+  <div *ngIf="password.errors.required">
+        Password is required.
+  </div>  
+-->
+  <!--
+      <button><a routerLink='../stores'>Sign in</a></button>
+-->
+<input type="submit" value="Sign in" class="cta">
+
+</form>
