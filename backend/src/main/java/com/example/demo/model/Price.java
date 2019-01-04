@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.demo.helpers.CompositeKey;
 
 import javax.persistence.*;
 import java.io.Serializable;

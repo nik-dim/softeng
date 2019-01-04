@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.helpers;
 
 import com.example.demo.model.Tag;
 import com.fasterxml.jackson.core.JsonGenerator;

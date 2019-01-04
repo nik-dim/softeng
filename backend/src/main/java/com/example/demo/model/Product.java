@@ -1,12 +1,11 @@
 package com.example.demo.model;
 
 
-import com.example.demo.TagSerializer;
+import com.example.demo.helpers.TagSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

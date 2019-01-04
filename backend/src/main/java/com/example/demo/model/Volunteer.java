@@ -3,6 +3,8 @@ package com.example.demo.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.*;
 
@@ -22,7 +24,52 @@ public class Volunteer {
     private Date dateofbirth;
     private String role;
 
-//    @Temporal(TemporalType.TIMESTAMP)
+    private String pass;
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public Volunteer(String username, String pass) {
+        this.username = username;
+        this.pass = pass;
+        this.firstname = "kapa";
+        this.lastname = "poppop";
+        this.phone = "0989098";
+        this.email = "kapaaaaaaaaaa";
+        this.dateofbirth =  Date.valueOf("2000-12-18");
+        this.role = "USER";
+    }
+
+    public Volunteer(String username, String pass, String email) {
+        this.username = username;
+        this.pass = pass;
+        this.firstname = "kapa";
+        this.lastname = "poppop";
+        this.phone = "0989098";
+        this.email = email;
+        this.dateofbirth =  Date.valueOf("2000-12-18");
+        this.role = "USER";
+    }
+
+
+
+    public Volunteer(String username, String firstname, String lastname, String phone, String email, Date dateofbirth, String role, String pass) {
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.email = email;
+        this.dateofbirth = dateofbirth;
+        this.role = role;
+        this.pass = pass;
+    }
+
+    //    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp dateofreg;
 
     public Long getId() {

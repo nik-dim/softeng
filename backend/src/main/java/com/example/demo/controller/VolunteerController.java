@@ -9,7 +9,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,20 +33,34 @@ public class VolunteerController {
     @Autowired
     PasswordRepository passwordRepository;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    public VolunteerController(VolunteerRepository applicationUserRepository,
+                               BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.VolunteerRepository = applicationUserRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
 
     @GetMapping("/volunteers")
-//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<Volunteer> index(){
         return VolunteerRepository.findAll();
     }
 
+    @GetMapping("/me")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public Object me(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getDetails();
+    }
 
 
 
     @PostMapping("/volunteers")
     @ResponseBody
-//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('USER')")
     public Volunteer create(@RequestBody String body) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(body);
@@ -57,4 +75,17 @@ public class VolunteerController {
 
         return vol1;
     }
+
+
+
+    @PostMapping("/sign-up")
+    @ResponseBody
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public Volunteer signUp(@RequestBody Volunteer vol) throws IOException {
+        Volunteer vol1 = new Volunteer(vol.getUsername(), vol.getPass());
+        vol1.setPass(bCryptPasswordEncoder.encode(vol1.getPass()));
+        return VolunteerRepository.save(vol1);
+    }
+
+
 }

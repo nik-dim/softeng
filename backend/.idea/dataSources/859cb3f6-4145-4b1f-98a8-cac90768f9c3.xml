@@ -921,45 +921,49 @@
     <table id="235" parent="6" name="shop_tag"/>
     <table id="236" parent="6" name="tag"/>
     <table id="237" parent="6" name="volunteer"/>
-    <column id="238" parent="229" name="id">
+    <routine id="238" parent="6" name="distanceOf">
+      <SourceTextLength>110</SourceTextLength>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <column id="239" parent="229" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="229" name="title">
+    <column id="240" parent="229" name="title">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="229" name="content">
+    <column id="241" parent="229" name="content">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="241" parent="229" name="PRIMARY">
+    <key id="242" parent="229" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="242" parent="230" name="volunteer_id">
+    <column id="243" parent="230" name="volunteer_id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="243" parent="230" name="value">
+    <column id="244" parent="230" name="value">
       <Position>2</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="244" parent="230" name="volunteer_id_idx">
+    <index id="245" parent="230" name="volunteer_id_idx">
       <ColNames>volunteer_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="245" parent="230" name="volunteer_id">
+    <foreign-key id="246" parent="230" name="volunteer_id">
       <ColNames>volunteer_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>volunteer</RefTableName>
@@ -967,49 +971,49 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="246" parent="231" name="product_id">
+    <column id="247" parent="231" name="product_id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="247" parent="231" name="shop_id">
+    <column id="248" parent="231" name="shop_id">
       <Position>2</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="248" parent="231" name="volunteer_id">
+    <column id="249" parent="231" name="volunteer_id">
       <Position>3</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="249" parent="231" name="value">
+    <column id="250" parent="231" name="value">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="250" parent="231" name="timestamp">
+    <column id="251" parent="231" name="timestamp">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="251" parent="231" name="shop_id_idx">
+    <index id="252" parent="231" name="shop_id_idx">
       <ColNames>shop_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="252" parent="231" name="volunteer_id_idx">
+    <index id="253" parent="231" name="volunteer_id_idx">
       <ColNames>volunteer_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="253" parent="231" name="timestamp_idx">
+    <index id="254" parent="231" name="timestamp_idx">
       <ColNames>timestamp</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="254" parent="231" name="PRIMARY">
+    <key id="255" parent="231" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>product_id
 shop_id
@@ -1017,7 +1021,7 @@ volunteer_id
 timestamp</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="255" parent="231" name="pp_id">
+    <foreign-key id="256" parent="231" name="pp_id">
       <ColNames>product_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>product</RefTableName>
@@ -1025,7 +1029,7 @@ timestamp</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="256" parent="231" name="ss_id">
+    <foreign-key id="257" parent="231" name="ss_id">
       <ColNames>shop_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>shop</RefTableName>
@@ -1033,7 +1037,7 @@ timestamp</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="257" parent="231" name="vv_id">
+    <foreign-key id="258" parent="231" name="vv_id">
       <ColNames>volunteer_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>volunteer</RefTableName>
@@ -1041,92 +1045,92 @@ timestamp</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="258" parent="232" name="id">
+    <column id="259" parent="232" name="id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="259" parent="232" name="name">
+    <column id="260" parent="232" name="name">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="260" parent="232" name="description">
+    <column id="261" parent="232" name="description">
       <Position>3</Position>
       <DataType>varchar(300)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="261" parent="232" name="category">
+    <column id="262" parent="232" name="category">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="262" parent="232" name="withdrawn">
+    <column id="263" parent="232" name="withdrawn">
       <Position>5</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="263" parent="232" name="tag_id">
+    <column id="264" parent="232" name="tag_id">
       <Position>6</Position>
       <DataType>bigint(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="264" parent="232" name="id">
+    <index id="265" parent="232" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="265" parent="232" name="name">
+    <index id="266" parent="232" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="266" parent="232" name="PRIMARY">
+    <key id="267" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="267" parent="232" name="id">
+    <key id="268" parent="232" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <key id="268" parent="232" name="name">
+    <key id="269" parent="232" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="269" parent="233" name="product_id">
+    <column id="270" parent="233" name="product_id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="233" name="tag_id">
+    <column id="271" parent="233" name="tag_id">
       <Position>2</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="271" parent="233" name="p_id_idx">
+    <index id="272" parent="233" name="p_id_idx">
       <ColNames>product_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="272" parent="233" name="t_id_idx">
+    <index id="273" parent="233" name="t_id_idx">
       <ColNames>tag_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="273" parent="233" name="PRIMARY">
+    <key id="274" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>product_id
 tag_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="274" parent="233" name="p_id">
+    <foreign-key id="275" parent="233" name="p_id">
       <ColNames>product_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>product</RefTableName>
@@ -1134,7 +1138,7 @@ tag_id</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="275" parent="233" name="t_id">
+    <foreign-key id="276" parent="233" name="t_id">
       <ColNames>tag_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>tag</RefTableName>
@@ -1142,107 +1146,107 @@ tag_id</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="276" parent="234" name="id">
+    <column id="277" parent="234" name="id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="277" parent="234" name="name">
+    <column id="278" parent="234" name="name">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="278" parent="234" name="address">
+    <column id="279" parent="234" name="address">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="279" parent="234" name="lng">
+    <column id="280" parent="234" name="lng">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="280" parent="234" name="lat">
+    <column id="281" parent="234" name="lat">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="234" name="withdrawn">
+    <column id="282" parent="234" name="withdrawn">
       <Position>6</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="282" parent="234" name="brand">
+    <column id="283" parent="234" name="brand">
       <Position>7</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="283" parent="234" name="id">
+    <index id="284" parent="234" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="284" parent="234" name="name">
+    <index id="285" parent="234" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="285" parent="234" name="address">
+    <index id="286" parent="234" name="address">
       <ColNames>address</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="286" parent="234" name="PRIMARY">
+    <key id="287" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="287" parent="234" name="id">
+    <key id="288" parent="234" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <key id="288" parent="234" name="name">
+    <key id="289" parent="234" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <key id="289" parent="234" name="address">
+    <key id="290" parent="234" name="address">
       <ColNames>address</ColNames>
       <UnderlyingIndexName>address</UnderlyingIndexName>
     </key>
-    <column id="290" parent="235" name="shop_id">
+    <column id="291" parent="235" name="shop_id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="235" name="tag_id">
+    <column id="292" parent="235" name="tag_id">
       <Position>2</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="292" parent="235" name="s_id_idx">
+    <index id="293" parent="235" name="s_id_idx">
       <ColNames>shop_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="293" parent="235" name="tt_id_idx">
+    <index id="294" parent="235" name="tt_id_idx">
       <ColNames>tag_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="294" parent="235" name="PRIMARY">
+    <key id="295" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>shop_id
 tag_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="295" parent="235" name="s_id">
+    <foreign-key id="296" parent="235" name="s_id">
       <ColNames>shop_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>shop</RefTableName>
@@ -1250,7 +1254,7 @@ tag_id</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="296" parent="235" name="tt_id">
+    <foreign-key id="297" parent="235" name="tt_id">
       <ColNames>tag_id</ColNames>
       <RefSchemaName>test</RefSchemaName>
       <RefTableName>tag</RefTableName>
@@ -1258,114 +1262,131 @@ tag_id</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="297" parent="236" name="id">
+    <column id="298" parent="236" name="id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="236" name="value">
+    <column id="299" parent="236" name="value">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="299" parent="236" name="PRIMARY">
+    <key id="300" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="300" parent="237" name="id">
+    <column id="301" parent="237" name="id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="301" parent="237" name="username">
+    <column id="302" parent="237" name="username">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="302" parent="237" name="firstname">
+    <column id="303" parent="237" name="firstname">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="303" parent="237" name="lastname">
+    <column id="304" parent="237" name="lastname">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="304" parent="237" name="phone">
+    <column id="305" parent="237" name="phone">
       <Position>5</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="305" parent="237" name="email">
+    <column id="306" parent="237" name="email">
       <Position>6</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="306" parent="237" name="dateofbirth">
+    <column id="307" parent="237" name="dateofbirth">
       <Position>7</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="307" parent="237" name="dateofreg">
+    <column id="308" parent="237" name="dateofreg">
       <Position>8</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="308" parent="237" name="role">
+    <column id="309" parent="237" name="role">
       <Position>9</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="309" parent="237" name="id_UNIQUE">
+    <column id="310" parent="237" name="pass">
+      <Position>10</Position>
+      <DataType>varchar(300)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="311" parent="237" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="310" parent="237" name="username">
+    <index id="312" parent="237" name="username">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="311" parent="237" name="email">
-      <ColNames>email</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <key id="312" parent="237" name="PRIMARY">
+    <key id="313" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="313" parent="237" name="id_UNIQUE">
+    <key id="314" parent="237" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="314" parent="237" name="username">
+    <key id="315" parent="237" name="username">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username</UnderlyingIndexName>
-    </key>
-    <key id="315" parent="237" name="email">
-      <ColNames>email</ColNames>
-      <UnderlyingIndexName>email</UnderlyingIndexName>
     </key>
     <trigger id="316" parent="237" name="before_vol_insert">
       <SourceTextLength>25</SourceTextLength>
       <Turn>before-row</Turn>
       <Events>I</Events>
     </trigger>
+    <argument id="317" parent="238">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>double|0s</DataType>
+    </argument>
+    <argument id="318" parent="238" name="x1">
+      <Position>1</Position>
+      <DataType>double|0s</DataType>
+    </argument>
+    <argument id="319" parent="238" name="y1">
+      <Position>2</Position>
+      <DataType>double|0s</DataType>
+    </argument>
+    <argument id="320" parent="238" name="x2">
+      <Position>3</Position>
+      <DataType>double|0s</DataType>
+    </argument>
+    <argument id="321" parent="238" name="y2">
+      <Position>4</Position>
+      <DataType>double|0s</DataType>
+    </argument>
   </database-model>
 </dataSource>
