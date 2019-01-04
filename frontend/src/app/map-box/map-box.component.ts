@@ -182,11 +182,30 @@ export class MapBoxComponent implements OnInit {
 
       // Create a new link with the class 'title' for each store
       // and fill it with the store address
-      var link = listing.appendChild(document.createElement('a'));
-      link.href = '#';
+      let link = listing.appendChild(document.createElement('a'));
       link.className = 'title';
       (link as any).dataPosition = i;
       link.innerHTML = prop.name;
+
+      // Event listener
+      // Add an event listener for the links in the sidebar listing
+     link.addEventListener('click', (event) => {
+        // Update the currentFeature to the store associated with the clicked link
+        var clickedListing = data.features[i];
+        console.log(clickedListing);
+        // 1. Fly to the point associated with the clicked link
+        this.flyToStore(clickedListing);
+        // 2. Close all other popups and display popup for clicked store
+        this.createPopUp(clickedListing);
+        // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+        var activeItem = document.getElementsByClassName('active');
+        if (activeItem[0]) {
+          activeItem[0].classList.remove('active');
+        }
+        listing.classList.add('active');
+      });
+
+      //----------------------------------------------------------------------------------------------------
 
       if (prop.distance) {
         var roundedDistance = Math.round(prop.distance * 100) / 100;
