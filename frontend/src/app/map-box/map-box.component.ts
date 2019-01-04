@@ -191,7 +191,7 @@ export class MapBoxComponent implements OnInit {
       // Add an event listener for the links in the sidebar listing
      link.addEventListener('click', (event) => {
         // Update the currentFeature to the store associated with the clicked link
-        var clickedListing = data.features[i];
+        var clickedListing = data.features[(link as any).dataPosition];
         console.log(clickedListing);
         // 1. Fly to the point associated with the clicked link
         this.flyToStore(clickedListing);
