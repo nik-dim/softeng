@@ -1,0 +1,44 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  padding: 1.2em;
+  grid-template-columns: 40% auto;
+  grid-template-rows: 100% auto;
+}
+
+.logo {
+  font-weight: bold;
+}
+
+.nav-items {
+  list-style-type: none;
+  a {
+    color: white;
+    text-decoration: none;
+    &:hover, &:active {
+      color: lightgray;
+    }
+  }
+  button {
+    font-size: 1em;
+  }
+}
