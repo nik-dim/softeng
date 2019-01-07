@@ -43,7 +43,7 @@ export class MapBoxComponent implements OnInit {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: this.style,
-      zoom: 8,
+      zoom: 10,
       center: [this.lng, this.lat]
     });
 
@@ -61,6 +61,59 @@ export class MapBoxComponent implements OnInit {
         }
       });
       //this.buildLocationList(this.markers);
+
+      // Locate the user
+      let locate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true,
+            watchPosition: true
+        },
+        trackUserLocation: true
+      })
+      this.map.addControl(locate);
+
+      locate.on('geolocate', (event) => {
+        this.lng = event.coords.longitude;
+        this.lat = event.coords.latitude;
+
+        console.log(this.lng);
+        console.log(this.lat);
+
+        /*-----------------   Make this a function -------------------------*/
+        var location = turf.point([this.lng, this.lat]);
+
+        this.markers.features.forEach(function(store) {
+          Object.defineProperty(store.properties, 'distance', {
+            value: turf.distance(location, store.geometry),
+            writable: true,
+            enumerable: true,
+            configurable: true
+          });
+        });
+        var myJson = JSON.stringify(this.markers);
+        //console.log(myJson);
+
+        this.markers.features.sort(function(a, b) {
+          if (a.properties.distance > b.properties.distance) {
+            return 1;
+          }
+          if (a.properties.distance < b.properties.distance) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+
+        var listings = document.getElementById('listings');
+        while (listings.firstChild) {
+          listings.removeChild(listings.firstChild);
+        }
+
+        this.buildLocationList(this.markers);
+        //--------------------------------------------------------------------
+      });
+      
+
     });
 
     // Add an event listener for when a user clicks on the map
@@ -131,6 +184,7 @@ export class MapBoxComponent implements OnInit {
       geocoder.on('result', (event) => {
         var searchResult = event.result.geometry;
         this.map.getSource('single-point').setData(searchResult);
+        console.log(searchResult);
 
         //var options = { units: 'kilometers' };
         this.markers.features.forEach(function(store) {
@@ -142,7 +196,7 @@ export class MapBoxComponent implements OnInit {
           });
         });
         var myJson = JSON.stringify(this.markers);
-        console.log(myJson);
+        //console.log(myJson);
 
         this.markers.features.sort(function(a, b) {
           if (a.properties.distance > b.properties.distance) {
