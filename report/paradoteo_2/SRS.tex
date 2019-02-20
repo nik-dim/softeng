@@ -1,13 +1,40 @@
-\documentclass[]{template}
-
+\documentclass[]{NotebookToLatex}
+\usepackage{lastpage}
+% \usepackage[export]{adjustbox}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\rfoot{Σελίδα \thepage/\pageref{LastPage}}
+\lfoot{SRS έγγραφο}
+\rhead{\texttt{saiko-killers}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\usepackage{hyperref}
+% \usepackage{caption}
+% \makeatletter
+% \g@addto@macro{\UrlBreaks}{\UrlOrds}
+% \makeatother
+ \usepackage{parskip}
+  
+\usepackage{xurl}
 \classname{ΤΕΧΝΟΛΟΓΙΑ ΛΟΓΙΣΜΙΚΟΥ}
 \title{Έγγραφο απαιτήσεων λογισμικού}
 \author{\texttt{saiko-killers}}
-
-\fancyfoot[C]{\thepage}
+\fancyfoot[C]{}
+% \fancyfoot[C]{Σελίδα \thepage}
 \begin{document}
 	\maketitlepage
-	
+	\renewcommand*\contentsname{Περιεχόμενα}
+	\tableofcontents
+
+	% \cleardoublepage
+	% % \phantomsection
+	% \addcontentsline{toc}{chapter}{\listfigurename}
+	\renewcommand{\listfigurename}{UML Διαγράμματα}
+	\listoffigures
+	\newpage
 	\input{sec_1}
 	\newpage
 	\input{sec_2}

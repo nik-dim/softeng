@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 const Product = require('../models/product');
-
+const parser = require('../middleware/parser');
 
 exports.products_get_all = (req, res, next) => {
-    Product.find()
-        // .select('name price _id')
+    const params = parser.parse_query_params(req.query);
+    Product.find(params.params_search)
+        .skip(Number(params.start))
+        .limit(Number(params.count))
+        .sort(params.params_sort)
         .exec()
         .then(docs => {
             const response = {
@@ -20,7 +23,7 @@ exports.products_get_all = (req, res, next) => {
                         withdrawn: doc.withdrawn,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:8765/products/' + doc._id
+                            url: process.env.BASE_URL + 'products/' + doc._id
                         }
                     }
                 })
@@ -63,7 +66,7 @@ exports.products_create_product = (req, res, next) => {
                     withdrawn: result.withdrawn,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:8765/products/' + result._id
+                        url: process.env.BASE_URL + 'products/' + result._id
                     }
                 }
             });
@@ -89,7 +92,7 @@ exports.products_get_product = (req, res, next) => {
                     product: doc,
                     request: { 
                         type: 'GET',
-                        url: 'http://localhost:8765/products/' + doc._id
+                        url: process.env.BASE_URL + 'products/' + doc._id
                     }
                 });
             } else {
@@ -116,7 +119,7 @@ exports.products_patch_product = (req, res, next) => {
                 message: 'Product updated',
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:8765/products/' + id
+                    url: process.env.BASE_URL+ 'products/' + id
                 }
             });
         })

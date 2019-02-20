@@ -4,11 +4,9 @@ const Product = require('../models/product');
 const parser = require('../middleware/parser');
 
 exports.orders_get_all = (req, res, next) => {
-    console.log(req.query);
     const params = parser.parse_query_params(req.query);
-    console.log(params);
-    // console.log(req.userData);
     Order.find(params.params_search)
+        .limit(params.count)
         .select('product quantity _id')
         .populate('product', 'name')
         .sort(params.params_sort)
@@ -23,7 +21,7 @@ exports.orders_get_all = (req, res, next) => {
                         quantity: doc.quantity,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:8765/orders/' + doc._id
+                            url: process.env.BASE_URL + 'orders/' + doc._id
                         }
                     }
                 })                
@@ -58,7 +56,7 @@ exports.orders_create_order = (req, res, next) => {
                 message: 'Order stored',
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:8765/orders/' + result._id
+                    url: process.env.BASE_URL + 'orders/' + result._id
                 }
             });
         })
@@ -84,7 +82,7 @@ exports.orders_get_order = (req, res, next) => {
                 order: order,
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:8765/orders/'
+                    url: process.env.BASE_URL + 'orders/' + order._id
                 }
             });
         })
