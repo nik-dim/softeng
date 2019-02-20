@@ -1,0 +1,29 @@
+\subsection{Απαιτήσεις επιδόσεων}
+Ποσοτική τεκμηρίωση μέτρων και κριτηρίων επιθυμητών επιδόσεων με αναφορά στα ποσοτικά
+χαρακτηριστικά εισόδων και φορτίου του λογισμικού.
+\hfill\\
+Θα παρουσιάσουμε τις απαιτήσεις επιδόσεων για το σύστημα. Θα διαχωρίσουμε τα μέτρα σε back-end και front-end.
+% https://sqlperformance.com/2015/05/io-subsystem/analyzing-io-performance-for-sql-server
+% https://techbeacon.com/app-dev-testing/understanding-front-end-vs-back-end-performance-metrics-mobile-apps
+\paragraph*{Back-end}
+\begin{enumerate}
+	\item \textbf{Υψηλή ταχύτητα φόρτωσης δεδομένων}: υποδεικνύει την ταχύτητα με την οποία φορώνονται και είναι διαθέσιμα τα δεδομένα
+	\item \textbf{Latency}: υποδεικνύει το χρόνο ολοκλήρωσης μίας λειτουργίας I/O
+	\item \textbf{Υψηλό IOPS\footnote{Input/Output Operations per Second}}: πρόκειται για το πλήθος των λειτουργιών I/O που εκτελούνται ανά δευτερόλεπτο. Σχετίζεται άμεσα με το Latency.
+	\item \textbf{Sequential Throughput}: πρόκειται για το ρυθμό μεταφοράς δεδομένων. Μονάδα μέτρησης είναι τα (M/G)bytes/sec. Ισούται με  $IOPS*TransferSize$.
+	\item \textbf{HTTPS calls}: όσο λιγότερα τόσο χαμηλότερο το workload. Οφείλουμε να τα χρησιμοποιούμε φειδωλά.
+\end{enumerate} 
+Όλα τα παραπάνω να ισχύουν και σε συνθήκες υψηλού φορτίου (workload): αναλυτικότερα επιθυμούμε το σύστημα 
+
+\paragraph*{Front-end}
+% https://medium.com/@tabu_craig/key-front-end-performance-metrics-and-how-to-capture-them-cae067dada7f
+\begin{enumerate}
+	\item \textbf{First Meaningful Paint}: πρόκειται για το χρόνο που απαιτείται για να φορτωθεί το πρώτο στοιχείο της σελίδας
+	\item \textbf{Time to Interact}: υποδεικνύει πότε η σελίδα θα είναι responsive προκειμένου ο χρήστης να αλληλεπιδράσει μαζί της
+	\item \textbf{Interaction frame rate}: επιθυμούμε το frame rate της ιστοσελίδας να είναι υψηλότερο από αυτό της οθόνης του χρήστη (οι περισσότερες οθόνες λειτουργούν στα 60 fps)
+	% \item \textbf{Interaction response time}: 
+	% \item \textbf{OnLoad finished}:
+	% \item \textbf{DOM Processing}:
+	\item \textbf{Page rendering}: σχετίζεται με τη μεταφόρτωση πόρων (όπως εικόνες κ.α.) στην ιστοσελίδα. Όσο λιγότεροι οι απαιτούμενοι πόροι τόσο πιο χαμηλό το page rendering.
+\end{enumerate}
+

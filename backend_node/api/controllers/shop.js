@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 const Shop = require('../models/shop');
+const parser = require('../middleware/parser');
 
 
 exports.shops_get_all = (req, res, next) => {
-    Shop.find()
-        // .select('name price _id')
+    const params = parser.parse_query_params(req.query);
+    console.log(process.env.BASE_URL);
+    Shop.find(params.params_search)
+        .skip(Number(params.start))
+        .limit(Number(params.count))
+        .sort(params.params_sort)
         .exec()
         .then(docs => {
             const response = {
@@ -19,7 +24,7 @@ exports.shops_get_all = (req, res, next) => {
                         _id: doc._id,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:8765/shops/' + doc._id
+                            url: process.env.BASE_URL + 'shops/' + doc._id
                         }
                     }
                 })
@@ -36,11 +41,16 @@ exports.shops_get_all = (req, res, next) => {
 
 
 exports.shops_create_shop = (req, res, next) => {
+    console.log(req);
     const shop = new Shop({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        lng: req.body.lng,
-        lat: req.body.lat,
+        loc: {
+            type: 'Point',
+            coordinates: [req.body.lng, req.body.lat]
+        },
+        // lng: req.body.lng,
+        // lat: req.body.lat,
         brand: req.body.brand
     });
     shop
@@ -51,14 +61,15 @@ exports.shops_create_shop = (req, res, next) => {
                 message: 'Created shop successfully',
                 createdShop: {
                     name: result.name,
-                    lng: result.lng,
-                    lat: result.lat,
+                    coordinates: result.loc.coordinates,
+                    // lng: result.lng,
+                    // lat: result.lat,
                     brand: result.brand,
                     withdrawn: result.withdrawn,
                     _id: result._id,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:8765/shops/' + result._id
+                        url: process.env.BASE_URL + 'shops/' + result._id
                     }
                 }
             });
@@ -84,7 +95,7 @@ exports.shops_get_shop = (req, res, next) => {
                     shop: doc,
                     request: { 
                         type: 'GET',
-                        url: 'http://localhost:8765/shops/' + doc._id
+                        url: process.env.BASE_URL + 'shops/' + doc._id
                     }
                 });
             } else {
@@ -111,7 +122,7 @@ exports.shops_patch_shop = (req, res, next) => {
                 message: 'Shop updated',
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:8765/shops/' + id
+                    url: process.env.BASE_URL + 'shops/' + id
                 }
             });
         })

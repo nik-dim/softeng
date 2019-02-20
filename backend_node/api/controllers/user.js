@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 exports.user_signup = (req, res, next) => {
+  console.log(req.body)
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
@@ -67,7 +68,7 @@ exports.user_login = (req, res, next) => {
             {
               email: user[0].email,
               userId: user[0]._id,
-              role: "User"
+              role: user[0].role
             },
             process.env.JWT_KEY,
             {

@@ -4,13 +4,21 @@ const Product = require('../models/product');
 const User = require('../models/user');
 const Shop = require('../models/shop');
 
+const parser = require('../middleware/parser');
 
 exports.prices_get_all = (req, res, next) => {
-    Price.find()
+    const params = parser.parse_prices_query_params(req.query);
+    console.log(new Date());
+    console.log(params);
+    // Price.aggregate()
+    Price.find(params.params_search)
         // .select('product quantity _id')
         .populate('product', 'name')
         .populate('user', 'email')
         .populate('shop', 'name')
+        .skip(Number(params.start))
+        .limit(Number(params.count))
+        .sort(params.params_sort)
         .exec()
         .then(docs => {
             res.status(200).json({
@@ -25,7 +33,7 @@ exports.prices_get_all = (req, res, next) => {
                         timestamp: doc.timestamp,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:8765/prices/' + doc._id
+                            url: process.env.BASE_URL + 'prices/' + doc._id
                         }
                     }
                 })                
@@ -96,7 +104,7 @@ exports.price_create_price = (req, res, next) => {
                 result: result,
                 request: {
                     type: 'GET',
-                    // url: 'http://localhost:8765/prices/' + result._id
+                    // url: process.env.BASE_URL + 'prices/' + result._id
                 }
             });
         })
@@ -122,7 +130,7 @@ exports.price_get_price = (req, res, next) => {
                 price: price,
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:8765/prices/'
+                    url: process.env.BASE_URL + 'prices/'
                 }
             });
         })
