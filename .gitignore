@@ -303,3 +303,6 @@ TSWLatexianTemp*
 *-tags.tex
 
 # standalone packages
+
+# visual paradigm
+*.vpp.bak*

@@ -1,0 +1,32 @@
+\subsection{Εξωτερικές διεπαφές}
+Σε αυτή την ενότητα θα περιγράψουμε τις τεχνικές προδιαγραφές των εξωτερικών διεπαφών.\\ \hfill \\
+Όσον αφορά το MapBox API, για να μπορέσει να αποτυπώσει σωστά τα καταστήματα στο χάρτη θα χρειαστεί να παρέχουμε τις πληροφορίες με ένα εξειδικευμένο τύπο \texttt{JSON}, τον οποίο το MapBox αποκαλεί \texttt{GEOJSON}. Αυτά είναι της μορφής:
+\begin{center}
+    \begin{lstlisting}
+        {
+          "type": "Feature",
+          "geometry": {
+                        "type": "Point",
+                        "coordinates": [lng, log]
+                      },
+          "properties": {
+                          "name": name
+                        }
+        }
+        \end{lstlisting}
+\end{center}
+
+Έπειτα, το REST API βασίζεται στο δομότυπο \texttt{JSON}, με τον οποίο η επικοινωνία Frontend και Backend γίνεται πιο εύκολη. Πιο συγκεκριμένα το Frontend κάνει συγκεκριμένα \texttt{HTTP} αιτήματα (στα οποία για τις περιπτώσεις PUT / POST περιέχουν και \texttt{JSON} αντικείμενα) στον Server του Backend, ο οποίος απαντά με ένα \texttt{JSON Response}. Η μορφή ενός τέτοιου μηνύματος είναι η εξής:
+
+\begin{center}
+    \begin{lstlisting}
+        {
+          "name": name,
+          "lng": lng,
+          "lat": lat,
+          "brand": brand,
+          ...
+        }
+        \end{lstlisting} 
+\end{center}
+Επιπλέον, για να βεβαιωθούμε ότι κάποιες λειτουργίες μπορούν να γίνουν μόνο από εγγεγραμμένο χρήστη, ενώ κάποιες άλλες μόνο από διαχειριστή, χρησιμοποιούμε \texttt{JWT} Authentication. Αυτό δημιουργεί σε κάθε επιτυχημένο login ένα token το οποίο επιστρέφεται μία φορά κατά το login στο Frontend, το οποίο είναι υποχρεωμένο να το κρατήσει και να το στέλνει στην επικεφαλίδα των \texttt{HTTP} αιτημάτων.

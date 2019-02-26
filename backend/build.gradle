@@ -29,11 +29,11 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-web')
 //    implementation('com.google.code.gson:gson:2.8.5')
-    compile("org.springframework.boot:spring-boot-starter-security")
+//    compile("org.springframework.boot:spring-boot-starter-security")
     // https://mvnrepository.com/artifact/org.json/json
 //    compile("org.springframework.security:spring-security-core:5.1.2")
-    compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.7.RELEASE'
-    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.1.0.RELEASE'
+//    compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.7.RELEASE'
+//    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.1.0.RELEASE'
     compile("org.springframework:spring-aop:5.0.1.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     compile group: 'org.json', name: 'json', version: '20090211'
@@ -43,4 +43,10 @@ dependencies {
     compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
     runtimeOnly('mysql:mysql-connector-java')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+//    
+    compile('javax.xml.bind:jaxb-api:2.3.0')
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile("com.auth0:java-jwt:3.4.0")
+    compile('com.auth0:auth0-spring-security-api:1.0.0-rc.3')
+    
 }

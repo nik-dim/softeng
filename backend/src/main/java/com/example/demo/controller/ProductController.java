@@ -2,19 +2,17 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.Query;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -67,7 +65,7 @@ public class ProductController {
     }
 
     @Autowired
-    ProductRepository ProductRepository;
+    ProductRepository productRepository;
 
 
 //    @GetMapping("/products")
@@ -100,58 +98,71 @@ public class ProductController {
         String sorted[] = sort.split("\\|");
         List<Product>  l = new ArrayList<>();
         if (sorted[0].equals("id") && sorted[1].equals("ASC")){
-            l = ProductRepository.findByIdBetweenAndWithdrawnInOrderByIdAsc(start,  start+count, withdrawn);
+            l = productRepository.findByIdBetweenAndWithdrawnInOrderByIdAsc(start,  start+count, withdrawn);
         }
         if (sorted[0].equals("id") && sorted[1].equals("DESC")){
-            l = ProductRepository.findByIdBetweenAndWithdrawnInOrderByIdDesc(start,  start+count, withdrawn);
+            l = productRepository.findByIdBetweenAndWithdrawnInOrderByIdDesc(start,  start+count, withdrawn);
         }
         if (sorted[0].equals("name") && sorted[1].equals("ASC")){
-            l = ProductRepository.findByIdBetweenAndWithdrawnInOrderByNameAsc(start,  start+count, withdrawn);
+            l = productRepository.findByIdBetweenAndWithdrawnInOrderByNameAsc(start,  start+count, withdrawn);
         }
         if (sorted[0].equals("name") && sorted[1].equals("DESC")){
-            l = ProductRepository.findByIdBetweenAndWithdrawnInOrderByNameDesc(start,  start+count, withdrawn);
+            l = productRepository.findByIdBetweenAndWithdrawnInOrderByNameDesc(start,  start+count, withdrawn);
         }
 
-        long total = (long)ProductRepository.findByWithdrawn(w1).size();
+        long total = (long)productRepository.findByWithdrawn(w1).size();
         if (w1 != w2){
-            total += (long)ProductRepository.findByWithdrawn(w2).size();
+            total += (long)productRepository.findByWithdrawn(w2).size();
         }
-//        Long total = count;
-//        JSONObject json = new JSONObject();
-//        json.put("start", start);
-//        json.put("count", count);
-//        json.put("total", l.size());
-//
-//        JSONArray array = new JSONArray();
-//        array.put(l);
-//        json.put("shops", array);
-//        JsonGenerator jgen = new JsonFactory().createGenerator(System.out);
-//        jgen.writeStartObject();
-//        jgen.writeNumberField("start", start);
-//        jgen.writeNumberField("count", count);
-//        jgen.writeNumberField("total", l.size()); //fix this
-//        jgen.writeFieldName("shops");
-//        for (Product product : l){
-////            jgen.write(product);
-//        }
-//        jgen.writeEndObject();
+
         Out out = new Out(start, count, total, l);
         return out;
-//        return json.toString();
-//        return jgen.toString();
     }
 
-
-    @GetMapping("/products/{id}")
-    public Product show(@PathVariable long id){
-        return ProductRepository.findById(id);
-    }
 
     @PostMapping("/products")
     public Product create(@RequestBody Product body){
+        //
         body.setWithdrawn(Boolean.FALSE);
-        return ProductRepository.save(body);
+        return productRepository.save(body);
     }
 
+    @GetMapping("/products/{id}")
+    public Product show(@PathVariable long id){
+        return productRepository.findById(id);
+    }
+
+
+
+    @PutMapping("/products/{id}")
+    public Product update(@PathVariable Long id, @RequestBody Product body){
+        Product product = productRepository.findById(id);
+        body.setId(product.getId());
+        return productRepository.save(body);
+    }
+
+    @PatchMapping("/products/{id}")
+    public Product patch(@PathVariable Long id, @RequestBody Map<Object, Object> body){
+        Product product = productRepository.findById(id);
+        productRepository.save(product);
+        body.forEach((k, v) -> {
+            try {
+                Field field = ReflectionUtils.findField(Product.class, (String) k);
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, product, v);
+            }
+            catch (Exception ex){
+                System.out.println("wrong field name");
+            }
+        });
+        return productRepository.save(product);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public Product delete(@PathVariable long id){
+        Product product = productRepository.findById(id);
+        product.setWithdrawn(true);
+        return productRepository.save(product);
+    }
 
 }
