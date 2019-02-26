@@ -27,12 +27,9 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/mapbox-gl/dist/mapbox-gl.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
