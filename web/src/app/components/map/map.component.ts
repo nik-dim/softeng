@@ -5,6 +5,7 @@ import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import * as turf from '@turf/turf';
 import { ShopService } from '@services/shop.service';
 import { Shop } from '@models/shop';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-map',
@@ -19,7 +20,9 @@ export class MapComponent implements OnInit {
   shops: Shop[];
   geojson: FeatureCollection;
 
-  constructor(private shopService: ShopService) { }
+  constructor(private shopService: ShopService) { 
+    mapboxgl.accessToken = environment.mapbox.accessToken;
+  }
 
   ngOnInit() {
     this.initShops();
