@@ -305,4 +305,4 @@ TSWLatexianTemp*
 # standalone packages
 
 # visual paradigm
-*.bak*
+*.vpp.bak*
