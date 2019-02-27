@@ -1,3 +1,15 @@
-<p>
-  map works!
-</p>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.1/mapbox-gl-geocoder.js'></script>
+
+<!-- Turf.js plugin -->
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+<div id='map' class='map pad2'></div>
+<div class='sidebar'>
+  <!--
+  <div class='heading'>
+    <h1>Greek Gas Stations</h1>
+  </div>
+  -->
+  <div id='listings' class='listings'></div>
+</div>
