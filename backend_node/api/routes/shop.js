@@ -7,7 +7,7 @@ const ShopsController = require('../controllers/shop');
 
 router.get('/', ShopsController.shops_get_all);
 
-router.post('/', checkAuth, authorize('User'),  ShopsController.shops_create_shop);
+router.post('/', checkAuth, authorize('User'), ShopsController.shops_create_shop);
 
 router.get('/:id', ShopsController.shops_get_shop);
 
