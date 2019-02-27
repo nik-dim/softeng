@@ -101,12 +101,11 @@ export class MapComponent implements OnInit {
         console.log(this.lng);
         console.log(this.lat);
 
-        /*-----------------   Make this a function -------------------------*/
         var location = turf.point([this.lng, this.lat]);
 
         this.geojson.features.forEach(function(store) {
           Object.defineProperty(store.properties, 'distance', {
-            value: turf.distance(location, store.geometry),
+            value: turf.distance(location, store.geometry.coordinates),
             writable: true,
             enumerable: true,
             configurable: true
@@ -132,9 +131,8 @@ export class MapComponent implements OnInit {
         }
 
         this.buildLocationList(this.geojson);
-        //--------------------------------------------------------------------
       });
-      
+
 
     });
 
@@ -197,7 +195,7 @@ export class MapComponent implements OnInit {
           'circle-stroke-color': '#fff'
         }
       });
-  
+
       // Listen for the `result` event from the Geocoder
       // `result` event is triggered when a user makes a selection
       // Add a marker at the result's coordinates
@@ -209,7 +207,7 @@ export class MapComponent implements OnInit {
         //var options = { units: 'kilometers' };
         this.geojson.features.forEach(function(store) {
           Object.defineProperty(store.properties, 'distance', {
-            value: turf.distance(searchResult, store.geometry),
+            value: turf.distance(searchResult, store.geometry.coordinates),
             writable: true,
             enumerable: true,
             configurable: true
@@ -286,15 +284,14 @@ export class MapComponent implements OnInit {
         var details = listing.appendChild(document.createElement('div'));
         details.innerHTML += '<p><strong>' + roundedDistance + ' km away</strong></p>';
       }
-      
-      //******For Extra Information in the List ******/
+
       // Create a new div with the class 'details' for each store
       // and fill it with the city and phone number
       //var details = listing.appendChild(document.createElement('div'));
       //details.innerHTML = prop.city;
       //if (prop.phone) {
       //  details.innerHTML += ' &middot; ' + prop.phoneFormatted;
-      //}   
+      //}
     }
   }
 
@@ -304,12 +301,12 @@ export class MapComponent implements OnInit {
       zoom: 15
     });
   }
-  
+
   private createPopUp(currentFeature) {
     var popUps = document.getElementsByClassName('mapboxgl-popup');
     // Check if there is already a popup on the map and if so, remove it
     if (popUps[0]) popUps[0].remove();
-  
+
     var popup = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML('<h3>' + currentFeature.properties.name + '</h3>')
