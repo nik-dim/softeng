@@ -13,7 +13,7 @@ export class ShopService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {  }
 
   public getShops(): Observable<Shop[]> {
     return this.http.get<any>(this.url + "?count=4000")
