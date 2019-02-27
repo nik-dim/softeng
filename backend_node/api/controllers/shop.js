@@ -17,8 +17,8 @@ exports.shops_get_all = (req, res, next) => {
                 shops: docs.map(doc => {
                     return {
                         name: doc.name,
-                        lng: doc.lng,
-                        lat: doc.lat,
+                        lng: doc.loc.coordinates[0],
+                        lat: doc.loc.coordinates[1],
                         brand: doc.brand,
                         withdrawn: doc.withdrawn,
                         _id: doc._id,
