@@ -3,10 +3,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
+const Blacklist = require('../models/blacklist');
 
 exports.user_signup = (req, res, next) => {
   console.log(req.body)
-  User.find({ email: req.body.email })
+  User.find({
+      email: req.body.email
+    })
     .exec()
     .then(user => {
       if (user.length >= 1) {
@@ -24,7 +27,8 @@ exports.user_signup = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               email: req.body.email,
               password: hash,
-              role: "User" 
+              role: "User",
+              username: req.body.username
             });
             user
               .save()
@@ -47,7 +51,9 @@ exports.user_signup = (req, res, next) => {
 };
 
 exports.user_login = (req, res, next) => {
-  User.find({ email: req.body.email })
+  User.find({
+      username: req.body.username
+    })
     .exec()
     .then(user => {
       if (user.length < 1) {
@@ -62,16 +68,14 @@ exports.user_login = (req, res, next) => {
           });
         }
         if (result) {
-            console.log(user[0]);
-            console.log(user[0].role);
-          const token = jwt.sign(
-            {
+          console.log(user[0]);
+          console.log(user[0].role);
+          const token = jwt.sign({
               email: user[0].email,
               userId: user[0]._id,
               role: user[0].role
             },
-            process.env.JWT_KEY,
-            {
+            process.env.JWT_KEY, {
               expiresIn: "1h"
             }
           );
@@ -94,11 +98,65 @@ exports.user_login = (req, res, next) => {
 };
 
 exports.user_delete = (req, res, next) => {
-  User.remove({ _id: req.params.userId })
+  User.remove({
+      _id: req.params.userId
+    })
     .exec()
     .then(result => {
       res.status(200).json({
         message: "User deleted"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+};
+
+
+
+
+exports.users_get_all = (req, res, next) => {
+  User.find()
+    .exec()
+    .then(docs => {
+      const response = {
+        count: docs.length,
+        users: docs.map(doc => {
+          return {
+            _id: doc._id,
+            email: doc.email,
+            role: doc.role
+          }
+        })
+      }
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+}
+
+
+
+
+exports.user_logout = (req, res, next) => {
+  console.log(req.headers['x-observatory-auth']);
+  const invalidToken = new Blacklist({
+    _id: new mongoose.Types.ObjectId(),
+    token: req.headers['x-observatory-auth']
+  });
+  invalidToken
+    .save()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: 'OK',
       });
     })
     .catch(err => {
