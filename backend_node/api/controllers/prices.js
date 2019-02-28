@@ -6,37 +6,32 @@ const Shop = require('../models/shop');
 
 const parser = require('../middleware/parser');
 
+
+
 exports.prices_get_all = (req, res, next) => {
     const params = parser.parse_prices_query_params(req.query);
-    console.log(new Date());
-    console.log(params);
-    // Price.aggregate()
-    Price.find(params.params_search)
-        // .select('product quantity _id')
-        .populate('product', 'name')
-        .populate('user', 'email')
-        .populate('shop', 'name')
+    Shop.aggregate(params.pipeline)
         .skip(Number(params.start))
         .limit(Number(params.count))
-        .sort(params.params_sort)
+        // .sort(params.params_sort)
         .exec()
         .then(docs => {
+            console.log(docs);
             res.status(200).json({
+                start: params.start,
                 count: docs.length,
-                prices: docs.map(doc =>{
+                // total: 
+                prices: docs.map(doc => {
                     return {
                         _id: doc._id,
-                        product: doc.product,
-                        user: doc.user,
-                        shop: doc.shop,
-                        value: doc.value,
-                        timestamp: doc.timestamp,
-                        request: {
-                            type: 'GET',
-                            url: process.env.BASE_URL + 'prices/' + doc._id
-                        }
+                        date: doc.prices.timestamp,
+                        productName: doc.product.name,
+                        productId: doc.product._id,
+                        shopId: doc._id,
+                        shopName: doc.name,
+                        shopDist: doc.dist.calculated / 1000 // to return in km
                     }
-                })                
+                })
             });
         })
         .catch(err => {
@@ -50,7 +45,7 @@ exports.prices_get_all = (req, res, next) => {
 exports.price_create_price = (req, res, next) => {
     Product.findById(req.body.productId)
         .then(product => {
-            if (!product){
+            if (!product) {
                 return res.status(404).json({
                     message: 'Product not found'
                 });
@@ -59,7 +54,7 @@ exports.price_create_price = (req, res, next) => {
             // console.log(req.body);
             User.findById(req.body.userId)
                 .then(user => {
-                    if (!user){
+                    if (!user) {
                         return res.status(404).json({
                             message: 'User not found'
                         });
@@ -67,7 +62,7 @@ exports.price_create_price = (req, res, next) => {
                     // console.log(user);
                     Shop.findById(req.body.shopId)
                         .then(shop => {
-                            if (!shop){
+                            if (!shop) {
                                 return res.status(404).json({
                                     message: 'Shop not found'
                                 });
@@ -144,7 +139,9 @@ exports.price_get_price = (req, res, next) => {
 
 
 exports.prices_delete_price = (req, res, next) => {
-    Price.remove({ _id: req.params.priceId})
+    Price.remove({
+            _id: req.params.priceId
+        })
         .exec()
         .then(result => {
             res.status(200).json({
