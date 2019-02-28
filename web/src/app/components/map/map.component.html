@@ -4,12 +4,20 @@
 <!-- Turf.js plugin -->
 <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
-<div id='map' class='map pad2'></div>
-<div class='sidebar'>
-  <!--
-  <div class='heading'>
-    <h1>Greek Gas Stations</h1>
-  </div>
-  -->
-  <div id='listings' class='listings'></div>
-</div>
+<mat-sidenav-container class='sidenav-shops'>
+  <mat-sidenav #sidenav mode='side'>
+    <button mat-icon-button (click)='sidenav.toggle()'><mat-icon>menu</mat-icon></button>
+    <ul class='shop-list'>
+      <li *ngFor='let shop of shoplist'>
+        <div id='listing-{{shop.id}}'>
+          <span>{{ shop.name }}</span>
+        </div>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div id='map' class='map pad2'>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

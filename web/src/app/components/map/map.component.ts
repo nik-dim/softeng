@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FeatureCollection, GeoJson } from '@models/map';
 import * as mapboxgl from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -14,13 +14,19 @@ import { environment } from '../../../environments/environment';
 })
 export class MapComponent implements OnInit {
 
+  @ViewChild('sidenav')
+  sidenav: any;
+
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/outdoors-v9';
   lat = 37.971786;
   lng = 23.622641;
 
+  active = true;
+
   shops: Shop[];
   geojson: FeatureCollection;
+  shoplist: any[];
 
   constructor(private shopService: ShopService) { 
     mapboxgl.accessToken = environment.mapbox.accessToken;
@@ -72,15 +78,21 @@ export class MapComponent implements OnInit {
     this.map.on('load', (event) => {
       this.map.addLayer({
         id: 'locations',
-        type: 'symbol',
+        type: 'circle',
         source: {
           type: 'geojson',
           data: this.geojson
         },
-        layout: {
-          'icon-image': 'marker-15',
-          'icon-allow-overlap': true
-        }
+        paint: {
+          'circle-radius': 8,
+          'circle-color': '#007cbf',
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#fff'
+        },
+        // layout: {
+          // 'icon-image': 'marker-15',
+          // 'icon-allow-overlap': true
+        // }
       });
       //this.buildLocationList(this.markers);
 
@@ -141,6 +153,7 @@ export class MapComponent implements OnInit {
       // Query all the rendered points in the view
       var features = this.map.queryRenderedFeatures(event.point, { layers: ['locations'] });
       if (features.length) {
+        this.sidenav.toggle();
         var clickedPoint = features[0];
         // 1. Fly to the point
         this.flyToStore(clickedPoint);
@@ -162,8 +175,10 @@ export class MapComponent implements OnInit {
         }
         // Select the correct list item using the found index and add the active class
         var listing = document.getElementById('listing-' + selectedFeatureIndex);
-        listing.classList.add('active');
         console.log(listing)
+      }
+      else {
+        this.sidenav.toggle();
       }
     });
 
@@ -304,6 +319,7 @@ export class MapComponent implements OnInit {
 
   private createPopUp(currentFeature) {
     var popUps = document.getElementsByClassName('mapboxgl-popup');
+    console.log(popUps);
     // Check if there is already a popup on the map and if so, remove it
     if (popUps[0]) popUps[0].remove();
 
