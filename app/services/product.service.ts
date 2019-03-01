@@ -20,8 +20,13 @@ export class ProductService {
                .pipe(map(res => res.products));
   }
 
-  public getProduct(id: number): Observable<Product> {
+  public getProduct(id: string): Observable<Product> {
     const url = `${this.url}/${id}`;
-    return this.http.get<Product>(url);
+    return this.http.get<any>(url)
+    .pipe(map(res => res.product));
+  }
+
+  public postProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.url, JSON.parse(JSON.stringify(product)));
   }
 }

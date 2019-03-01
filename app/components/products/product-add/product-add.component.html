@@ -1,3 +1,27 @@
-<p>
-  product-add works!
-</p>
+<form class="example-form" [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+
+  
+  <mat-form-field class="example-full-width">
+    <input  matInput placeholder="Name" formControlName="name">
+  </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+    <input  matInput placeholder="Description" formControlName="description">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+     <input  matInput placeholder="Category" formControlName="category">
+  </mat-form-field>
+
+<mat-checkbox formControlName="withdrawn" checked>
+        Withdrawn 
+  </mat-checkbox>
+
+
+
+  <p></p>
+  <button mat-button type="submit">Add Product</button>
+  
+</form>
+
+

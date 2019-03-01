@@ -9,7 +9,7 @@ import { User } from '@models/user';
 })
 export class SignupService {
 
-  private signupsUrl = 'http://localhost:8765/users';
+  private signupsUrl = 'http://localhost:8765/user/signup';
 
   constructor(
     private http: HttpClient

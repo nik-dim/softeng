@@ -22,9 +22,11 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   getProduct(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log(id);
     this.productService.getProduct(id)
     .subscribe(product => {
+      console.log(product);
       this.product = new Product(JSON.parse(JSON.stringify(product)));
     });
   }

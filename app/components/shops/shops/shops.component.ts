@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 export class ShopsComponent implements OnInit {
 
   shops: Shop[];
+  public searchText : string;
 
   constructor(
     private shopService: ShopService

@@ -1,0 +1,18 @@
+<h1>Sign up</h1>
+
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+
+<label>
+        Email
+        <input type="text" class="form-control" formControlName="email" required >
+</label>
+
+<label>
+    Password
+    <input type="text" class="form-control" formControlName="password" required >
+</label>
+
+
+<input type="submit" value="Sign up" >
+
+</form>
