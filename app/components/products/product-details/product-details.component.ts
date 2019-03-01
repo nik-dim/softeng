@@ -31,4 +31,16 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  /*
+  getShopsAndPrices(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log(id);
+    this.productService.getShopsAndPrices(id)
+    .subscribe(data => {
+      console.log(data);
+
+    })
+  }
+  */
+
 }

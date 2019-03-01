@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '@models/product';
 import { map } from 'rxjs/operators';
+import { Price } from '@models/price';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,11 @@ export class ProductService {
 
   public postProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(this.url, JSON.parse(JSON.stringify(product)));
+  }
+
+ // not ready
+  public getShopsAndPrices(id: string): Observable<any>{
+    return this.http.get<any>('http://localhost:8765/prices?products=' + id)
+    .pipe(map(res => {res.shopName , res.value}));
   }
 }
