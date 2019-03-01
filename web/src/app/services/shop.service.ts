@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class ShopService {
 
-  private url = 'http://localhost:8765/shops';
+  private url = 'https://localhost:8765/observatory/api/shops';
 
   constructor(
     private http: HttpClient
