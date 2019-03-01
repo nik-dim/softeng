@@ -8,6 +8,10 @@ export const environment = {
 
   mapbox: {
     accessToken: 'pk.eyJ1IjoidGhhbmFzaXNsZXJhaSIsImEiOiJjanB2NjlmcDIwaTR2NDJwdWVkN2h0bHFhIn0.yllUCw1t4IQa0J6v3qU_GA'
+  },
+
+  api: {
+    url: 'https://localhost:8765/observatory/api'
   }
 
 };
