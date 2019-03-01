@@ -1,18 +1,19 @@
 <h1>Sign up</h1>
 
-<form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+<form class="example-form" [formGroup]="messageForm" (ngSubmit)="onSubmit()">
 
-<label>
-        Email
-        <input type="text" class="form-control" formControlName="email" required >
-</label>
+<mat-form-field class="example-full-width">
+        <input  matInput placeholder="Email" formControlName="email">
+</mat-form-field>
+<p></p>
+<mat-form-field class="example-full-width">
+    <input  matInput placeholder="Password" formControlName="password">
+  </mat-form-field>
 
-<label>
-    Password
-    <input type="text" class="form-control" formControlName="password" required >
-</label>
+<p></p>
+<button mat-button type="submit">Sign up</button>   
 
 
-<input type="submit" value="Sign up" >
+
 
 </form>

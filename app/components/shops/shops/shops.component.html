@@ -1,8 +1,15 @@
 <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
 <p></p>
-<ul>
+<!--<ul>
     <li *ngFor="let shop of shops | grdFilter: {brand: searchText};">
       {{ shop.name }} {{ shop.brand }}
     </li>
-</ul>
+</ul>-->
+  
+<mat-list role="list" >
+    <mat-list-item role="listitem" *ngFor="let shop of shops | grdFilter: {brand: searchText};">
+       {{ shop.name }} {{ shop.brand }}
+      
+    </mat-list-item>
+  </mat-list>
   
