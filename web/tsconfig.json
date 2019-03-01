@@ -20,7 +20,8 @@
     "paths": {
         "@models/*": ["src/app/models/*"],
         "@services/*": ["src/app/services/*"],
-        "@components/*": ["src/app/components/*"]
+        "@components/*": ["src/app/components/*"],
+        "@environments/*": ["src/environments/*"]
     }
   }
 }
