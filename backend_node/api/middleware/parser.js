@@ -1,6 +1,6 @@
 module.exports.parse_query_params = (req, res, next) => {
     const query = req.query;
-    console.log(query)
+    // console.log(query)
     const params = new Object();
     const params_search = new Object();
     const params_sort = new Object();

@@ -3,6 +3,7 @@ const Price = require('../models/price');
 const Product = require('../models/product');
 const User = require('../models/user');
 const Shop = require('../models/shop');
+const errorHandler = require('../middleware/errorHandler');
 
 const parser = require('../middleware/parser');
 
@@ -35,11 +36,7 @@ exports.prices_get_all = (req, res, next) => {
                     })
                 });
             })
-            .catch(err => {
-                res.status(500).json({
-                    error: err
-                });
-            });
+            .catch(err => errorHandler(err));
     }
 }
 
@@ -81,19 +78,9 @@ exports.price_create_price = (req, res, next) => {
                                 console.log(price)
                                 return price.save()
                             })
-                            .catch(err => {
-                                console.log(err);
-                                res.status(500).json({
-                                    error: err
-                                });
-                            });
+                            .catch(err => errorHandler(err));
                     })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
-                        });
-                    });
+                    .catch(err => errorHandler(err));
             })
             .then(result => {
                 // result is UNDEFINED???
@@ -107,12 +94,7 @@ exports.price_create_price = (req, res, next) => {
                     }
                 });
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
+            .catch(err => errorHandler(err));
     }
 }
 
@@ -136,11 +118,7 @@ exports.price_get_price = (req, res, next) => {
                     }
                 });
             })
-            .catch(err => {
-                res.status(500).json({
-                    error: err
-                });
-            })
+            .catch(err => errorHandler(err))
     }
 }
 
@@ -158,10 +136,6 @@ exports.prices_delete_price = (req, res, next) => {
                     message: 'Price deleted'
                 });
             })
-            .catch(err => {
-                res.status(500).json({
-                    error: err
-                });
-            })
+            .catch(err => errorHandler(err))
     }
 }

@@ -12,7 +12,7 @@ const orderRoutes = require('./api/routes/orders');
 const shopRoutes = require('./api/routes/shop');
 const priceRoutes = require('./api/routes/price');
 const userRoutes = require('./api/routes/user');
-const productTagsRoutes = require('./api/routes/product_tag');
+// const productTagsRoutes = require('./api/routes/product_tag');
 
 
 const connection = mongoose.connect(
@@ -61,7 +61,7 @@ app.use('/observatory/api/orders', orderRoutes);
 app.use('/observatory/api/', userRoutes);
 app.use('/observatory/api/shops', shopRoutes);
 app.use('/observatory/api/prices', priceRoutes);
-app.use('/observatory/api/product_tags', productTagsRoutes);
+// app.use('/observatory/api/product_tags', productTagsRoutes);
 
 
 // if you reach this we have an error

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const parser = require('../middleware/parser');
 const User = require("../models/user");
 const Blacklist = require('../models/blacklist');
+const errorHandler = require('../middleware/errorHandler');
 
 exports.user_signup = (req, res, next) => {
   const params = parser.parse_query_params(req, res, next);
@@ -40,12 +41,7 @@ exports.user_signup = (req, res, next) => {
                     message: "User created"
                   });
                 })
-                .catch(err => {
-                  console.log(err);
-                  res.status(500).json({
-                    error: err
-                  });
-                });
+                .catch(err => errorHandler(err));
             }
           });
         }
@@ -94,12 +90,7 @@ exports.user_login = (req, res, next) => {
           });
         });
       })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
+      .catch(err => errorHandler(err));
   }
 };
 
@@ -115,12 +106,7 @@ exports.user_delete = (req, res, next) => {
           message: "User deleted"
         });
       })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
+      .catch(err => errorHandler(err));
   }
 };
 
@@ -145,12 +131,7 @@ exports.users_get_all = (req, res, next) => {
         }
         res.status(200).json(response);
       })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
+      .catch(err => errorHandler(err));
   }
 }
 
@@ -173,11 +154,6 @@ exports.user_logout = (req, res, next) => {
           message: 'OK',
         });
       })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
+      .catch(err => errorHandler(err));
   }
 };

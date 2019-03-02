@@ -8,8 +8,8 @@ const shopSchema = mongoose.Schema({
   },
   loc: {
     type: {
-      type: String, // Don't do `{ location: { type: String } }`
-      enum: ['Point'], // 'location.type' must be 'Point'
+      type: String,
+      enum: ['Point'],
       required: true
     },
     coordinates: {
@@ -17,8 +17,6 @@ const shopSchema = mongoose.Schema({
       required: true
     }
   },
-  // lng: { type: Number, required: true},
-  // lat: { type: Number, required: true},
   withdrawn: {
     type: Boolean,
     default: false
@@ -26,7 +24,10 @@ const shopSchema = mongoose.Schema({
   brand: {
     type: String,
     required: true
-  }
+  },
+  tags: [{
+    type: String
+  }]
 });
 
 // shopSchema.index({ "loc": "2dsphere" });

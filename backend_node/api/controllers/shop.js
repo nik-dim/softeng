@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Shop = require('../models/shop');
 const parser = require('../middleware/parser');
+const errorHandler = require('../middleware/errorHandler');
 
 function showSingleShop(doc) {
     return {
@@ -10,14 +11,19 @@ function showSingleShop(doc) {
         lng: doc.loc.coordinates[0],
         lat: doc.loc.coordinates[1],
         // brand: doc.brand,
-        // tags: 
+        tags: doc.tags,
         withdrawn: doc.withdrawn,
-        // request: {
-        //     type: 'GET',
-        //     url: process.env.BASE_URL + 'shops/' + doc._id
-        // }
     }
 };
+
+function createTags(tags) {
+    if (!tags) {
+        return []
+    } else {
+        return tags
+    }
+}
+
 
 exports.shops_get_all = async (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
@@ -43,12 +49,7 @@ exports.shops_get_all = async (req, res, next) => {
                         }
                         res.status(200).json(response);
                     })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
-                        });
-                    });
+                    .catch(err => errorHandler(err));
             })
     }
 }
@@ -64,17 +65,13 @@ exports.shops_create_shop = (req, res, next) => {
                 type: 'Point',
                 coordinates: [req.body.lng, req.body.lat]
             },
+            tags: createTags(req.body.tags),
             brand: req.body.brand
         });
         shop
             .save()
             .then(doc => res.status(201).json(showSingleShop(doc)))
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
+            .catch(err => errorHandler(err));
     }
 }
 
@@ -97,12 +94,7 @@ exports.shops_get_shop = (req, res, next) => {
                     });
                 }
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
+            .catch(err => errorHandler(err));
     }
 }
 
@@ -132,12 +124,7 @@ exports.shops_patch_shop = (req, res, next) => {
                     shop: showSingleShop(doc)
                 });
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
+            .catch(err => errorHandler(err));
     }
 }
 
@@ -167,12 +154,7 @@ exports.shops_put_shop = (req, res, next) => {
                         })
                     )
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
+            .catch(err => errorHandler(err));
     }
 }
 
@@ -198,12 +180,7 @@ exports.shops_delete_shop = (req, res, next) => {
                         message: 'OK'
                     })
                 )
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
-                });
+                .catch(err => errorHandler(err));
         } else if (req.userData.role == 'Admin') {
             console.log('Admin')
             Shop.remove({
@@ -215,12 +192,7 @@ exports.shops_delete_shop = (req, res, next) => {
                         message: 'OK'
                     });
                 })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
-                });
+                .catch(err => errorHandler(err));
         }
     }
 }
