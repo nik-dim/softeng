@@ -6,8 +6,11 @@
         <ul fxLayout fxLayoutGap="20px" class="nav-items">
           <li><a routerLink="/">Home</a></li>
           <li><a routerLink="/products">Products</a></li>
-          <li>
-            <button mat-raised-button routerLink="/sign-in" color="accent">Sign In</button>
+          <li *ngIf="!auth.isLoggedIn()">
+            <button mat-raised-button routerLink="/login" color="accent">Login</button>
+          </li>
+          <li *ngIf="auth.isLoggedIn()">
+            <button mat-raised-button color="accent" (click)="logout()">Logout</button>
           </li>
         </ul>
       </div>
