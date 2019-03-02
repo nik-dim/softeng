@@ -17,8 +17,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { 
     this.user = new User();
-    this.user.role = Role['Admin'];
-    this.user.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pa2RpbVVzZXIiLCJ1c2VySWQiOiI1YzVmNGZkNjk4NWQ3ZjYyZGZlNTM0MmYiLCJyb2xlIjoiVXNlciIsImlhdCI6MTU1MTQ1OTc1NywiZXhwIjoxNTUxNDYzMzU3fQ.whMAYiJrJUQ5mOsS7uq8S-RlmOtKLxHppulDvkvk3dM'
+    this.user.role = Role['Simple'];
   }
 
   public currentUser(): User {

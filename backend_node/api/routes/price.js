@@ -6,7 +6,7 @@ const PricesController = require( '../controllers/prices');
 
 router.get('/', PricesController.prices_get_all);
 
-router.post('/', PricesController.price_create_price);
+router.post('/', checkAuth, authorize('User'), PricesController.price_create_price);
 
 router.get('/:priceId', PricesController.price_get_price);
 

@@ -84,7 +84,7 @@ export class MapComponent implements OnInit {
           data: this.geojson
         },
         paint: {
-          'circle-radius': 8,
+          'circle-radius': this.map.getZoom() - 2,
           'circle-color': '#007cbf',
           'circle-stroke-width': 1,
           'circle-stroke-color': '#fff'
@@ -146,6 +146,31 @@ export class MapComponent implements OnInit {
       });
 
 
+    });
+
+    /**
+     * Change shop size based on zoom level
+     */
+    this.map.on('zoom', () => {
+      this.map.setPaintProperty(
+        'locations',
+        'circle-radius',
+        this.map.getZoom() - 2
+      )
+    });
+
+    /**
+     * Make shops clickable when cursor over them
+     */
+    this.map.on('mouseenter', 'locations', () => {
+      this.map.getCanvas().style.cursor = 'pointer';
+    });
+
+    /**
+     * Remove clickable if not over shops
+     */
+    this.map.on('mouseleave', 'locations', () => {
+      this.map.getCanvas().style.cursor = '';
     });
 
     // Add an event listener for when a user clicks on the map
