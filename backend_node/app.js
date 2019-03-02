@@ -12,6 +12,8 @@ const orderRoutes = require('./api/routes/orders');
 const shopRoutes = require('./api/routes/shop');
 const priceRoutes = require('./api/routes/price');
 const userRoutes = require('./api/routes/user');
+const productTagsRoutes = require('./api/routes/product_tag');
+
 
 const connection = mongoose.connect(
     // "mongodb://localhost:27017/softeng",
@@ -39,7 +41,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // *: give acces to all origins
     res.header(
         'Access-Control-Allow-Headers',
-        'Origin, X-Request-With, Content-Type, Accept, Authorization'
+        'Origin, X-Request-With, Content-Type, Accept, Authorization, X-OBSERVATORY-AUTH'
     );
 
     if (req.method === 'OPTIONS') {
@@ -59,6 +61,7 @@ app.use('/observatory/api/orders', orderRoutes);
 app.use('/observatory/api/', userRoutes);
 app.use('/observatory/api/shops', shopRoutes);
 app.use('/observatory/api/prices', priceRoutes);
+app.use('/observatory/api/product_tags', productTagsRoutes);
 
 
 // if you reach this we have an error

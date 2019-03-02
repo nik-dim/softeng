@@ -9,148 +9,159 @@ const parser = require('../middleware/parser');
 
 
 exports.prices_get_all = (req, res, next) => {
-    const params = parser.parse_prices_query_params(req.query);
-    Shop.aggregate(params.pipeline)
-        .skip(Number(params.start))
-        .limit(Number(params.count))
-        // .sort(params.params_sort)
-        .exec()
-        .then(docs => {
-            console.log(docs);
-            res.status(200).json({
-                start: params.start,
-                count: docs.length,
-                // total: 
-                prices: docs.map(doc => {
-                    return {
-                        _id: doc._id,
-                        date: doc.prices.timestamp,
-                        productName: doc.product.name,
-                        productId: doc.product._id,
-                        shopId: doc._id,
-                        shopName: doc.name,
-                        shopDist: doc.dist.calculated / 1000 // to return in km
-                    }
-                })
+    const params = parser.parse_prices_query_params(req, res, next);
+    if (!params.BAD_REQUEST) {
+        Shop.aggregate(params.pipeline)
+            .skip(Number(params.start))
+            .limit(Number(params.count))
+            // .sort(params.params_sort)
+            .exec()
+            .then(docs => {
+                console.log(docs);
+                res.status(200).json({
+                    start: params.start,
+                    count: docs.length,
+                    // total: 
+                    prices: docs.map(doc => {
+                        return {
+                            _id: doc._id,
+                            date: doc.prices.timestamp,
+                            productName: doc.product.name,
+                            productId: doc.product._id,
+                            shopId: doc._id,
+                            shopName: doc.name,
+                            shopDist: doc.dist.calculated / 1000 // to return in km
+                        }
+                    })
+                });
+            })
+            .catch(err => {
+                res.status(500).json({
+                    error: err
+                });
             });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
-        });
+    }
 }
 
 
 exports.price_create_price = (req, res, next) => {
-    Product.findById(req.body.productId)
-        .then(product => {
-            if (!product) {
-                return res.status(404).json({
-                    message: 'Product not found'
-                });
-            }
-            // console.log(product);
-            // console.log(req.body);
-            User.findById(req.body.userId)
-                .then(user => {
-                    if (!user) {
-                        return res.status(404).json({
-                            message: 'User not found'
-                        });
-                    }
-                    // console.log(user);
-                    Shop.findById(req.body.shopId)
-                        .then(shop => {
-                            if (!shop) {
-                                return res.status(404).json({
-                                    message: 'Shop not found'
-                                });
-                            }
-                            const price = new Price({
-                                _id: new mongoose.Types.ObjectId(),
-                                product: req.body.productId,
-                                user: req.body.userId,
-                                shop: req.body.shopId,
-                                value: req.body.value
-                            })
-                            console.log(price)
-                            return price.save()
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            res.status(500).json({
-                                error: err
-                            });
-                        });
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
+    const params = parser.parse_query_params(req, res, next);
+    if (!params.BAD_REQUEST) {
+        Product.findById(req.body.productId)
+            .then(product => {
+                if (!product) {
+                    return res.status(404).json({
+                        message: 'Product not found'
                     });
-                });
-        })
-        .then(result => {
-            // result is UNDEFINED???
-            console.log(result);
-            res.status(201).json({
-                message: 'Price stored',
-                result: result,
-                request: {
-                    type: 'GET',
-                    // url: process.env.BASE_URL + 'prices/' + result._id
                 }
+                // console.log(product);
+                // console.log(req.body);
+                User.findById(req.body.userId)
+                    .then(user => {
+                        if (!user) {
+                            return res.status(404).json({
+                                message: 'User not found'
+                            });
+                        }
+                        // console.log(user);
+                        Shop.findById(req.body.shopId)
+                            .then(shop => {
+                                if (!shop) {
+                                    return res.status(404).json({
+                                        message: 'Shop not found'
+                                    });
+                                }
+                                const price = new Price({
+                                    _id: new mongoose.Types.ObjectId(),
+                                    product: req.body.productId,
+                                    user: req.body.userId,
+                                    shop: req.body.shopId,
+                                    value: req.body.value
+                                })
+                                console.log(price)
+                                return price.save()
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    });
+            })
+            .then(result => {
+                // result is UNDEFINED???
+                console.log(result);
+                res.status(201).json({
+                    message: 'Price stored',
+                    result: result,
+                    request: {
+                        type: 'GET',
+                        // url: process.env.BASE_URL + 'prices/' + result._id
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
             });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
+    }
 }
 
 exports.price_get_price = (req, res, next) => {
-    console.log(req.params.priceId);
-    Price.findById(req.params.priceId)
-        .exec()
-        .then(price => {
-            if (!price) {
-                return res.status(400).json({
-                    mesage: 'Price not found'
-                })
-            }
-            res.status(200).json({
-                price: price,
-                request: {
-                    type: 'GET',
-                    url: process.env.BASE_URL + 'prices/'
+    const params = parser.parse_query_params(req, res, next);
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+        console.log(req.params.priceId);
+        Price.findById(req.params.priceId)
+            .exec()
+            .then(price => {
+                if (!price) {
+                    return res.status(400).json({
+                        mesage: 'Price not found'
+                    })
                 }
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
-        })
+                res.status(200).json({
+                    price: price,
+                    request: {
+                        type: 'GET',
+                        url: process.env.BASE_URL + 'prices/'
+                    }
+                });
+            })
+            .catch(err => {
+                res.status(500).json({
+                    error: err
+                });
+            })
+    }
 }
 
 
 
 exports.prices_delete_price = (req, res, next) => {
-    Price.remove({
-            _id: req.params.priceId
-        })
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: 'Price deleted'
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
-        })
+    const params = parser.parse_query_params(req, res, next);
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+        Price.remove({
+                _id: req.params.priceId
+            })
+            .exec()
+            .then(result => {
+                res.status(200).json({
+                    message: 'Price deleted'
+                });
+            })
+            .catch(err => {
+                res.status(500).json({
+                    error: err
+                });
+            })
+    }
 }

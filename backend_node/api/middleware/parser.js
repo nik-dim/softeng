@@ -1,7 +1,17 @@
-module.exports.parse_query_params = (query) => {
+module.exports.parse_query_params = (req, res, next) => {
+    const query = req.query;
+    console.log(query)
     const params = new Object();
     const params_search = new Object();
     const params_sort = new Object();
+
+    if (query.format == 'xml') {
+        params.BAD_REQUEST = 'xml';
+        res.status(400).json({
+            message: "BAD REQUEST"
+        });
+    }
+
 
     if (query.start) {
         params.start = query.start
@@ -42,11 +52,18 @@ module.exports.parse_query_params = (query) => {
     return params;
 }
 
-module.exports.parse_prices_query_params = (query) => {
+module.exports.parse_prices_query_params = (req, res, next) => {
+    const query = req.query;
     const params = new Object();
     const params_search = new Object();
     const params_sort = new Object();
     var pipeline = [];
+    if (query.format == 'xml') {
+        params.BAD_REQUEST = 'xml';
+        res.status(400).json({
+            message: "BAD REQUEST"
+        });
+    }
 
     if (query.start) {
         params.start = query.start
@@ -158,4 +175,15 @@ module.exports.parse_prices_query_params = (query) => {
     params.params_sort = params_sort;
     params.pipeline = pipeline;
     return params;
+}
+
+
+exports.validate_id = (req, res, next) => {
+    const id = req.params.id;
+    if (id.length != 24) {
+        res.status(404).json({
+            message: 'Not Found'
+        })
+        return true;
+    }
 }

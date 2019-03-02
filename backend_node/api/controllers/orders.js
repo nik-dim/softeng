@@ -4,7 +4,7 @@ const Product = require('../models/product');
 const parser = require('../middleware/parser');
 
 exports.orders_get_all = (req, res, next) => {
-    const params = parser.parse_query_params(req.query);
+    const params = parser.parse_query_params(req, res, next);
     Order.find(params.params_search)
         .limit(params.count)
         .select('product quantity _id')
@@ -14,7 +14,7 @@ exports.orders_get_all = (req, res, next) => {
         .then(docs => {
             res.status(200).json({
                 count: docs.length,
-                orders: docs.map(doc =>{
+                orders: docs.map(doc => {
                     return {
                         _id: doc._id,
                         product: doc.product,
@@ -24,7 +24,7 @@ exports.orders_get_all = (req, res, next) => {
                             url: process.env.BASE_URL + 'orders/' + doc._id
                         }
                     }
-                })                
+                })
             });
         })
         .catch(err => {
@@ -38,7 +38,7 @@ exports.orders_get_all = (req, res, next) => {
 exports.orders_create_order = (req, res, next) => {
     Product.findById(req.body.productId)
         .then(product => {
-            if (!product){
+            if (!product) {
                 return res.status(404).json({
                     message: 'Product not found'
                 });
@@ -96,7 +96,9 @@ exports.orders_get_order = (req, res, next) => {
 
 
 exports.orders_delete_order = (req, res, next) => {
-    Order.remove({ _id: req.params.orderId})
+    Order.remove({
+            _id: req.params.orderId
+        })
         .exec()
         .then(result => {
             res.status(200).json({

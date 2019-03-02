@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const ProductsController = require('../controllers/products');
 const checkAuth = require('../middleware/check-auth');
 const authorize = require('../middleware/authorize');
-const ProductsController = require('../controllers/products');
+const checkBlacklist = require('../middleware/checkBlacklist');
 
 
 router.get('/', ProductsController.products_get_all);
