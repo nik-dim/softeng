@@ -33,7 +33,7 @@ export class AuthenticationService {
         let d = this.decoder.decodeToken(answer.token);
         this.user.token = answer.token;
         this.user._id = d.userId;
-        this.user.role = Role[d.role];
+        this.user.role = Role[JSON.parse(JSON.stringify(d.role))];
         this.user.email = d.email;
         console.log(this.user);
       }
