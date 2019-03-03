@@ -17,10 +17,7 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-  ) { 
-    if (['User', 'Admin'].indexOf(this.authenticationService.currentUser().role) !== -1)
-      this.router.navigate(['/']);
-  }
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
