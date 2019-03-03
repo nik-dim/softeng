@@ -3,12 +3,15 @@
     <mat-toolbar color="primary"><span class="jumbotron">Login</span></mat-toolbar>
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <mat-form-field class="form-element">
-          <input matInput placeholder="username" formControlName="username">
+        <mat-form-field appearance="outline" class="form-element">
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="username" formControlName="username" required>
+          <mat-error *ngIf="!form.controls['username'].valid && form.controls['username'.touched]">Field required</mat-error>
         </mat-form-field>
 
-        <mat-form-field class="form-element">
-          <input matInput type="password" placeholder="password" formControlName="password">
+        <mat-form-field appearance="outline" class="form-element">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" placeholder="password" formControlName="password" required>
           <mat-error *ngIf="!form.controls['password'].valid && form.controls['password'].touched">
             {{ getPassError() }}
           </mat-error>
