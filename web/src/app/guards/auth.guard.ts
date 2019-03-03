@@ -21,13 +21,12 @@ export class AuthGuard implements CanActivate {
       let currentUser: User = this.authenticationService.currentUser();
       console.log(currentUser);
       if (route.data.roles && route.data.roles.indexOf(currentUser.role) === -1) {
-        this.router.navigate(['/']);
-        return false;
-      } else {
-        if (route.data.roles === Role['Simple']) {
+        if (currentUser.role === Role['Simple']) {
           this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } })
           return false;
         }
+        this.router.navigate(['/unauthorized']);
+        return false;
       }
       return true;
   }
