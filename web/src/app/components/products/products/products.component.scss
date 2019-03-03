@@ -3,15 +3,19 @@ table {
   margin: 0 auto;
 }
 
+.mat-table {
+  overflow: auto;
+}
+
 ::ng-deep .mat-form-field {
   font-size: 14px !important;
   display: flex !important;
   width: 50% !important;
   margin: 0 auto !important;
 
-  // .mat-form-field-wrapper {
-    // width: 100% !important;
-  // }
+  .mat-form-field-wrapper {
+    width: 100% !important;
+  }
 
   // input {
     // width: 100%;

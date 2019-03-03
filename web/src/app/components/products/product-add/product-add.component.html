@@ -1,3 +1,44 @@
-<p>
-  product-add works!
-</p>
+<div class="centered">
+  <mat-card class="product-add">
+    <mat-toolbar color="primary"><span class="jumbotron">Add Product</span></mat-toolbar>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="form-element">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Name" formControlName="name" required>
+          <mat-error *ngIf="!form.controls['name'].valid && form.controls['name'].touched">Field required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-element">
+          <mat-label>Category</mat-label>
+          <mat-select placeholder="Category" formControlName="category" required>
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="!form.controls['category'].valid && form.controls['category'].touched">Field required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-element">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="5" placeholder="Description" formControlName="description" required></textarea>
+          <mat-error *ngIf="!form.controls['description'].valid && form.controls['description'].touched">Field required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-element">
+          <mat-label>Tags</mat-label>
+          <input matInput placeholder="tags" formControlName="tags" required>
+          <mat-error *ngIf="!form.controls['tags'].valid && form.controls['tags'].touched">Field required</mat-error>
+          <mat-hint>Comma separated tags, e.g. "fuel, car, petrol"</mat-hint>
+        </mat-form-field>
+
+        <div class="form-element">
+          <button mat-icon-button type="submit" class="button" [disabled]="!form.valid">
+            <mat-icon>add_box</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

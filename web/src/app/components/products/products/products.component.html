@@ -1,8 +1,19 @@
 <mat-toolbar><span class="centered">Products</span></mat-toolbar>
 <div class="container">
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-  </mat-form-field>
+  <table>
+    <tr>
+      <th>
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+      </th>
+      <th>
+        <button mat-raised-button routerLink="/products/add" color="primary">
+          Add Product
+        </button>
+      </th>
+    </tr>
+  </table>
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!--- Name Column -->
@@ -33,7 +44,7 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
