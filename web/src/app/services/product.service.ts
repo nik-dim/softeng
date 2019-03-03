@@ -24,4 +24,8 @@ export class ProductService {
     .pipe(map(result => result.products));
   }
 
+  public addProduct(product: Product): Observable<any> {
+    return this.http.post<Product>(this.url, product);
+  }
+
 }
