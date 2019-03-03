@@ -140,7 +140,7 @@ exports.shops_patch_shop = (req, res, next) => {
 
 exports.shops_put_shop = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next) && errorHandler.validateAttributes(req.body, Shop, res)) {
         const id = req.params.id;
         const updateOps = {};
         for (const [key, value] of Object.entries(req.body)) {

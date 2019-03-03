@@ -131,7 +131,7 @@ exports.products_patch_product = (req, res, next) => {
 
 exports.products_put_product = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next) && errorHandler.validateAttributes(req.body, Product, res)) {
         const id = req.params.id;
         const updateOps = {};
         for (const [key, value] of Object.entries(req.body)) {
@@ -154,7 +154,7 @@ exports.products_put_product = (req, res, next) => {
                         })
                     )
             })
-            .catch(errorHandler(err));
+            .catch(err => errorHandler(err));
     }
 }
 
