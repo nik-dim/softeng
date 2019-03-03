@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Shop = require('../models/shop');
 const parser = require('../middleware/parser');
 const errorHandler = require('../middleware/errorHandler');
+const Price = require('../models/price');
 
 function showSingleShop(doc) {
     return {
@@ -191,14 +192,23 @@ exports.shops_delete_shop = (req, res, next) => {
                 .catch(err => errorHandler(err));
         } else if (req.userData.role == 'Admin') {
             console.log('Admin')
-            Shop.remove({
-                    _id: id
+            Price.remove({
+                    shop: id
                 })
                 .exec()
                 .then(result => {
-                    res.status(200).json({
-                        message: 'OK'
-                    });
+                    console.log(result)
+                    Shop.remove({
+                            _id: id
+                        })
+                        .exec()
+                        .then(result1 => {
+                            console.log(result1)
+                            res.status(200).json({
+                                message: 'OK'
+                            });
+                        })
+                        .catch(err => errorHandler(err));
                 })
                 .catch(err => errorHandler(err));
         }

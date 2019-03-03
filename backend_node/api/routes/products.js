@@ -8,13 +8,13 @@ const checkBlacklist = require('../middleware/checkBlacklist');
 
 router.get('/', ProductsController.products_get_all);
 
-router.post('/', /*checkAuth, authorize('User'),*/ ProductsController.products_create_product);
+router.post('/', /*checkAuth, authorize(['User', 'Admin']),*/ ProductsController.products_create_product);
 
 router.get('/:id', ProductsController.products_get_product);
 
-router.put('/:id', /*checkAuth, authorize('User'), */ ProductsController.products_put_product);
+router.put('/:id', /*checkAuth, authorize(['User', 'Admin']), */ ProductsController.products_put_product);
 
-router.patch('/:id', /*checkAuth, authorize('User'), */ ProductsController.products_patch_product);
+router.patch('/:id', /*checkAuth, authorize(['User', 'Admin']), */ ProductsController.products_patch_product);
 
 router.delete('/:id', checkAuth, authorize(['User', 'Admin']), ProductsController.products_delete_product);
 
