@@ -22,8 +22,11 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(catchError(err => {
       if ([401, 403].indexOf(err.status) !== -1) {
         /* logout user */
-        this.authenticationService.logout();
-        // location.reload(true);
+        this.authenticationService.logout()
+        .subscribe(a => {
+          this.authenticationService.reset();
+          location.reload(true);
+        });
       }
       if ([404].indexOf(err.status) !== -1) {
         this.router.navigateByUrl('/not-found', { replaceUrl: true });
