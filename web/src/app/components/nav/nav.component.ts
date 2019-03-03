@@ -22,7 +22,10 @@ export class NavComponent{
   ) {  }
 
   logout() {
-    this.auth.logout().subscribe(a => location.reload(true))
+    this.auth.logout().subscribe(a => {
+      this.auth.reset();
+      location.reload(true);
+    })
   }
 
 }
