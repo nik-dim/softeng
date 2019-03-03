@@ -7,10 +7,10 @@ function showSingleShop(doc) {
     return {
         _id: doc._id,
         name: doc.name,
-        // address
+        address: doc.address,
         lng: doc.loc.coordinates[0],
         lat: doc.loc.coordinates[1],
-        // brand: doc.brand,
+        brand: doc.brand,
         tags: doc.tags,
         withdrawn: doc.withdrawn,
     }
@@ -65,6 +65,7 @@ exports.shops_create_shop = (req, res, next) => {
                 type: 'Point',
                 coordinates: [req.body.lng, req.body.lat]
             },
+            address: req.body.address,
             tags: createTags(req.body.tags),
             brand: req.body.brand
         });

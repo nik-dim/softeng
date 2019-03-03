@@ -16,10 +16,12 @@ const userRoutes = require('./api/routes/user');
 
 
 const connection = mongoose.connect(
-    // "mongodb://localhost:27017/softeng",
-    "mongodb://admin:" +
-    process.env.MONGO_ATLAS_PW +
-    "@cluster0-shard-00-00-sw2bo.mongodb.net:27017,cluster0-shard-00-01-sw2bo.mongodb.net:27017,cluster0-shard-00-02-sw2bo.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true", {
+    "mongodb://localhost:27017/softeng",
+    // "mongodb://admin:" +
+    // process.env.MONGO_ATLAS_PW +
+    // "@cluster0-shard-00-00-sw2bo.mongodb.net:27017,cluster0-shard-00-01-sw2bo.mongodb.net:27017,cluster0-shard-00-02-sw2bo.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true",
+    // 
+    {
         // useMongoClient: true
         useNewUrlParser: true
     }

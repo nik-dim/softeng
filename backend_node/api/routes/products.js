@@ -16,7 +16,7 @@ router.put('/:id', /*checkAuth, authorize('User'), */ ProductsController.product
 
 router.patch('/:id', /*checkAuth, authorize('User'), */ ProductsController.products_patch_product);
 
-router.delete('/:id', checkAuth, authorize('User'), ProductsController.products_delete_product);
+router.delete('/:id', checkAuth, authorize(['User', 'Admin']), ProductsController.products_delete_product);
 
 
 module.exports = router;

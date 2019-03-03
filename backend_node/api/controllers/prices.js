@@ -124,6 +124,64 @@ exports.price_get_price = (req, res, next) => {
 
 
 
+
+exports.prices_patch_price = (req, res, next) => {
+    const params = parser.parse_query_params(req, res, next);
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+        const id = req.params.id;
+        const updateOps = {};
+        for (const [key, value] of Object.entries(req.body)) {
+            updateOps[key] = value;
+        }
+        console.log(updateOps)
+        Price.update({
+                _id: id
+            }, {
+                $set: updateOps
+            })
+            .exec()
+            .then(result => {
+                res.status(200).json({
+                    message: 'Price updated',
+                    price: result,
+                });
+            })
+            .catch(err => errorHandler(err));
+    }
+}
+
+
+exports.prices_put_price = (req, res, next) => {
+    const params = parser.parse_query_params(req, res, next);
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+        const id = req.params.id;
+        const updateOps = {};
+        for (const [key, value] of Object.entries(req.body)) {
+            updateOps[key] = value;
+        }
+        Price.update({
+                _id: id
+            }, {
+                $set: updateOps
+            })
+            .exec()
+            .then(result => {
+                Product.findById(id)
+                    // .select('_id name description category withdrawn')
+                    .exec()
+                    .then(price =>
+                        res.status(200).json({
+                            message: 'Price FULLY updated',
+                            price: price
+                        })
+                    )
+            })
+            .catch(errorHandler(err));
+    }
+}
+
+
+
 exports.prices_delete_price = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
     if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {

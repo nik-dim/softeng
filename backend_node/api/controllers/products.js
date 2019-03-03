@@ -182,14 +182,24 @@ exports.products_delete_product = (req, res, next) => {
                 .catch(err => errorHandler(err));
         } else if (req.userData.role == 'Admin') {
             console.log('Admin')
+
             Product.remove({
                     _id: id
                 })
                 .exec()
                 .then(result => {
-                    res.status(200).json({
-                        message: 'OK'
-                    });
+                    console.log(result)
+                    Price.remove({
+                            product: id
+                        })
+                        .exec()
+                        .then(result1 => {
+                            console.log(result1)
+                            res.status(200).json({
+                                message: 'OK'
+                            });
+                        })
+                        .catch(err => errorHandler(err));
                 })
                 .catch(err => errorHandler(err));
         }

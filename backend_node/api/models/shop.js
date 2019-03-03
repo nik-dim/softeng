@@ -17,6 +17,10 @@ const shopSchema = mongoose.Schema({
       required: true
     }
   },
+  Address: {
+    type: String,
+    required: true
+  },
   withdrawn: {
     type: Boolean,
     default: false
