@@ -33,7 +33,7 @@ export class AuthenticationService {
         let d = this.decoder.decodeToken(answer.token);
         this.user.token = answer.token;
         this.user._id = d.userId;
-        this.user.role = Role[JSON.parse(JSON.stringify(d.role))];
+        this.user.role = d.role;
         this.user.email = d.email;
         console.log(this.user);
       }
@@ -42,10 +42,14 @@ export class AuthenticationService {
   }
 
   logout() {
+    return this.http.post<any>(`${this.url}/logout`, {
+      token: this.user.token,
+    });
+  }
+
+  reset() {
     this.user = new User();
     this.user.role = Role['Simple'];
-    console.log("logout");
-    return this.http.post<any>(`${this.url}/logout`, {});
   }
 
   signup(credentials) {
