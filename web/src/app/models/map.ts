@@ -20,9 +20,6 @@ export class GeoJson implements GeoJsonI {
       type: 'Point',
       coordinates: coordinates
     };
-    this.properties["marker-color"] = '#3bb2d0';
-    this.properties["marker-size"] = 'large';
-    this.properties["marker-symbol"] = 'rocket';
   }
 
   public toShop(): Shop {
@@ -30,7 +27,9 @@ export class GeoJson implements GeoJsonI {
       name: this.properties.name,
       lng: this.geometry.coordinates[1],
       lat: this.geometry.coordinates[0],
-      brand: this.properties.brand
+      brand: this.properties.brand,
+      address: this.properties.address,
+      tags: this.properties.tags,
     });
   }
 

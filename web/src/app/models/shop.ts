@@ -1,20 +1,24 @@
 import { GeoJson } from "./map";
 
 export class Shop {
-  _id: number;
+  _id?: number;
   name: string;
   lng: number;
   lat: number;
   brand: string;
-  withdrawn: boolean;
+  address: string;
+  tags: string[];
+  withdrawn?: boolean;
 
   constructor(options: {
-    _id?: number;
-    name: string;
-    lng: number;
-    lat: number;
-    brand: string;
-    withdrawn?: boolean;
+    _id?: number,
+    name: string,
+    lng: number,
+    lat: number,
+    brand: string,
+    address: string,
+    tags: string[],
+    withdrawn?: boolean,
   }) {
     if ("_id" in options)
       this._id = options._id;
@@ -22,6 +26,8 @@ export class Shop {
     this.lng = options.lng;
     this.lat = options.lat;
     this.brand = options.brand;
+    this.address = options.address;
+    this.tags = options.tags;
     if ("withdrawn" in options)
       this.withdrawn = options.withdrawn;
   }
@@ -36,6 +42,8 @@ export class Shop {
       {
         name: this.name,
         brand: this.brand,
+        address: this.address,
+        tags: this.tags,
         _id: this._id
       }
     );
