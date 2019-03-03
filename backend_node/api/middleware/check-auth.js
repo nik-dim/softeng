@@ -9,8 +9,8 @@ module.exports = (req, res, next) => {
         // console.log(decoded);
         next();
     } catch (error) {
-        return res.status(401).json({
-            message: 'Auth failed'
+        return res.status(403).json({
+            message: 'Forbidden'
         });
     }
 };

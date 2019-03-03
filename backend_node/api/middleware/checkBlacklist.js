@@ -11,8 +11,8 @@ module.exports = (req, res, next) => {
             .exec()
             .then(result => {
                 if (result.length >= 1) {
-                    return res.status(409).json({
-                        message: "Token in Blacklist"
+                    return res.status(403).json({
+                        message: "Auth failed. Token in Blacklist"
                     });
                 } else {
                     next();

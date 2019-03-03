@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-
 const UserController = require('../controllers/user');
-const authorize = require('../middleware/authorize');
 const checkAuth = require('../middleware/check-auth');
+const authorize = require('../middleware/authorize');
+const checkBlacklist = require('../middleware/checkBlacklist');
 
 router.post("/signup", UserController.user_signup);
 
