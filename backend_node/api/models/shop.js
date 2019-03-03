@@ -34,6 +34,8 @@ const shopSchema = mongoose.Schema({
   }]
 });
 
-// shopSchema.index({ "loc": "2dsphere" });
+shopSchema.index({
+  "loc": "2dsphere"
+});
 
 module.exports = mongoose.model('Shop', shopSchema);
