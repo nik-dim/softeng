@@ -17,6 +17,7 @@ function showSingleShop(doc) {
 };
 
 function createTags(tags) {
+    // console.log(tags)
     if (!tags) {
         return []
     } else {
@@ -58,6 +59,7 @@ exports.shops_get_all = async (req, res, next) => {
 exports.shops_create_shop = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
     if (!params.BAD_REQUEST) {
+        // console.log('pop')
         const shop = new Shop({
             _id: new mongoose.Types.ObjectId(),
             name: req.body.name,
@@ -72,7 +74,12 @@ exports.shops_create_shop = (req, res, next) => {
         shop
             .save()
             .then(doc => res.status(201).json(showSingleShop(doc)))
-            .catch(err => errorHandler(err));
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
     }
 }
 

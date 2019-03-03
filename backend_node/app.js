@@ -7,12 +7,9 @@ const mongoose = require('mongoose');
 
 
 const productRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
-
 const shopRoutes = require('./api/routes/shop');
 const priceRoutes = require('./api/routes/price');
 const userRoutes = require('./api/routes/user');
-// const productTagsRoutes = require('./api/routes/product_tag');
 
 
 const connection = mongoose.connect(
@@ -59,12 +56,9 @@ app.use((req, res, next) => {
 
 // Routes which should handle requests
 app.use('/observatory/api/products', productRoutes);
-app.use('/observatory/api/orders', orderRoutes);
 app.use('/observatory/api/', userRoutes);
 app.use('/observatory/api/shops', shopRoutes);
 app.use('/observatory/api/prices', priceRoutes);
-// app.use('/observatory/api/product_tags', productTagsRoutes);
-
 
 // if you reach this we have an error
 // ERROR handling

@@ -75,7 +75,7 @@ exports.price_create_price = (req, res, next) => {
                                     shop: req.body.shopId,
                                     value: req.body.value
                                 })
-                                console.log(price)
+                                // console.log(price)
                                 return price.save()
                             })
                             .catch(err => errorHandler(err));
@@ -84,14 +84,14 @@ exports.price_create_price = (req, res, next) => {
             })
             .then(result => {
                 // result is UNDEFINED???
-                console.log(result);
+                // console.log(result);
                 res.status(201).json({
                     message: 'Price stored',
                     result: result,
-                    request: {
-                        type: 'GET',
-                        // url: process.env.BASE_URL + 'prices/' + result._id
-                    }
+                    // request: {
+                    //     type: 'GET',
+                    //     // url: process.env.BASE_URL + 'prices/' + result._id
+                    // }
                 });
             })
             .catch(err => errorHandler(err));

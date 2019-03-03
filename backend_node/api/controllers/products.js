@@ -61,11 +61,11 @@ exports.products_create_product = (req, res, next) => {
             tags: createTags(req.body.tags),
             withdrawn: req.body.withdrawn
         });
-        console.log(product);
+        // console.log(product);
         product
             .save()
             .then(result => {
-                console.log(result);
+                // console.log(result);
                 res.status(201).json({
                     message: 'Created product successfully',
                     createdProduct: showSingleProduct(result)
