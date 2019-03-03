@@ -7,12 +7,14 @@ import { NotFoundComponent } from '@components/not-found/not-found.component';
 import { LoginComponent } from '@components/user/login/login.component';
 import { SignupComponent } from '@components/user/signup/signup.component';
 import { ProductsComponent } from '@components/products/products/products.component';
+import { ShopsComponent } from '@components/shops/shops/shops.component';
 
 const routes: Routes = [
   { path: "", component: MapComponent },
   { path: "login", component: LoginComponent },
   { path: "signup", component: SignupComponent },
   { path: "products", component: ProductsComponent },
+  { path: "shops", component: ShopsComponent },
   { path: "**", component: NotFoundComponent },
 ];
 
