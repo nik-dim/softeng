@@ -1,9 +1,32 @@
+table {
+  width: 80%;
+  margin: 0 auto;
+}
+
+::ng-deep .mat-form-field {
+  font-size: 14px !important;
+  display: flex !important;
+  width: 50% !important;
+  margin: 0 auto !important;
+
+  // .mat-form-field-wrapper {
+    // width: 100% !important;
+  // }
+
+  // input {
+    // width: 100%;
+  // }
+}
+
 .centered {
   margin: 0 auto;
 }
 
 .mat-column-name {
   width: 20% !important;
+  color: RoyalBlue;
+  font-variant: small-caps;
+  font-weight: bold;
 }
 
 .mat-column-category {
@@ -13,4 +36,5 @@
 .mat-column-description {
   word-wrap: break-word !important;
   white-space: unset !important;
+  color: DarkSlateGrey;
 }

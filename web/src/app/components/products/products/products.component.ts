@@ -40,7 +40,18 @@ export class ProductsComponent implements OnInit {
       });
       this.dataSource = new MatTableDataSource(this.products);
       this.dataSource.sort = this.sort;
+      this.dataSource.filterPredicate =
+        (data: Product, filter: string) => {
+        return (data.name.trim().toLowerCase().includes(filter) ||
+                data.category.trim().toLowerCase().includes(filter) ||
+                data.tags.toString().trim().toLowerCase().includes(filter)
+               );
+      }
     });
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }
