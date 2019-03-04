@@ -36,7 +36,7 @@ exports.shops_get_all = async (req, res, next) => {
         const n = await Shop.countDocuments();
         Shop.countDocuments()
             .then(total => {
-                console.log(total);
+                // console.log(total);
                 Shop.find(params.params_search)
                     .skip(Number(params.start))
                     .limit(Number(params.count))
@@ -51,7 +51,7 @@ exports.shops_get_all = async (req, res, next) => {
                         }
                         res.status(200).json(response);
                     })
-                    .catch(err => errorHandler(err));
+                    .catch(err => errorHandler.errorHandler(err, res));
             })
     }
 }
@@ -59,7 +59,7 @@ exports.shops_get_all = async (req, res, next) => {
 
 exports.shops_create_shop = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST) {
+    if (!params.BAD_REQUEST && errorHandler.validateAttributes(req.body, Shop, res)) {
         // console.log('pop')
         const shop = new Shop({
             _id: new mongoose.Types.ObjectId(),
@@ -103,7 +103,7 @@ exports.shops_get_shop = (req, res, next) => {
                     });
                 }
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -117,10 +117,7 @@ exports.shops_patch_shop = (req, res, next) => {
         for (const [key, value] of Object.entries(req.body)) {
             updateOps[key] = value;
         }
-        // for (const ops of req.body) {
-        //     updateOps[ops.propName] = ops.value;
-        // }
-        console.log(updateOps)
+        // console.log(updateOps)
         Shop.update({
                 _id: id
             }, {
@@ -133,7 +130,7 @@ exports.shops_patch_shop = (req, res, next) => {
                     shop: showSingleShop(doc)
                 });
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -163,7 +160,7 @@ exports.shops_put_shop = (req, res, next) => {
                         })
                     )
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -175,7 +172,7 @@ exports.shops_delete_shop = (req, res, next) => {
         const id = req.params.id;
         // console.log(req.userData);
         if (req.userData.role == 'User') {
-            console.log('User')
+            // console.log('User')
             updateOps = {}
             updateOps['withdrawn'] = true;
             Shop.update({
@@ -189,28 +186,28 @@ exports.shops_delete_shop = (req, res, next) => {
                         message: 'OK'
                     })
                 )
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
         } else if (req.userData.role == 'Admin') {
-            console.log('Admin')
+            // console.log('Admin')
             Price.remove({
                     shop: id
                 })
                 .exec()
                 .then(result => {
-                    console.log(result)
+                    // console.log(result)
                     Shop.remove({
                             _id: id
                         })
                         .exec()
                         .then(result1 => {
-                            console.log(result1)
+                            // console.log(result1)
                             res.status(200).json({
                                 message: 'OK'
                             });
                         })
-                        .catch(err => errorHandler(err));
+                        .catch(err => errorHandler.errorHandler(err, res));
                 })
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
         }
     }
 }

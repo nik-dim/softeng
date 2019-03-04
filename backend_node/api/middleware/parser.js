@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const ObjectId = mongoose.Types.ObjectId;
 
 module.exports.parse_query_params = (req, res, next) => {
     const query = req.query;
@@ -149,11 +149,13 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     }, {
         $unwind: "$product"
     }]);
+    pipeline = preparePricesMatch(pipeline, query)
+    // console.log(temp);
 
     // console.log(pipeline);
-    pipeline.concat([{
-        "$match": preparePricesMatch(query)
-    }])
+    // pipeline = pipeline.concat([{
+    //     "$match": temp
+    // }])
 
     params.params_search = params_search;
     params.params_sort = params_sort;
@@ -175,9 +177,7 @@ exports.validate_id = (req, res, next) => {
     }
 }
 
-
-
-function preparePricesMatch(query) {
+function preparePricesMatch(pipeline, query) {
     // console.log(query)
     var response = {}
 
@@ -201,32 +201,45 @@ function preparePricesMatch(query) {
             "$in": ((Array.isArray(query.tags)) ? query.tags : [query.tags])
         }
     }
+
+    pipeline = pipeline.concat([{
+        "$match": response
+    }])
+
+    response = {}
     if (query.shops) {
         temp = []
         if (Array.isArray(query.shops)) {
             query.shops.forEach(t => {
-                temp.push(mongoose.Types.ObjectId(t))
+                temp.push(ObjectId(t))
             });
         } else {
-            temp = [mongoose.Types.ObjectId(query.shops)]
-        }
-        response["product._id"] = {
-            "$in": temp
-        }
-    }
-    if (query.products) {
-        temp = []
-        if (Array.isArray(query.products)) {
-            query.products.forEach(t => {
-                temp.push(mongoose.Types.ObjectId(t))
-            });
-        } else {
-            temp = [mongoose.Types.ObjectId(query.products)]
+            temp = [ObjectId(query.shops)]
         }
         response._id = {
             "$in": temp
         }
+        pipeline = pipeline.concat([{
+            "$match": response
+        }])
     }
+    response = {}
+    if (query.products) {
+        temp = []
+        if (Array.isArray(query.products)) {
+            query.products.forEach(t => {
+                temp.push(ObjectId(t))
+            });
+        } else {
+            temp = [ObjectId(query.products)]
+        }
+        response["product._id"] = {
+            "$in": temp
+        }
+        pipeline = pipeline.concat([{
+            "$match": response
+        }])
+    }
+    return pipeline
 
-    // console.log(response)
 }
