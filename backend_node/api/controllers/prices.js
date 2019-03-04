@@ -11,32 +11,51 @@ const parser = require('../middleware/parser');
 
 exports.prices_get_all = (req, res, next) => {
     const params = parser.parse_prices_query_params(req, res, next);
-    if (!params.BAD_REQUEST) {
-        // console.log(params.pipeline)
-        Shop.aggregate(params.pipeline)
-            .skip(Number(params.start))
-            .limit(Number(params.count))
-            // .sort(params.params_sort)
+    if (!params.BAD_REQUEST && !params.NOT_ENOUGH_PARAMS) {
+        Shop.aggregate(params.pipeline.concat([{
+                "$group": {
+                    _id: null,
+                    myCount: {
+                        $sum: 1
+                    }
+                }
+            }]))
             .exec()
-            .then(docs => {
-                res.status(200).json({
-                    start: params.start,
-                    count: docs.length,
-                    // total: 
-                    prices: docs.map(doc => {
-                        return {
-                            _id: doc.prices._id,
-                            date: doc.prices.timestamp,
-                            productName: doc.product.name,
-                            productId: doc.product._id,
-                            productTags: doc.product.tags,
-                            shopId: doc._id,
-                            shopName: doc.name,
-                            shopTags: doc.tags,
-                            shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
-                        }
-                    })
-                });
+            .then(result => {
+                if (result.length > 0) {
+
+                    // console.log(result[0].myCount);
+                    Shop.aggregate(params.pipeline)
+                        .skip(Number(params.start))
+                        .limit(Number(params.count))
+                        // .sort(params.params_sort)
+                        .exec()
+                        .then(docs => {
+                            res.status(200).json({
+                                start: params.start,
+                                count: docs.length,
+                                total: result[0].myCount,
+                                prices: docs.map(doc => {
+                                    // console.log(doc);
+                                    return {
+                                        _id: doc.prices._id,
+                                        value: doc.prices.value,
+                                        date: doc.prices.timestamp,
+                                        productName: doc.product.name,
+                                        productId: doc.product._id,
+                                        productTags: doc.product.tags,
+                                        shopId: doc._id,
+                                        shopName: doc.name,
+                                        shopTags: doc.tags,
+                                        shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
+                                    }
+                                })
+                            });
+                        })
+                        .catch(err => errorHandler.errorHandler(err, res));
+                } else {
+                    res.status(404).json('No prices found')
+                }
             })
             .catch(err => errorHandler.errorHandler(err, res));
     }
