@@ -111,6 +111,28 @@ exports.user_delete = (req, res, next) => {
 };
 
 
+exports.user_update_to_Admin = (req, res, next) => {
+  const params = parser.parse_query_params(req, res, next);
+  if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+    const id = req.params.id;
+    updateOps = {}
+    updateOps['role'] = 'Admin';
+    // console.log(updateOps)
+    User.update({
+        _id: id
+      }, {
+        $set: updateOps
+      })
+      .exec()
+      .then(result => {
+        res.status(200).json({
+          message: 'User updated to Admin'
+        });
+      })
+      .catch(err => errorHandler.errorHandler(err, res));
+  }
+}
+
 
 
 exports.users_get_all = (req, res, next) => {

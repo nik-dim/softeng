@@ -19,6 +19,4 @@ router.patch('/:priceId', checkBlacklist, checkAuth, authorize(['User', 'Admin']
 
 router.delete('/:priceId', checkBlacklist, checkAuth, authorize(['User', 'Admin']), PricesController.prices_delete_price);
 
-// router
-
 module.exports = router;
