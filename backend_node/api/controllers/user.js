@@ -161,7 +161,20 @@ exports.users_get_all = (req, res, next) => {
 	}
 }
 
+exports.users_get_user = (req, res, next) => {
+	const params = parser.parse_query_params(req, res, next);
+	if (!params.BAD_REQUEST) {
+		User.findById(req.params.id)
+			.exec()
+			.then(doc => res.status(200).json({
+				_id: doc._id,
+				email: doc.email,
+				username: doc.username
+			}))
+			.catch(err => errorHandler.errorHandler(err, res))
 
+	}
+}
 
 
 exports.user_logout = (req, res, next) => {
@@ -210,46 +223,3 @@ exports.prices_get_all_by_user = (req, res, next) => {
 
 	}
 }
-
-// exports.prices_get_all_by_user = (req, res, next) => {
-//   const params = parser.parse_prices_query_params(req, res, next);
-//   if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
-//     // console.log(params.pipeline)
-//     pipeline = params.pipeline;
-//     pipeline = pipeline.concat([{
-//       "$match": {
-//         'user._id': {
-//           "$in": [ObjectId(req.params.id)]
-//         }
-//       }
-//     }])
-//     Shop.aggregate(pipeline)
-//       .skip(Number(params.start))
-//       .limit(Number(params.count))
-//       // .sort(params.params_sort)
-//       .exec()
-//       .then(docs => {
-//         res.status(200).json({
-//           start: params.start,
-//           count: docs.length,
-//           // total: 
-//           prices: docs.map(doc => {
-//             // console.log(doc);
-
-//             return {
-//               _id: doc.prices._id,
-//               date: doc.prices.timestamp,
-//               productName: doc.product.name,
-//               productId: doc.product._id,
-//               productTags: doc.product.tags,
-//               shopId: doc._id,
-//               shopName: doc.name,
-//               shopTags: doc.tags,
-//               shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
-//             }
-//           })
-//         });
-//       })
-//       .catch(err => errorHandler.errorHandler(err, res));
-//   }
-// }
