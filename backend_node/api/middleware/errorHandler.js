@@ -16,9 +16,12 @@ exports.validateAttributes = (body, Schema, res) => {
     var attributes = Object.keys(Schema.schema.paths).slice(1, -1)
     var flag = true;
     attributes.forEach(element => {
-        if (Schema.schema.paths[element].isRequired) {
-            if (!Object.keys(body).includes(element)) {
-                flag = false
+        if (!element.startsWith('loc')) {
+            console.log(element)
+            if (Schema.schema.paths[element].isRequired) {
+                if (!Object.keys(body).includes(element)) {
+                    flag = false
+                }
             }
         }
     });

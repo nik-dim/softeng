@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const ObjectId = mongoose.Types.ObjectId;
 
 module.exports.parse_query_params = (req, res, next) => {
     const query = req.query;
@@ -207,10 +207,10 @@ function preparePricesMatch(query) {
         temp = []
         if (Array.isArray(query.shops)) {
             query.shops.forEach(t => {
-                temp.push(mongoose.Types.ObjectId(t))
+                temp.push(ObjectId(t))
             });
         } else {
-            temp = [query.shops]
+            temp = [ObjectId(query.shops)]
         }
         response["product._id"] = {
             "$in": temp
@@ -220,10 +220,10 @@ function preparePricesMatch(query) {
         temp = []
         if (Array.isArray(query.products)) {
             query.products.forEach(t => {
-                temp.push(mongoose.Types.ObjectId(t))
+                temp.push(ObjectId(t))
             });
         } else {
-            temp = [mongoose.Types.ObjectId(query.products)]
+            temp = [ObjectId(query.products)]
         }
         response._id = {
             "$in": temp
