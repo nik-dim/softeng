@@ -23,7 +23,6 @@ exports.prices_get_all = (req, res, next) => {
             .exec()
             .then(result => {
                 if (result.length > 0) {
-
                     // console.log(result[0].myCount);
                     Shop.aggregate(params.pipeline)
                         .skip(Number(params.start))
@@ -40,7 +39,8 @@ exports.prices_get_all = (req, res, next) => {
                                     return {
                                         _id: doc.prices._id,
                                         value: doc.prices.value,
-                                        date: doc.prices.timestamp,
+                                        dateFrom: doc.prices.dateFrom,
+                                        dateTo: doc.prices.dateTo,
                                         productName: doc.product.name,
                                         productId: doc.product._id,
                                         productTags: doc.product.tags,
@@ -64,7 +64,7 @@ exports.prices_get_all = (req, res, next) => {
 
 exports.price_create_price = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST) {
+    if (!params.BAD_REQUEST && errorHandler.validateAttributes(req.body, Price, res)) {
         Product.findById(req.body.productId)
             .then(product => {
                 if (!product) {
@@ -87,26 +87,42 @@ exports.price_create_price = (req, res, next) => {
                                         message: 'Shop not found'
                                     });
                                 }
+
+                                var from = req.body.dateFrom.split("-");
+                                var to = req.body.dateTo.split("-");
                                 const price = new Price({
                                     _id: new mongoose.Types.ObjectId(),
-                                    product: req.body.productId,
-                                    user: req.body.userId,
-                                    shop: req.body.shopId,
-                                    value: req.body.value
+                                    productId: req.body.productId,
+                                    userId: req.body.userId,
+                                    shopId: req.body.shopId,
+                                    value: req.body.value,
+                                    dateFrom: new Date(Date.UTC(from[0], from[1] - 1, from[2], 0, 0, 0)),
+                                    dateTo: new Date(Date.UTC(to[0], to[1] - 1, to[2], 23, 59, 59)),
                                 })
                                 // console.log(price)
-                                return price.save()
+
+                                price.save()
+                                    .then(result => {
+                                        res.status(201).json({
+                                            message: 'Price stored',
+                                            result: result
+                                        });
+                                    })
+                                    .catch(err => errorHandler.errorHandler(err, res));
+
+
+
                             })
                             .catch(err => errorHandler.errorHandler(err, res));
                     })
                     .catch(err => errorHandler.errorHandler(err, res));
             })
-            .then(result => {
-                res.status(201).json({
-                    message: 'Price stored',
-                    result: result
-                });
-            })
+            // .then(result => {
+            //     res.status(201).json({
+            //         message: 'Price stored',
+            //         result: result
+            //     });
+            // })
             .catch(err => errorHandler.errorHandler(err, res));
     }
 }
@@ -166,7 +182,7 @@ exports.prices_patch_price = (req, res, next) => {
 
 exports.prices_put_price = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next) && errorHandler.validateAttributes(req.body, Price, res)) {
         const id = req.params.id;
         const updateOps = {};
         for (const [key, value] of Object.entries(req.body)) {
