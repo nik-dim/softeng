@@ -102,24 +102,24 @@ module.exports.parse_prices_query_params = (req, res, next) => {
         }
     }
 
-    if (query['geo.dist'] && query['geo.lng'] && query['geo.lat']) {
+    if (query['geoDist'] && query['geoLng'] && query['geoLat']) {
         pipeline.push({
             $geoNear: {
                 near: {
                     type: "Point",
-                    coordinates: [parseInt(query['geo.lng']), parseInt(query['geo.lat'])]
+                    coordinates: [parseInt(query['geoLng']), parseInt(query['geoLat'])]
                 },
                 distanceField: "dist.calculated",
-                maxDistance: parseInt(query['geo.dist']) + 1,
+                maxDistance: parseInt(query['geoDist']) + 1,
             }
         })
-    } else if (!query['geo.dist'] && !query['geo.lng'] && !query['geo.lat']) {
-        // do nothing
-    } else {
+    } else if (query['geoDist'] || query['geoLng'] || query['geoLat']) {
         params.NOT_ENOUGH_PARAMS = 'geo';
         res.status(400).json({
             message: "BAD REQUEST: not enough params"
         });
+    } else {
+        // do nothing
     }
     pipeline = pipeline.concat([{
         $lookup: {
@@ -216,14 +216,14 @@ function preparePricesMatch(pipeline, query) {
     var response = {}
 
 
-    if (query.from && query.to) {
-        var from = query.from.split("-");
-        var to = query.to.split("-");
+    if (query.dateFrom && query.dateTo) {
+        var from = query.dateFrom.split("-");
+        var to = query.dateTo.split("-");
         response["prices.timestamp"] = {
             "$gte": new Date(new Date(from[0], from[1], from[2], 0, 0, 0).toISOString()),
             "$lt": new Date(new Date(to[0], to[1], to[2], 23, 59, 59).toISOString())
         }
-    } else if (query.from || query.to) {
+    } else if (query.dateFrom || query.dateTo) {
         return true;
     } else {
         var d = new Date();
