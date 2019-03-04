@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
   returnUrl: string;
+  error = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -42,10 +43,14 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(
       values.username,
       values.password,
-    ).subscribe(user => {
-      console.log(user);
-      this.router.navigate([this.returnUrl]);
-    });
+    ).subscribe(
+      user => {
+        this.router.navigate([this.returnUrl]);
+      },
+      error => {
+        this.error = true;
+      }
+    );
   }
 
   getPassError() {

@@ -18,6 +18,11 @@
         </mat-form-field>
 
         <div class="form-element">
+          <table *ngIf="error" style="width: 100%" class="back-error">
+            <tr>
+              <th>Invalid Username or Password</th>
+            </tr>
+          </table>
           <table style="width: 100%">
             <tr>
               <th><button mat-raised-button color="primary" type="submit" class="button" [disabled]="!form.valid">Login</button></th>
