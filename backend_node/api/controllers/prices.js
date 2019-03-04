@@ -19,37 +19,43 @@ exports.prices_get_all = (req, res, next) => {
                         $sum: 1
                     }
                 }
-            }])).exec()
+            }]))
+            .exec()
             .then(result => {
-                // console.log(result[0].myCount);
-                Shop.aggregate(params.pipeline)
-                    .skip(Number(params.start))
-                    .limit(Number(params.count))
-                    // .sort(params.params_sort)
-                    .exec()
-                    .then(docs => {
-                        res.status(200).json({
-                            start: params.start,
-                            count: docs.length,
-                            total: result[0].myCount,
-                            prices: docs.map(doc => {
-                                // console.log(doc);
-                                return {
-                                    _id: doc.prices._id,
-                                    value: doc.prices.value,
-                                    date: doc.prices.timestamp,
-                                    productName: doc.product.name,
-                                    productId: doc.product._id,
-                                    productTags: doc.product.tags,
-                                    shopId: doc._id,
-                                    shopName: doc.name,
-                                    shopTags: doc.tags,
-                                    shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
-                                }
-                            })
-                        });
-                    })
-                    .catch(err => errorHandler.errorHandler(err, res));
+                if (result.length > 0) {
+
+                    // console.log(result[0].myCount);
+                    Shop.aggregate(params.pipeline)
+                        .skip(Number(params.start))
+                        .limit(Number(params.count))
+                        // .sort(params.params_sort)
+                        .exec()
+                        .then(docs => {
+                            res.status(200).json({
+                                start: params.start,
+                                count: docs.length,
+                                total: result[0].myCount,
+                                prices: docs.map(doc => {
+                                    // console.log(doc);
+                                    return {
+                                        _id: doc.prices._id,
+                                        value: doc.prices.value,
+                                        date: doc.prices.timestamp,
+                                        productName: doc.product.name,
+                                        productId: doc.product._id,
+                                        productTags: doc.product.tags,
+                                        shopId: doc._id,
+                                        shopName: doc.name,
+                                        shopTags: doc.tags,
+                                        shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
+                                    }
+                                })
+                            });
+                        })
+                        .catch(err => errorHandler.errorHandler(err, res));
+                } else {
+                    res.status(404).json('No prices found')
+                }
             })
             .catch(err => errorHandler.errorHandler(err, res));
     }
