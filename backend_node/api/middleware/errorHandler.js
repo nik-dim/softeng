@@ -17,14 +17,15 @@ exports.validateAttributes = (body, Schema, res) => {
     var flag = true;
     attributes.forEach(element => {
         if (!element.startsWith('loc')) {
-            console.log(element)
             if (Schema.schema.paths[element].isRequired) {
                 if (!Object.keys(body).includes(element)) {
+                    console.log(element)
                     flag = false
                 }
             }
         }
     });
+
     if (flag) {
         return flag
     } else {

@@ -59,7 +59,7 @@ exports.shops_get_all = async (req, res, next) => {
 
 exports.shops_create_shop = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST) {
+    if (!params.BAD_REQUEST && errorHandler.validateAttributes(req.body, Shop, res)) {
         // console.log('pop')
         const shop = new Shop({
             _id: new mongoose.Types.ObjectId(),
@@ -72,18 +72,15 @@ exports.shops_create_shop = (req, res, next) => {
             tags: createTags(req.body.tags),
             brand: req.body.brand
         });
-        if (errorHandler.validateAttributes(shop, Shop, res)) {
-
-            shop
-                .save()
-                .then(doc => res.status(201).json(showSingleShop(doc)))
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
+        shop
+            .save()
+            .then(doc => res.status(201).json(showSingleShop(doc)))
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    error: err
                 });
-        }
+            });
     }
 }
 
