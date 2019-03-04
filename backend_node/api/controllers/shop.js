@@ -51,7 +51,7 @@ exports.shops_get_all = async (req, res, next) => {
                         }
                         res.status(200).json(response);
                     })
-                    .catch(err => errorHandler(err));
+                    .catch(err => errorHandler.errorHandler(err, res));
             })
     }
 }
@@ -59,7 +59,7 @@ exports.shops_get_all = async (req, res, next) => {
 
 exports.shops_create_shop = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST) {
+    if (!params.BAD_REQUEST && errorHandler.validateAttributes(req.body, Shop, res)) {
         // console.log('pop')
         const shop = new Shop({
             _id: new mongoose.Types.ObjectId(),
@@ -103,7 +103,7 @@ exports.shops_get_shop = (req, res, next) => {
                     });
                 }
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -133,7 +133,7 @@ exports.shops_patch_shop = (req, res, next) => {
                     shop: showSingleShop(doc)
                 });
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -163,7 +163,7 @@ exports.shops_put_shop = (req, res, next) => {
                         })
                     )
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -189,7 +189,7 @@ exports.shops_delete_shop = (req, res, next) => {
                         message: 'OK'
                     })
                 )
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
         } else if (req.userData.role == 'Admin') {
             console.log('Admin')
             Price.remove({
@@ -208,9 +208,9 @@ exports.shops_delete_shop = (req, res, next) => {
                                 message: 'OK'
                             });
                         })
-                        .catch(err => errorHandler(err));
+                        .catch(err => errorHandler.errorHandler(err, res));
                 })
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
         }
     }
 }

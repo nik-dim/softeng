@@ -9,7 +9,7 @@ const checkBlacklist = require('../middleware/checkBlacklist');
 
 router.get('/', PricesController.prices_get_all);
 
-router.post('/', /*checkBlacklist, checkAuth, authorize('User', 'Admin'),*/ PricesController.price_create_price);
+router.post('/', checkBlacklist, checkAuth, authorize(['User', 'Admin']), PricesController.price_create_price);
 
 router.get('/:priceId', PricesController.price_get_price);
 
@@ -19,6 +19,6 @@ router.patch('/:priceId', checkBlacklist, checkAuth, authorize(['User', 'Admin']
 
 router.delete('/:priceId', checkBlacklist, checkAuth, authorize(['User', 'Admin']), PricesController.prices_delete_price);
 
-router
+// router
 
 module.exports = router;

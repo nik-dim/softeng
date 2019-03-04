@@ -41,7 +41,7 @@ exports.user_signup = (req, res, next) => {
                     message: "User created"
                   });
                 })
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
             }
           });
         }
@@ -90,7 +90,7 @@ exports.user_login = (req, res, next) => {
           });
         });
       })
-      .catch(err => errorHandler(err));
+      .catch(err => errorHandler.errorHandler(err, res));
   }
 };
 
@@ -106,7 +106,7 @@ exports.user_delete = (req, res, next) => {
           message: "User deleted"
         });
       })
-      .catch(err => errorHandler(err));
+      .catch(err => errorHandler.errorHandler(err, res));
   }
 };
 
@@ -131,7 +131,7 @@ exports.users_get_all = (req, res, next) => {
         }
         res.status(200).json(response);
       })
-      .catch(err => errorHandler(err));
+      .catch(err => errorHandler.errorHandler(err, res));
   }
 }
 
@@ -154,6 +154,6 @@ exports.user_logout = (req, res, next) => {
           message: 'OK',
         });
       })
-      .catch(err => errorHandler(err));
+      .catch(err => errorHandler.errorHandler(err, res));
   }
 };

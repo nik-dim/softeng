@@ -19,8 +19,6 @@ exports.prices_get_all = (req, res, next) => {
             // .sort(params.params_sort)
             .exec()
             .then(docs => {
-                // console.log('pop')
-                // console.log(docs);
                 res.status(200).json({
                     start: params.start,
                     count: docs.length,
@@ -35,12 +33,12 @@ exports.prices_get_all = (req, res, next) => {
                             shopId: doc._id,
                             shopName: doc.name,
                             shopTags: doc.tags,
-                            shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unkown')
+                            shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
                         }
                     })
                 });
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -55,8 +53,6 @@ exports.price_create_price = (req, res, next) => {
                         message: 'Product not found'
                     });
                 }
-                // console.log(product);
-                // console.log(req.body);
                 User.findById(req.body.userId)
                     .then(user => {
                         if (!user) {
@@ -82,23 +78,17 @@ exports.price_create_price = (req, res, next) => {
                                 // console.log(price)
                                 return price.save()
                             })
-                            .catch(err => errorHandler(err));
+                            .catch(err => errorHandler.errorHandler(err, res));
                     })
-                    .catch(err => errorHandler(err));
+                    .catch(err => errorHandler.errorHandler(err, res));
             })
             .then(result => {
-                // result is UNDEFINED???
-                // console.log(result);
                 res.status(201).json({
                     message: 'Price stored',
-                    result: result,
-                    // request: {
-                    //     type: 'GET',
-                    //     // url: process.env.BASE_URL + 'prices/' + result._id
-                    // }
+                    result: result
                 });
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -122,7 +112,7 @@ exports.price_get_price = (req, res, next) => {
                     }
                 });
             })
-            .catch(err => errorHandler(err))
+            .catch(err => errorHandler.errorHandler(err, res))
     }
 }
 
@@ -150,7 +140,7 @@ exports.prices_patch_price = (req, res, next) => {
                     price: result,
                 });
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -180,7 +170,7 @@ exports.prices_put_price = (req, res, next) => {
                         })
                     )
             })
-            .catch(errorHandler(err));
+            .catch(errorHandler.errorHandler(err, res));
     }
 }
 
@@ -198,6 +188,6 @@ exports.prices_delete_price = (req, res, next) => {
                     message: 'Price deleted'
                 });
             })
-            .catch(err => errorHandler(err))
+            .catch(err => errorHandler.errorHandler(err, res))
     }
 }

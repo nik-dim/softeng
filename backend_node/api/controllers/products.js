@@ -43,7 +43,7 @@ exports.products_get_all = (req, res, next) => {
                     // return response
                     res.status(200).json(response);
                 })
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
         })
     }
 }
@@ -52,7 +52,7 @@ exports.products_get_all = (req, res, next) => {
 
 exports.products_create_product = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST) {
+    if (!params.BAD_REQUEST && errorHandler.validateAttributes(req.body, Product, res)) {
         const product = new Product({
             _id: new mongoose.Types.ObjectId(),
             name: req.body.name,
@@ -72,7 +72,7 @@ exports.products_create_product = (req, res, next) => {
                     createdProduct: showSingleProduct(result)
                 });
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -94,7 +94,7 @@ exports.products_get_product = (req, res, next) => {
                     });
                 }
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -124,7 +124,7 @@ exports.products_patch_product = (req, res, next) => {
                     }
                 });
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -154,7 +154,7 @@ exports.products_put_product = (req, res, next) => {
                         })
                     )
             })
-            .catch(err => errorHandler(err));
+            .catch(err => errorHandler.errorHandler(err, res));
     }
 }
 
@@ -180,7 +180,7 @@ exports.products_delete_product = (req, res, next) => {
                         message: 'OK'
                     })
                 )
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
         } else if (req.userData.role == 'Admin') {
             console.log('Admin')
             Price.remove({
@@ -199,9 +199,9 @@ exports.products_delete_product = (req, res, next) => {
                                 message: 'OK'
                             });
                         })
-                        .catch(err => errorHandler(err));
+                        .catch(err => errorHandler.errorHandler(err, res));
                 })
-                .catch(err => errorHandler(err));
+                .catch(err => errorHandler.errorHandler(err, res));
         }
     }
 }

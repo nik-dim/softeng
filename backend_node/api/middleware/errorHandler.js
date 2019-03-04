@@ -1,12 +1,11 @@
 // module.exports = errorHandler;
 
-exports.errorHandler = err => {
-    err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
-        });
-    }
+exports.errorHandler = (err, res) => {
+    console.log(err);
+    res.status(500).json({
+        error: err
+    });
+
 };
 
 // module.exports = validateAttributes;
