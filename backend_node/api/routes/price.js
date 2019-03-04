@@ -13,11 +13,11 @@ router.post('/', /*checkBlacklist, checkAuth, authorize('User', 'Admin'),*/ Pric
 
 router.get('/:priceId', PricesController.price_get_price);
 
-// router.put('/:priceId', checkBlacklist, checkAuth, authorize('User', 'Admin'), PricesController.);
+router.put('/:priceId', checkBlacklist, checkAuth, authorize(['User', 'Admin']), PricesController.prices_put_price);
 
-// router.patch('/:priceId', checkBlacklist, checkAuth, authorize('User', 'Admin'), PricesController.);
+router.patch('/:priceId', checkBlacklist, checkAuth, authorize(['User', 'Admin']), PricesController.prices_patch_price);
 
-router.delete('/:priceId', checkBlacklist, checkAuth, authorize('User', 'Admin'), PricesController.prices_delete_price);
+router.delete('/:priceId', checkBlacklist, checkAuth, authorize(['User', 'Admin']), PricesController.prices_delete_price);
 
 router
 

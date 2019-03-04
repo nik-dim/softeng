@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Product = require('../models/product');
 const parser = require('../middleware/parser');
 const errorHandler = require('../middleware/errorHandler');
+const Price = require('../models/price');
 
 function showSingleProduct(result) {
     return {
@@ -130,7 +131,7 @@ exports.products_patch_product = (req, res, next) => {
 
 exports.products_put_product = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next) && errorHandler.validateAttributes(req.body, Product, res)) {
         const id = req.params.id;
         const updateOps = {};
         for (const [key, value] of Object.entries(req.body)) {
@@ -144,7 +145,7 @@ exports.products_put_product = (req, res, next) => {
             .exec()
             .then(result => {
                 Product.findById(id)
-                    .select('_id name description category withdrawn')
+                    .select('_id name description category withdrawn tags')
                     .exec()
                     .then(product =>
                         res.status(200).json({
@@ -153,7 +154,7 @@ exports.products_put_product = (req, res, next) => {
                         })
                     )
             })
-            .catch(errorHandler(err));
+            .catch(err => errorHandler(err));
     }
 }
 
@@ -182,15 +183,14 @@ exports.products_delete_product = (req, res, next) => {
                 .catch(err => errorHandler(err));
         } else if (req.userData.role == 'Admin') {
             console.log('Admin')
-
-            Product.remove({
-                    _id: id
+            Price.remove({
+                    product: id
                 })
                 .exec()
                 .then(result => {
                     console.log(result)
-                    Price.remove({
-                            product: id
+                    Product.remove({
+                            _id: id
                         })
                         .exec()
                         .then(result1 => {

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Shop = require('../models/shop');
 const parser = require('../middleware/parser');
 const errorHandler = require('../middleware/errorHandler');
+const Price = require('../models/price');
 
 function showSingleShop(doc) {
     return {
@@ -139,7 +140,7 @@ exports.shops_patch_shop = (req, res, next) => {
 
 exports.shops_put_shop = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
-    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
+    if (!params.BAD_REQUEST && !parser.validate_id(req, res, next) && errorHandler.validateAttributes(req.body, Shop, res)) {
         const id = req.params.id;
         const updateOps = {};
         for (const [key, value] of Object.entries(req.body)) {
@@ -191,14 +192,23 @@ exports.shops_delete_shop = (req, res, next) => {
                 .catch(err => errorHandler(err));
         } else if (req.userData.role == 'Admin') {
             console.log('Admin')
-            Shop.remove({
-                    _id: id
+            Price.remove({
+                    shop: id
                 })
                 .exec()
                 .then(result => {
-                    res.status(200).json({
-                        message: 'OK'
-                    });
+                    console.log(result)
+                    Shop.remove({
+                            _id: id
+                        })
+                        .exec()
+                        .then(result1 => {
+                            console.log(result1)
+                            res.status(200).json({
+                                message: 'OK'
+                            });
+                        })
+                        .catch(err => errorHandler(err));
                 })
                 .catch(err => errorHandler(err));
         }

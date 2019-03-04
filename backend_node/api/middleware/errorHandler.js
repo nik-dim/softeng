@@ -1,8 +1,6 @@
-// SOURCE: http://jasonwatmore.com/post/2018/11/28/nodejs-role-based-authorization-tutorial-with-example-api#users-folder
+// module.exports = errorHandler;
 
-module.exports = errorHandler;
-
-function errorHandler() {
+exports.errorHandler = err => {
     err => {
         console.log(err);
         res.status(500).json({
@@ -10,3 +8,22 @@ function errorHandler() {
         });
     }
 };
+
+// module.exports = validateAttributes;
+
+exports.validateAttributes = (body, Schema, res) => {
+    var attributes = Object.keys(Schema.schema.paths).slice(1, -1)
+    var flag = true;
+    attributes.forEach(element => {
+        if (!Object.keys(body).includes(element)) {
+            flag = false
+        }
+    });
+    if (flag) {
+        return flag
+    } else {
+        res.status(400).json({
+            message: 'Bad Request: Specify all attributes of Model'
+        })
+    }
+}

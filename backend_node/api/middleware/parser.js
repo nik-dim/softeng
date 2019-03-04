@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+
+
 module.exports.parse_query_params = (req, res, next) => {
     const query = req.query;
     // console.log(query)
@@ -45,6 +48,7 @@ module.exports.parse_query_params = (req, res, next) => {
             params_sort._id = direction
         }
     }
+
 
     params.params_search = params_search;
     params.params_sort = params_sort;
@@ -97,6 +101,9 @@ module.exports.parse_prices_query_params = (req, res, next) => {
             params_sort._id = direction
         }
     }
+    // if (query.shops) {
+    //     console.log(query.shops)
+    // }
 
     if (query['geo.dist'] && query['geo.lng'] && query['geo.lat']) {
         pipeline.push({
@@ -144,38 +151,18 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     }]);
 
     // console.log(pipeline);
+    pipeline.concat([{
+        "$match": preparePricesMatch(query)
+    }])
 
-    if (query.from && query.to) {
-        var from = query.from.split("-");
-        var to = query.to.split("-");
-        pipeline = pipeline.concat([{
-            "$match": {
-                "prices.timestamp": {
-                    "$gte": new Date(new Date(from[0], from[1], from[2], 0, 0, 0).toISOString()),
-                    "$lt": new Date(new Date(to[0], to[1], to[2], 23, 59, 59).toISOString())
-                }
-            }
-        }])
-    } else {
-        var d = new Date();
-        pipeline = pipeline.concat([{
-            "$match": {
-                "prices.timestamp": {
-                    "$gte": new Date(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 2, 0, 0).toISOString()),
-                    "$lt": new Date(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59).toISOString())
-                }
-            }
-        }])
-    }
-
-    // console.log(pipeline[7])
-
-    // console.log(params_sort)
     params.params_search = params_search;
     params.params_sort = params_sort;
     params.pipeline = pipeline;
     return params;
 }
+
+
+
 
 
 exports.validate_id = (req, res, next) => {
@@ -186,4 +173,60 @@ exports.validate_id = (req, res, next) => {
         })
         return true;
     }
+}
+
+
+
+function preparePricesMatch(query) {
+    // console.log(query)
+    var response = {}
+
+    if (query.from && query.to) {
+        var from = query.from.split("-");
+        var to = query.to.split("-");
+        response["prices.timestamp"] = {
+            "$gte": new Date(new Date(from[0], from[1], from[2], 0, 0, 0).toISOString()),
+            "$lt": new Date(new Date(to[0], to[1], to[2], 23, 59, 59).toISOString())
+        }
+    } else {
+        var d = new Date();
+        response["prices.timestamp"] = {
+            "$gte": new Date(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 2, 0, 0).toISOString()),
+            "$lt": new Date(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59).toISOString())
+        }
+    }
+
+    if (query.tags) {
+        response.tags = {
+            "$in": ((Array.isArray(query.tags)) ? query.tags : [query.tags])
+        }
+    }
+    if (query.shops) {
+        temp = []
+        if (Array.isArray(query.shops)) {
+            query.shops.forEach(t => {
+                temp.push(mongoose.Types.ObjectId(t))
+            });
+        } else {
+            temp = [mongoose.Types.ObjectId(query.shops)]
+        }
+        response["product._id"] = {
+            "$in": temp
+        }
+    }
+    if (query.products) {
+        temp = []
+        if (Array.isArray(query.products)) {
+            query.products.forEach(t => {
+                temp.push(mongoose.Types.ObjectId(t))
+            });
+        } else {
+            temp = [mongoose.Types.ObjectId(query.products)]
+        }
+        response._id = {
+            "$in": temp
+        }
+    }
+
+    // console.log(response)
 }

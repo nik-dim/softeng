@@ -12,13 +12,15 @@ const parser = require('../middleware/parser');
 exports.prices_get_all = (req, res, next) => {
     const params = parser.parse_prices_query_params(req, res, next);
     if (!params.BAD_REQUEST) {
+        // console.log(params.pipeline)
         Shop.aggregate(params.pipeline)
             .skip(Number(params.start))
             .limit(Number(params.count))
             // .sort(params.params_sort)
             .exec()
             .then(docs => {
-                console.log(docs);
+                // console.log('pop')
+                // console.log(docs);
                 res.status(200).json({
                     start: params.start,
                     count: docs.length,
@@ -29,9 +31,11 @@ exports.prices_get_all = (req, res, next) => {
                             date: doc.prices.timestamp,
                             productName: doc.product.name,
                             productId: doc.product._id,
+                            productTags: doc.product.tags,
                             shopId: doc._id,
                             shopName: doc.name,
-                            shopDist: doc.dist.calculated / 1000 // to return in km
+                            shopTags: doc.tags,
+                            shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unkown')
                         }
                     })
                 });
