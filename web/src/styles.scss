@@ -39,8 +39,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 10px;
     font-weight: 400;
   }
+  p {
+    text-align: center;
+  }
   div {
     padding: 10px;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  a:hover {
+    color: DarkBlue;
   }
 }
 

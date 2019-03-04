@@ -6,14 +6,20 @@
 
 <mat-sidenav-container class='sidenav-shops'>
   <mat-sidenav #sidenav mode='side'>
-    <button mat-icon-button (click)='sidenav.toggle()'><mat-icon>menu</mat-icon></button>
-    <ul class='shop-list'>
-      <li *ngFor='let shop of shoplist'>
-        <div id='listing-{{shop.id}}'>
-          <span>{{ shop.name }}</span>
-        </div>
-      </li>
-    </ul>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <button mat-icon-button (click)='sidenav.toggle()'><mat-icon>menu</mat-icon></button>
+        <h2 mat-subheader align="center">Nearest Gas Stations</h2>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-selection-list>
+      <mat-list-option *ngFor="let shop of shoplist" (click)="clickShop(shop)">
+        <mat-icon mat-list-icon>invert_colors</mat-icon>
+        <h4 mat-line>{{ shop.properties.name }}</h4>
+        <p mat-line>{{ shop.properties.distance }} km away</p>
+        <mat-divider></mat-divider>
+      </mat-list-option>
+    </mat-selection-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <div id='map' class='map pad2'>
