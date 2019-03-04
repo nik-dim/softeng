@@ -5,15 +5,13 @@ const parser = require('../middleware/parser');
 const User = require("../models/user");
 const Blacklist = require('../models/blacklist');
 const errorHandler = require('../middleware/errorHandler');
-const Shop = require('../models/shop');
-const ObjectId = mongoose.Types.ObjectId;
 const Price = require('../models/price');
 
 
 exports.user_signup = (req, res, next) => {
 	const params = parser.parse_query_params(req, res, next);
 	if (!params.BAD_REQUEST) {
-		console.log(req.body)
+		// console.log(req.body)
 		User.find({
 				email: req.body.email
 			})
@@ -73,8 +71,8 @@ exports.user_login = (req, res, next) => {
 						});
 					}
 					if (result) {
-						console.log(user[0]);
-						console.log(user[0].role);
+						// console.log(user[0]);
+						// console.log(user[0].role);
 						const token = jwt.sign({
 								email: user[0].email,
 								userId: user[0]._id,
@@ -188,7 +186,7 @@ exports.user_logout = (req, res, next) => {
 		invalidToken
 			.save()
 			.then(result => {
-				console.log(result);
+				// console.log(result);
 				res.status(200).json({
 					message: 'OK',
 				});

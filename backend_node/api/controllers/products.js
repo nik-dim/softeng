@@ -85,7 +85,7 @@ exports.products_get_product = (req, res, next) => {
             .select('_id name description category withdrawn tags')
             .exec()
             .then(doc => {
-                console.log(doc);
+                // console.log(doc);
                 if (doc) {
                     res.status(200).json(showSingleProduct(doc));
                 } else {
@@ -107,7 +107,7 @@ exports.products_patch_product = (req, res, next) => {
         for (const [key, value] of Object.entries(req.body)) {
             updateOps[key] = value;
         }
-        console.log(updateOps)
+        // console.log(updateOps)
         Product.update({
                 _id: id
             }, {
@@ -166,7 +166,7 @@ exports.products_delete_product = (req, res, next) => {
         const id = req.params.id;
         // console.log(req.userData);
         if (req.userData.role == 'User') {
-            console.log('User')
+            // console.log('User')
             updateOps = {}
             updateOps['withdrawn'] = true;
             Product.update({
@@ -182,19 +182,19 @@ exports.products_delete_product = (req, res, next) => {
                 )
                 .catch(err => errorHandler.errorHandler(err, res));
         } else if (req.userData.role == 'Admin') {
-            console.log('Admin')
+            // console.log('Admin')
             Price.remove({
                     product: id
                 })
                 .exec()
                 .then(result => {
-                    console.log(result)
+                    // console.log(result)
                     Product.remove({
                             _id: id
                         })
                         .exec()
                         .then(result1 => {
-                            console.log(result1)
+                            // console.log(result1)
                             res.status(200).json({
                                 message: 'OK'
                             });

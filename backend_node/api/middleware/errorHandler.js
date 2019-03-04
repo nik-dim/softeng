@@ -19,7 +19,7 @@ exports.validateAttributes = (body, Schema, res) => {
         if (!element.startsWith('loc')) {
             if (Schema.schema.paths[element].isRequired) {
                 if (!Object.keys(body).includes(element)) {
-                    console.log(element)
+                    // console.log(element)
                     flag = false
                 }
             }

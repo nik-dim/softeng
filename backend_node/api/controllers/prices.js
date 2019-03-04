@@ -24,7 +24,7 @@ exports.prices_get_all = (req, res, next) => {
                     count: docs.length,
                     // total: 
                     prices: docs.map(doc => {
-                        console.log(doc);
+                        // console.log(doc);
                         return {
                             _id: doc.prices._id,
                             date: doc.prices.timestamp,
@@ -96,7 +96,7 @@ exports.price_create_price = (req, res, next) => {
 exports.price_get_price = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
     if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
-        console.log(req.params.id);
+        // console.log(req.params.id);
         Price.findById(req.params.id)
             .exec()
             .then(price => {
@@ -128,7 +128,7 @@ exports.prices_patch_price = (req, res, next) => {
         for (const [key, value] of Object.entries(req.body)) {
             updateOps[key] = value;
         }
-        console.log(updateOps)
+        // console.log(updateOps)
         Price.update({
                 _id: id
             }, {
