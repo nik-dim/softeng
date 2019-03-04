@@ -110,7 +110,7 @@ module.exports.parse_prices_query_params = (req, res, next) => {
                     coordinates: [parseInt(query['geo.lng']), parseInt(query['geo.lat'])]
                 },
                 distanceField: "dist.calculated",
-                maxDistance: parseInt(query['geo.dist']),
+                maxDistance: parseInt(query['geo.dist']) + 1,
             }
         })
     } else if (!query['geo.dist'] && !query['geo.lng'] && !query['geo.lat']) {
@@ -248,34 +248,42 @@ function preparePricesMatch(pipeline, query) {
         temp = []
         if (Array.isArray(query.shops)) {
             query.shops.forEach(t => {
-                temp.push(ObjectId(t))
+                if (t.length === 24) {
+                    temp.push(ObjectId(t))
+                }
             });
         } else {
-            temp = [ObjectId(query.shops)]
+            temp = ((query.shops.length != 24) ? [] : [ObjectId(query.shops)])
         }
-        response._id = {
-            "$in": temp
+        if (temp.length > 0) {
+            response._id = {
+                "$in": temp
+            }
+            pipeline = pipeline.concat([{
+                "$match": response
+            }])
         }
-        pipeline = pipeline.concat([{
-            "$match": response
-        }])
     }
     response = {}
     if (query.products) {
         temp = []
         if (Array.isArray(query.products)) {
-            query.products.forEach(t => {
-                temp.push(ObjectId(t))
-            });
+            if (t.length === 24) {
+                query.products.forEach(t => {
+                    temp.push(ObjectId(t))
+                });
+            }
         } else {
-            temp = [ObjectId(query.products)]
+            temp = ((query.products.length != 24) ? [] : [ObjectId(query.products)])
         }
-        response["product._id"] = {
-            "$in": temp
+        if (temp.length > 0) {
+            response["product._id"] = {
+                "$in": temp
+            }
+            pipeline = pipeline.concat([{
+                "$match": response
+            }])
         }
-        pipeline = pipeline.concat([{
-            "$match": response
-        }])
     }
     return pipeline
 
