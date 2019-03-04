@@ -162,6 +162,33 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     //     "$match": temp
     // }])
     pipeline = temp;
+    // pipeline = pipeline.concat([{
+    //     "$facet": {
+    //         "count": [{
+    //                 $group: {
+    //                     _id: null,
+    //                     myCount: {
+    //                         $sum: 1
+    //                     }
+    //                 }
+    //             },
+    //             {
+    //                 $project: {
+    //                     _id: 0
+    //                 }
+    //             }
+    //         ],
+    //         "instances": [{
+    //             $match: {
+    //                 tags: {
+    //                     $nin: ["popopop"]
+    //                 },
+    //             }
+    //         }]
+    //     }
+    // }, {
+    //     $unwind: "$instances"
+    // }])
     params.params_search = params_search;
     params.params_sort = params_sort;
     params.pipeline = pipeline;
