@@ -125,7 +125,7 @@ module.exports.parse_prices_query_params = (req, res, next) => {
         $lookup: {
             from: 'prices',
             localField: '_id',
-            foreignField: 'shop',
+            foreignField: 'shopId',
             as: 'prices'
         }
     }, {
@@ -133,7 +133,7 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     }, {
         $lookup: {
             from: 'users',
-            localField: 'prices.user',
+            localField: 'prices.userId',
             foreignField: '_id',
             as: 'user'
         }
@@ -142,7 +142,7 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     }, {
         $lookup: {
             from: 'products',
-            localField: 'prices.product',
+            localField: 'prices.productId',
             foreignField: '_id',
             as: 'product'
         }
