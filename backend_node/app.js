@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // const autoIncrement = require('mongoose-auto-increment');
-
+const cors = require('cors')
 
 const productRoutes = require('./api/routes/products');
 const shopRoutes = require('./api/routes/shop');
@@ -35,23 +35,23 @@ app.use(bodyParser.urlencoded({
 }));
 // make json easily readable
 app.use(bodyParser.json());
+app.use(cors())
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*'); // *: give acces to all origins
+//     res.header(
+//         'Access-Control-Allow-Headers',
+//         'Origin, X-Request-With, Content-Type, Accept, Authorization, X-OBSERVATORY-AUTH'
+//     );
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*'); // *: give acces to all origins
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Request-With, Content-Type, Accept, Authorization, X-OBSERVATORY-AUTH'
-    );
-
-    if (req.method === 'OPTIONS') {
-        req.header(
-            'Access-Control-Allow-Methods',
-            'PUT, POST, PATCH, DELETE, GET'
-        );
-        return res.status(200).json({});
-    }
-    next();
-});
+//     if (req.method === 'OPTIONS') {
+//         req.header(
+//             'Access-Control-Allow-Methods',
+//             'PUT, POST, PATCH, DELETE, GET'
+//         );
+//         return res.status(200).json({});
+//     }
+//     next();
+// });
 
 
 // Routes which should handle requests
