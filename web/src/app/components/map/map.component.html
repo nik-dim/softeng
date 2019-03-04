@@ -12,14 +12,14 @@
         <h2 mat-subheader align="center">Nearest Gas Stations</h2>
       </mat-toolbar-row>
     </mat-toolbar>
-    <mat-selection-list>
-      <mat-list-option *ngFor="let shop of shoplist" (click)="clickShop(shop)">
+    <mat-action-list>
+      <button mat-list-item *ngFor="let shop of shoplist" (click)="clickShop(shop)">
         <mat-icon mat-list-icon>invert_colors</mat-icon>
         <h4 mat-line>{{ shop.properties.name }}</h4>
         <p mat-line>{{ shop.properties.distance }} km away</p>
         <mat-divider></mat-divider>
-      </mat-list-option>
-    </mat-selection-list>
+      </button>
+    </mat-action-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <div id='map' class='map pad2'>
