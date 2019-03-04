@@ -85,7 +85,6 @@ exports.products_get_product = (req, res, next) => {
             .select('_id name description category withdrawn tags')
             .exec()
             .then(doc => {
-                console.log(doc);
                 if (doc) {
                     res.status(200).json(showSingleProduct(doc));
                 } else {
@@ -166,7 +165,6 @@ exports.products_delete_product = (req, res, next) => {
         const id = req.params.id;
         // console.log(req.userData);
         if (req.userData.role == 'User') {
-            console.log('User')
             updateOps = {}
             updateOps['withdrawn'] = true;
             Product.update({
@@ -182,7 +180,6 @@ exports.products_delete_product = (req, res, next) => {
                 )
                 .catch(err => errorHandler(err));
         } else if (req.userData.role == 'Admin') {
-            console.log('Admin')
             Price.remove({
                     product: id
                 })

@@ -9,7 +9,6 @@ const errorHandler = require('../middleware/errorHandler');
 exports.user_signup = (req, res, next) => {
   const params = parser.parse_query_params(req, res, next);
   if (!params.BAD_REQUEST) {
-    console.log(req.body)
     User.find({
         email: req.body.email
       })
@@ -69,8 +68,6 @@ exports.user_login = (req, res, next) => {
             });
           }
           if (result) {
-            console.log(user[0]);
-            console.log(user[0].role);
             const token = jwt.sign({
                 email: user[0].email,
                 userId: user[0]._id,
