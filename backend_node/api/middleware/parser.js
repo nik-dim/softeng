@@ -101,9 +101,6 @@ module.exports.parse_prices_query_params = (req, res, next) => {
             params_sort._id = direction
         }
     }
-    // if (query.shops) {
-    //     console.log(query.shops)
-    // }
 
     if (query['geo.dist'] && query['geo.lng'] && query['geo.lat']) {
         pipeline.push({
@@ -119,7 +116,10 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     } else if (!query['geo.dist'] && !query['geo.lng'] && !query['geo.lat']) {
         // do nothing
     } else {
-        // error
+        params.NOT_ENOUGH_PARAMS = 'geo';
+        res.status(400).json({
+            message: "BAD REQUEST: not enough params"
+        });
     }
     pipeline = pipeline.concat([{
         $lookup: {
@@ -149,14 +149,19 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     }, {
         $unwind: "$product"
     }]);
-    pipeline = preparePricesMatch(pipeline, query)
+    temp = preparePricesMatch(pipeline, query)
     // console.log(temp);
-
+    if (temp === true) {
+        params.NOT_ENOUGH_PARAMS = 'date';
+        res.status(400).json({
+            message: "BAD REQUEST: not enough params"
+        });
+    }
     // console.log(pipeline);
     // pipeline = pipeline.concat([{
     //     "$match": temp
     // }])
-
+    pipeline = temp;
     params.params_search = params_search;
     params.params_sort = params_sort;
     params.pipeline = pipeline;
@@ -191,6 +196,8 @@ function preparePricesMatch(pipeline, query) {
             "$gte": new Date(new Date(from[0], from[1], from[2], 0, 0, 0).toISOString()),
             "$lt": new Date(new Date(to[0], to[1], to[2], 23, 59, 59).toISOString())
         }
+    } else if (query.from || query.to) {
+        return true;
     } else {
         var d = new Date();
         response["prices.timestamp"] = {

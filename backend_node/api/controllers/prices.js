@@ -11,7 +11,7 @@ const parser = require('../middleware/parser');
 
 exports.prices_get_all = (req, res, next) => {
     const params = parser.parse_prices_query_params(req, res, next);
-    if (!params.BAD_REQUEST) {
+    if (!params.BAD_REQUEST && !params.NOT_ENOUGH_PARAMS) {
         // console.log(params.pipeline)
         Shop.aggregate(params.pipeline)
             .skip(Number(params.start))
