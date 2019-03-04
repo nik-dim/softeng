@@ -15,9 +15,7 @@ router.delete("/:userId", checkBlacklist, checkAuth, authorize('Admin'), UserCon
 
 router.get('/', checkBlacklist, checkAuth, authorize('Admin'), UserController.users_get_all);
 
-
 router.get('/users/:id', UserController.users_get_user);
-
 
 router.patch('/:id', checkBlacklist, checkAuth, authorize('Admin'), UserController.user_update_to_Admin);
 

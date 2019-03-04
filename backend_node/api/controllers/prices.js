@@ -27,7 +27,7 @@ exports.prices_get_all = (req, res, next) => {
                     Shop.aggregate(params.pipeline)
                         .skip(Number(params.start))
                         .limit(Number(params.count))
-                        // .sort(params.params_sort)
+                        .sort(params.params_sort)
                         .exec()
                         .then(docs => {
                             res.status(200).json({

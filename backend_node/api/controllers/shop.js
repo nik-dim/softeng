@@ -126,8 +126,7 @@ exports.shops_patch_shop = (req, res, next) => {
             .exec()
             .then(doc => {
                 res.status(200).json({
-                    message: 'Shop updated',
-                    shop: showSingleShop(doc)
+                    message: 'Shop updated'
                 });
             })
             .catch(err => errorHandler.errorHandler(err, res));

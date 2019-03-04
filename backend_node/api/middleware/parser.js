@@ -230,11 +230,13 @@ function preparePricesMatch(pipeline, query) {
     } else {
         var d = new Date();
         response["prices.dateFrom"] = {
-            "$gte": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 2, 0, 0)).toISOString())
+            "$gte": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0)).toISOString())
         }
         response["prices.dateTo"] = {
-            "$lt": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59)).toISOString())
+            "$lte": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59)).toISOString())
         }
+        console.log(response["prices.dateTo"]);
+
     }
 
     if (query.tags) {
@@ -272,11 +274,12 @@ function preparePricesMatch(pipeline, query) {
     if (query.products) {
         temp = []
         if (Array.isArray(query.products)) {
-            if (t.length === 24) {
-                query.products.forEach(t => {
+            query.products.forEach(t => {
+                if (t.length === 24) {
                     temp.push(ObjectId(t))
-                });
-            }
+                }
+            });
+
         } else {
             temp = ((query.products.length != 24) ? [] : [ObjectId(query.products)])
         }
