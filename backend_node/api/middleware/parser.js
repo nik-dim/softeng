@@ -149,13 +149,13 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     }, {
         $unwind: "$product"
     }]);
-    const temp = preparePricesMatch(query)
-    console.log(temp);
+    pipeline = preparePricesMatch(pipeline, query)
+    // console.log(temp);
 
     // console.log(pipeline);
-    pipeline = pipeline.concat([{
-        "$match": temp
-    }])
+    // pipeline = pipeline.concat([{
+    //     "$match": temp
+    // }])
 
     params.params_search = params_search;
     params.params_sort = params_sort;
@@ -179,9 +179,10 @@ exports.validate_id = (req, res, next) => {
 
 
 
-function preparePricesMatch(query) {
+function preparePricesMatch(pipeline, query) {
     // console.log(query)
     var response = {}
+
 
     if (query.from && query.to) {
         var from = query.from.split("-");
@@ -203,6 +204,12 @@ function preparePricesMatch(query) {
             "$in": ((Array.isArray(query.tags)) ? query.tags : [query.tags])
         }
     }
+
+    pipeline = pipeline.concat([{
+        "$match": response
+    }])
+
+    response = {}
     if (query.shops) {
         temp = []
         if (Array.isArray(query.shops)) {
@@ -212,10 +219,14 @@ function preparePricesMatch(query) {
         } else {
             temp = [ObjectId(query.shops)]
         }
-        response["product._id"] = {
+        response._id = {
             "$in": temp
         }
+        pipeline = pipeline.concat([{
+            "$match": response
+        }])
     }
+    response = {}
     if (query.products) {
         temp = []
         if (Array.isArray(query.products)) {
@@ -225,11 +236,13 @@ function preparePricesMatch(query) {
         } else {
             temp = [ObjectId(query.products)]
         }
-        response._id = {
+        response["product._id"] = {
             "$in": temp
         }
+        pipeline = pipeline.concat([{
+            "$match": response
+        }])
     }
-    // console.log(response)
-    return response
+    return pipeline
 
 }

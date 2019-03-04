@@ -17,7 +17,7 @@ router.get('/', checkBlacklist, checkAuth, authorize('Admin'), UserController.us
 
 router.patch('/', checkBlacklist, checkAuth, authorize('Admin'), UserController.user_update_to_Admin);
 
-router.get('/users/prices/:userId', /* checkBlacklist, checkAuth, authorize(['Admin', 'User']),*/ UserController.prices_get_all_by_user);
+router.get('/users/prices/:id', /* checkBlacklist, checkAuth, authorize(['Admin', 'User']),*/ UserController.prices_get_all_by_user);
 
 
 module.exports = router;

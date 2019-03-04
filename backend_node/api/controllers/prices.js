@@ -24,8 +24,9 @@ exports.prices_get_all = (req, res, next) => {
                     count: docs.length,
                     // total: 
                     prices: docs.map(doc => {
+                        console.log(doc);
                         return {
-                            _id: doc._id,
+                            _id: doc.prices._id,
                             date: doc.prices.timestamp,
                             productName: doc.product.name,
                             productId: doc.product._id,
@@ -95,8 +96,8 @@ exports.price_create_price = (req, res, next) => {
 exports.price_get_price = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
     if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
-        console.log(req.params.priceId);
-        Price.findById(req.params.priceId)
+        console.log(req.params.id);
+        Price.findById(req.params.id)
             .exec()
             .then(price => {
                 if (!price) {
@@ -180,7 +181,7 @@ exports.prices_delete_price = (req, res, next) => {
     const params = parser.parse_query_params(req, res, next);
     if (!params.BAD_REQUEST && !parser.validate_id(req, res, next)) {
         Price.remove({
-                _id: req.params.priceId
+                _id: req.params.id
             })
             .exec()
             .then(result => {
