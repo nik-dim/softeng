@@ -155,8 +155,7 @@ exports.shops_put_shop = (req, res, next) => {
                     .exec()
                     .then(doc =>
                         res.status(200).json({
-                            message: 'Shop FULLY updated',
-                            shop: showSingleShop(doc)
+                            message: 'Shop FULLY updated'
                         })
                     )
             })

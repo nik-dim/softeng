@@ -211,7 +211,8 @@ exports.prices_get_all_by_user = (req, res, next) => {
 							product: doc.product.name,
 							shop: doc.shop.name,
 							value: doc.value,
-							timestamp: doc.timestamp
+							dateFrom: doc.dateFrom,
+							dateTo: doc.dateFrom,
 						}
 					})
 				}

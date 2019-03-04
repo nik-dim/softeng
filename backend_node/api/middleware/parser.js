@@ -219,17 +219,21 @@ function preparePricesMatch(pipeline, query) {
     if (query.dateFrom && query.dateTo) {
         var from = query.dateFrom.split("-");
         var to = query.dateTo.split("-");
-        response["prices.timestamp"] = {
-            "$gte": new Date(new Date(from[0], from[1], from[2], 0, 0, 0).toISOString()),
-            "$lt": new Date(new Date(to[0], to[1], to[2], 23, 59, 59).toISOString())
+        response["prices.dateFrom"] = {
+            "$gte": new Date(new Date(Date.UTC(from[0], from[1], from[2], 0, 0, 0)).toISOString())
+        }
+        response["prices.dateTo"] = {
+            "$lt": new Date(new Date(Date.UTC(to[0], to[1], to[2], 23, 59, 59)).toISOString())
         }
     } else if (query.dateFrom || query.dateTo) {
         return true;
     } else {
         var d = new Date();
-        response["prices.timestamp"] = {
-            "$gte": new Date(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 2, 0, 0).toISOString()),
-            "$lt": new Date(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59).toISOString())
+        response["prices.dateFrom"] = {
+            "$gte": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 2, 0, 0)).toISOString())
+        }
+        response["prices.dateTo"] = {
+            "$lt": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59)).toISOString())
         }
     }
 
