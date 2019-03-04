@@ -11,11 +11,15 @@ exports.errorHandler = (err, res) => {
 // module.exports = validateAttributes;
 
 exports.validateAttributes = (body, Schema, res) => {
+    // console.log(Schema.schema.paths);
+
     var attributes = Object.keys(Schema.schema.paths).slice(1, -1)
     var flag = true;
     attributes.forEach(element => {
-        if (!Object.keys(body).includes(element)) {
-            flag = false
+        if (Schema.schema.paths[element].isRequired) {
+            if (!Object.keys(body).includes(element)) {
+                flag = false
+            }
         }
     });
     if (flag) {

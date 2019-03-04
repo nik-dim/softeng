@@ -149,10 +149,12 @@ module.exports.parse_prices_query_params = (req, res, next) => {
     }, {
         $unwind: "$product"
     }]);
+    const temp = preparePricesMatch(query)
+    console.log(temp);
 
     // console.log(pipeline);
-    pipeline.concat([{
-        "$match": preparePricesMatch(query)
+    pipeline = pipeline.concat([{
+        "$match": temp
     }])
 
     params.params_search = params_search;
@@ -208,7 +210,7 @@ function preparePricesMatch(query) {
                 temp.push(mongoose.Types.ObjectId(t))
             });
         } else {
-            temp = [mongoose.Types.ObjectId(query.shops)]
+            temp = [query.shops]
         }
         response["product._id"] = {
             "$in": temp
@@ -227,6 +229,7 @@ function preparePricesMatch(query) {
             "$in": temp
         }
     }
-
     // console.log(response)
+    return response
+
 }

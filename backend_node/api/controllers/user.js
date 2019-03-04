@@ -5,6 +5,10 @@ const parser = require('../middleware/parser');
 const User = require("../models/user");
 const Blacklist = require('../models/blacklist');
 const errorHandler = require('../middleware/errorHandler');
+const Price = require('../models/price');
+const Shop = require('../models/shop');
+
+
 
 exports.user_signup = (req, res, next) => {
   const params = parser.parse_query_params(req, res, next);
@@ -179,3 +183,40 @@ exports.user_logout = (req, res, next) => {
       .catch(err => errorHandler.errorHandler(err, res));
   }
 };
+
+
+
+exports.prices_get_all_by_user = (req, res, next) => {
+  const params = parser.parse_prices_query_params(req, res, next);
+  // console.log(params.pipeline)
+  if (!params.BAD_REQUEST) {
+    // console.log(params.pipeline.slice(-2, -1))
+    Shop.aggregate(params.pipeline)
+      .skip(Number(params.start))
+      .limit(Number(params.count))
+      // .sort(params.params_sort)
+      .exec()
+      .then(docs => {
+        console.log('pop')
+        res.status(200).json({
+          start: params.start,
+          count: docs.length,
+          // total: 
+          prices: docs.map(doc => {
+            return {
+              _id: doc._id,
+              date: doc.prices.timestamp,
+              productName: doc.product.name,
+              productId: doc.product._id,
+              productTags: doc.product.tags,
+              shopId: doc._id,
+              shopName: doc.name,
+              shopTags: doc.tags,
+              shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
+            }
+          })
+        });
+      })
+      .catch(err => errorHandler.errorHandler(err, res));
+  }
+}
