@@ -95,11 +95,15 @@ module.exports.parse_prices_query_params = (req, res, next) => {
         if (temp[1] === "ASC") {
             direction = 1
         }
-        if (temp[0] === "name") {
-            params_sort.name = direction
+        if (temp[0] === "geoDist") {
+            params_sort["dist.calculated"] = direction
+        } else if (temp[0] === "date") {
+            params_sort["prices.dateFrom"] = direction
         } else {
-            params_sort._id = direction
+            params_sort["prices.value"] = direction
         }
+    } else {
+        params_sort["prices.value"] = 1
     }
 
     if (query['geoDist'] && query['geoLng'] && query['geoLat']) {
