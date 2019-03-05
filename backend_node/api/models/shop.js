@@ -27,7 +27,7 @@ const shopSchema = mongoose.Schema({
   },
   brand: {
     type: String,
-    required: true
+    // required: true
   },
   tags: [{
     type: String
