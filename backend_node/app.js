@@ -4,7 +4,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // const autoIncrement = require('mongoose-auto-increment');
-const cors = require('cors')
+const cors = require('cors');
+const config = require('config');
 
 let productRoutes = require('./api/routes/products');
 let shopRoutes = require('./api/routes/shop');
