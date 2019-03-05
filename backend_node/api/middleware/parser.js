@@ -95,11 +95,15 @@ module.exports.parse_prices_query_params = (req, res, next) => {
         if (temp[1] === "ASC") {
             direction = 1
         }
-        if (temp[0] === "name") {
-            params_sort.name = direction
+        if (temp[0] === "geoDist") {
+            params_sort["dist.calculated"] = direction
+        } else if (temp[0] === "date") {
+            params_sort["prices.dateFrom"] = direction
         } else {
-            params_sort._id = direction
+            params_sort["prices.value"] = direction
         }
+    } else {
+        params_sort["prices.value"] = 1
     }
 
     if (query['geoDist'] && query['geoLng'] && query['geoLat']) {
@@ -227,11 +231,13 @@ function preparePricesMatch(pipeline, query) {
     } else {
         var d = new Date();
         response["prices.dateFrom"] = {
-            "$gte": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 2, 0, 0)).toISOString())
+            "$gte": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0)).toISOString())
         }
         response["prices.dateTo"] = {
-            "$lt": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59)).toISOString())
+            "$lte": new Date(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59)).toISOString())
         }
+        console.log(response["prices.dateTo"]);
+
     }
 
     if (query.tags) {
@@ -269,11 +275,12 @@ function preparePricesMatch(pipeline, query) {
     if (query.products) {
         temp = []
         if (Array.isArray(query.products)) {
-            if (t.length === 24) {
-                query.products.forEach(t => {
+            query.products.forEach(t => {
+                if (t.length === 24) {
                     temp.push(ObjectId(t))
-                });
-            }
+                }
+            });
+
         } else {
             temp = ((query.products.length != 24) ? [] : [ObjectId(query.products)])
         }
