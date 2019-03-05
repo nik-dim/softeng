@@ -10,14 +10,14 @@ const priceSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        // required: true
     },
     shopId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Shop',
         required: true
     },
-    value: {
+    price: {
         type: Number,
         required: true
     },

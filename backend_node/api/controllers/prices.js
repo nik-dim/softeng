@@ -32,23 +32,24 @@ exports.prices_get_all = (req, res, next) => {
                         .then(docs => {
                             res.status(200).json({
                                 start: params.start,
-                                count: docs.length,
+                                count: params.count,
                                 total: result[0].myCount,
                                 prices: docs.map(doc => {
                                     // console.log(doc);
-                                    return {
+                                    const temp = {
                                         _id: doc.prices._id,
-                                        value: doc.prices.value,
-                                        dateFrom: doc.prices.dateFrom,
-                                        dateTo: doc.prices.dateTo,
+                                        price: doc.prices.price,
+                                        date: doc.prices.dateFrom.toISOString().substring(0, 10),
                                         productName: doc.product.name,
                                         productId: doc.product._id,
                                         productTags: doc.product.tags,
                                         shopId: doc._id,
                                         shopName: doc.name,
                                         shopTags: doc.tags,
-                                        shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
+                                        shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 0)
                                     }
+                                    console.log(temp);
+                                    return temp;
                                 })
                             });
                         })
@@ -74,11 +75,11 @@ exports.price_create_price = (req, res, next) => {
                 }
                 User.findById(req.body.userId)
                     .then(user => {
-                        if (!user) {
-                            return res.status(404).json({
-                                message: 'User not found'
-                            });
-                        }
+                        // if (!user) {
+                            // return res.status(404).json({
+                                // message: 'User not found'
+                            // });
+                        // }
                         // console.log(user);
                         Shop.findById(req.body.shopId)
                             .then(shop => {
@@ -90,23 +91,55 @@ exports.price_create_price = (req, res, next) => {
 
                                 var from = req.body.dateFrom.split("-");
                                 var to = req.body.dateTo.split("-");
+                                from = from.map(a => parseInt(a))
+                                to = to.map(a => parseInt(a))
                                 const price = new Price({
                                     _id: new mongoose.Types.ObjectId(),
                                     productId: req.body.productId,
-                                    userId: req.body.userId,
+                                    // userId: req.body.userId,
                                     shopId: req.body.shopId,
-                                    value: req.body.value,
+                                    price: req.body.price,
                                     dateFrom: new Date(Date.UTC(from[0], from[1] - 1, from[2], 0, 0, 0)),
-                                    dateTo: new Date(Date.UTC(to[0], to[1] - 1, to[2], 23, 59, 59)),
+                                    dateTo: new Date(Date.UTC(to[0], to[1] - 1, to[2] - 1, 0, 0, 0)),
                                 })
                                 // console.log(price)
 
                                 price.save()
                                     .then(result => {
-                                        res.status(201).json({
-                                            message: 'Price stored',
-                                            result: result
-                                        });
+                                      console.log({
+                                        start: 0,
+                                        count: 1,
+                                        total: 1,
+                                        prices: {
+                                          price: result.price,
+                                          date: result.dateFrom,
+                                          productName: product.name,
+                                          productId: result.productId,
+                                          productTags: product.tags,
+                                          shopId: result.shopId,
+                                          shopName: shop.name,
+                                          shopTags: shop.tags,
+                                          shopAddress: shop.address,
+                                          shopDist: 0,
+                                        }
+                                      })
+                                      res.status(201).json({
+                                          start: 0,
+                                          count: 1,
+                                          total: 1,
+                                          prices: [{
+                                            price: result.price,
+                                            date: result.dateFrom,
+                                            productName: product.name,
+                                            productId: result.productId,
+                                            productTags: product.tags,
+                                            shopId: result.shopId,
+                                            shopName: shop.name,
+                                            shopTags: shop.tags,
+                                            shopAddress: shop.address,
+                                            shopDist: 0,
+                                          }]
+                                      })
                                     })
                                     .catch(err => errorHandler.errorHandler(err, res));
 

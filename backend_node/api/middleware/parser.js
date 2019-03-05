@@ -100,10 +100,10 @@ module.exports.parse_prices_query_params = (req, res, next) => {
         } else if (temp[0] === "date") {
             params_sort["prices.dateFrom"] = direction
         } else {
-            params_sort["prices.value"] = direction
+            params_sort["prices.price"] = direction
         }
     } else {
-        params_sort["prices.value"] = 1
+        params_sort["prices.price"] = 1
     }
 
     if (query['geoDist'] && query['geoLng'] && query['geoLat']) {
@@ -134,15 +134,15 @@ module.exports.parse_prices_query_params = (req, res, next) => {
         }
     }, {
         $unwind: "$prices"
-    }, {
-        $lookup: {
-            from: 'users',
-            localField: 'prices.userId',
-            foreignField: '_id',
-            as: 'user'
-        }
-    }, {
-        $unwind: "$user"
+    // }, {
+        // $lookup: {
+            // from: 'users',
+            // localField: 'prices.userId',
+            // foreignField: '_id',
+            // as: 'user'
+        // }
+    // }, {
+        // $unwind: "$user"
     }, {
         $lookup: {
             from: 'products',
@@ -220,12 +220,19 @@ function preparePricesMatch(pipeline, query) {
     if (query.dateFrom && query.dateTo) {
         var from = query.dateFrom.split("-");
         var to = query.dateTo.split("-");
+        from = from.map(a => parseInt(a));
+        to = to.map(a => parseInt(a));
+        console.log(from);
+        console.log(to);
+        var dFrom = new Date(Date.UTC(from[0], from[1] - 1, from[2], 0, 0, 0))
+        var dTo = new Date(Date.UTC(to[0], to[1] - 1, to[2] + 1, 23, 59, 59))
         response["prices.dateFrom"] = {
-            "$gte": new Date(new Date(Date.UTC(from[0], from[1], from[2], 0, 0, 0)).toISOString())
+            "$gte": dFrom
         }
         response["prices.dateTo"] = {
-            "$lt": new Date(new Date(Date.UTC(to[0], to[1], to[2], 23, 59, 59)).toISOString())
+            "$lte": dTo        
         }
+        console.log(response);
     } else if (query.dateFrom || query.dateTo) {
         return true;
     } else {

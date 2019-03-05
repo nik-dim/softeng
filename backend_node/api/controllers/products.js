@@ -67,10 +67,11 @@ exports.products_create_product = (req, res, next) => {
             .save()
             .then(result => {
                 // console.log(result);
-                res.status(201).json({
-                    message: 'Created product successfully',
-                    createdProduct: showSingleProduct(result)
-                });
+                res.status(201).json(
+                    showSingleProduct(result)
+                    // message: 'Created product successfully',
+                    // createdProduct: showSingleProduct(result)
+                );
             })
             .catch(err => errorHandler.errorHandler(err, res));
     }
