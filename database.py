@@ -283,7 +283,7 @@ def fill_prices(url):
                     userId=user,
                     productId=product,
                     shopId=shop,
-                    value=price,
+                    price=price,
                     dateFrom=dateFrom,
                     dateTo=dateTo,
                 )
