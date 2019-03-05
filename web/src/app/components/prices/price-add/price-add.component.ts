@@ -38,7 +38,7 @@ export class PriceAddComponent implements OnInit {
       this.form = this.formBuilder.group({
         productId: [null, Validators.required],
         dateFrom: [null, Validators.required],
-        value: [null, Validators.required],
+        price: [null, Validators.required],
       });
     })
   }

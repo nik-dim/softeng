@@ -2,7 +2,7 @@ export class Price {
   productId: number;
   shopId: number;
   userId: number;
-  value: number;
+  price: number;
   dateFrom: string;
   dateTo: string;
 }

@@ -23,8 +23,8 @@
 
         <mat-form-field appearance="outline" class="form-element">
           <mat-label>Price</mat-label>
-          <input matInput placeholder="price" formControlName="value" required>
-          <mat-error *ngIf="!form.controls['value'].valid && form.controls['value'].touched">Field required</mat-error>
+          <input matInput placeholder="price" formControlName="price" required>
+          <mat-error *ngIf="!form.controls['price'].valid && form.controls['price'].touched">Field required</mat-error>
           <mat-hint>Comma separated tags, e.g. "fuel, car, petrol"</mat-hint>
         </mat-form-field>
 
