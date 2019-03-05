@@ -23,6 +23,9 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { ShopDetailsComponent } from '@components/shops/shop-details/shop-details.component';
+import { AdminComponent } from '@components/admin/admin.component';
+import { PriceAddComponent } from '@components/prices/price-add/price-add.component';
 
 
 @NgModule({
@@ -39,7 +42,10 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
     LoginComponent,
     SignupComponent,
     ProfileComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    ShopDetailsComponent,
+    AdminComponent,
+    PriceAddComponent,
   ],
   imports: [
     BrowserModule,
