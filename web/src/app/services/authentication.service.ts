@@ -62,4 +62,10 @@ export class AuthenticationService {
     return false;
   }
 
+  isAdmin() {
+    if (['Admin'].indexOf(this.user.role) !== -1)
+      return true;
+    return false;
+  }
+
 }

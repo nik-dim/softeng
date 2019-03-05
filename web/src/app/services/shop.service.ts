@@ -19,4 +19,9 @@ export class ShopService {
     return this.http.get<any>(this.url + "?count=4000")
                .pipe(map(res => res.shops));
   }
+
+  public deleteShop(id): Observable<any> {
+    return this.http.delete<any>(`${this.url}/${id}`);
+  }
+
 }

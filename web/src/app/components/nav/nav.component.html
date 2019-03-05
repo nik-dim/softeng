@@ -19,8 +19,12 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/dashboard" *ngIf="auth.isAdmin()">
+    <mat-icon>storage</mat-icon>
+    <span>Dashboard</span>
+  </button>
   <button mat-menu-item routerLink="/profile/{{ auth.currentUser()._id }}">
-    <mat-icon>mood</mat-icon>
+    <mat-icon>account_box</mat-icon>
     <span>Profile</span>
   </button>
   <button mat-menu-item (click)="logout()">
