@@ -1,0 +1,31 @@
+.centered {
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.mat-tab-group {
+  width: 80%;
+  margin: 0 auto;
+  position: sticky;
+}
+
+.mat-column-name {
+  width: 50% !important;
+  color: RoyalBlue;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+
+.mat-column-brand {
+  width: 20% !important;
+}
+
+.mat-column-address {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  color: DarkSlateGrey;
+}

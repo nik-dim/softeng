@@ -1,0 +1,34 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="container">
+    <span class="logo">SaikoFuel</span>
+    <div fxFlex fxLayout fxLayoutAlign="end center">
+      <ul fxLayout="row" fxLayoutGap="20px" class="nav-items">
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/products">Products</a></li>
+        <li><a routerLink="/shops">Shops</a></li>
+        <li *ngIf="!auth.isLoggedIn()">
+          <button mat-raised-button routerLink="/login" color="accent">Login</button>
+        </li>
+        <li *ngIf="auth.isLoggedIn()">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>dashboard</mat-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/dashboard" *ngIf="auth.isAdmin()">
+    <mat-icon>storage</mat-icon>
+    <span>Dashboard</span>
+  </button>
+  <button mat-menu-item routerLink="/profile/{{ auth.currentUser()._id }}">
+    <mat-icon>account_box</mat-icon>
+    <span>Profile</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>input</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

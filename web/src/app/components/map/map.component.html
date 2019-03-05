@@ -1,0 +1,29 @@
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.1/mapbox-gl-geocoder.js'></script>
+
+<!-- Turf.js plugin -->
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+<mat-sidenav-container class='sidenav-shops'>
+  <mat-sidenav #sidenav mode='side'>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <button mat-icon-button (click)='sidenav.toggle()'><mat-icon>menu</mat-icon></button>
+        <h2 mat-subheader align="center">Nearest Gas Stations</h2>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-action-list>
+      <button mat-list-item *ngFor="let shop of shoplist" (click)="clickShop(shop)">
+        <mat-icon mat-list-icon>invert_colors</mat-icon>
+        <h4 mat-line>{{ shop.properties.name }}</h4>
+        <p mat-line>{{ shop.properties.distance }} km away</p>
+        <mat-divider></mat-divider>
+      </button>
+    </mat-action-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div id='map' class='map pad2'>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

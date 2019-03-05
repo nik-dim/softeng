@@ -1,0 +1,36 @@
+.loading-shade {
+  position: relative;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-container {
+  position: relative;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.mat-column-product {
+  width: 30% !important;
+}
+
+.mat-column-shop {
+  width: 40% !important;
+  text-decoration: solid !important;
+  color: RoyalBlue !important;
+}
+
+.mat-column-price {
+  width: 30% !important;
+}
+

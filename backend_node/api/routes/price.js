@@ -5,8 +5,6 @@ const checkAuth = require('../middleware/check-auth');
 const authorize = require('../middleware/authorize');
 const checkBlacklist = require('../middleware/checkBlacklist');
 
-
-
 router.get('/', PricesController.prices_get_all);
 
 router.post('/', checkBlacklist, checkAuth, authorize(['User', 'Admin']), PricesController.price_create_price);

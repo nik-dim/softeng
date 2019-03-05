@@ -1,0 +1,36 @@
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.logo {
+  font-weight: bold;
+}
+
+.nav-items {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  li {
+    display: table-cell;
+    vertical-align: middle;
+    line-height: 40px;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+    &:hover, &:active {
+      color: lightgray;
+    }
+  }
+  button {
+    font-size: 1em;
+  }
+
+}

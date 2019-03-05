@@ -7,7 +7,7 @@ const checkBlacklist = require('../middleware/checkBlacklist');
 
 router.get('/', ShopsController.shops_get_all);
 
-router.post('/', /*checkBlacklist, checkAuth, authorize(['User', 'Admin']),*/ ShopsController.shops_create_shop);
+router.post('/', checkBlacklist, checkAuth, authorize('Admin'), ShopsController.shops_create_shop);
 
 router.get('/:id', ShopsController.shops_get_shop);
 

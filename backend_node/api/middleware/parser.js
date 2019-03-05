@@ -213,12 +213,9 @@ exports.validate_id = (req, res, next) => {
     }
 }
 
-
-
 function preparePricesMatch(pipeline, query) {
     // console.log(query)
     var response = {}
-
 
     if (query.dateFrom && query.dateTo) {
         var from = query.dateFrom.split("-");
