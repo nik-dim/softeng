@@ -124,7 +124,7 @@ exports.price_create_price = (req, res, next) => {
                                           start: 0,
                                           count: 1,
                                           total: 1,
-                                          prices: {
+                                          prices: [{
                                             price: result.price,
                                             date: result.dateFrom,
                                             productName: product.name,
@@ -135,7 +135,7 @@ exports.price_create_price = (req, res, next) => {
                                             shopTags: shop.tags,
                                             shopAddress: shop.address,
                                             shopDist: 0,
-                                          }
+                                          }]
                                       })
                                     })
                                     .catch(err => errorHandler.errorHandler(err, res));
