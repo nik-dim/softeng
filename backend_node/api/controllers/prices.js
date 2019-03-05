@@ -32,23 +32,24 @@ exports.prices_get_all = (req, res, next) => {
                         .then(docs => {
                             res.status(200).json({
                                 start: params.start,
-                                count: docs.length,
+                                count: params.count,
                                 total: result[0].myCount,
                                 prices: docs.map(doc => {
                                     // console.log(doc);
-                                    return {
+                                    const temp = {
                                         _id: doc.prices._id,
                                         price: doc.prices.price,
-                                        dateFrom: doc.prices.dateFrom,
-                                        dateTo: doc.prices.dateTo,
+                                        date: doc.prices.dateFrom.toISOString().substring(0, 10),
                                         productName: doc.product.name,
                                         productId: doc.product._id,
                                         productTags: doc.product.tags,
                                         shopId: doc._id,
                                         shopName: doc.name,
                                         shopTags: doc.tags,
-                                        shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 'unknown')
+                                        shopDist: ((doc.dist) ? doc.dist.calculated / 1000 : 0)
                                     }
+                                    console.log(temp);
+                                    return temp;
                                 })
                             });
                         })
@@ -90,6 +91,8 @@ exports.price_create_price = (req, res, next) => {
 
                                 var from = req.body.dateFrom.split("-");
                                 var to = req.body.dateTo.split("-");
+                                from = from.map(a => parseInt(a))
+                                to = to.map(a => parseInt(a))
                                 const price = new Price({
                                     _id: new mongoose.Types.ObjectId(),
                                     productId: req.body.productId,
@@ -97,7 +100,7 @@ exports.price_create_price = (req, res, next) => {
                                     shopId: req.body.shopId,
                                     price: req.body.price,
                                     dateFrom: new Date(Date.UTC(from[0], from[1] - 1, from[2], 0, 0, 0)),
-                                    dateTo: new Date(Date.UTC(to[0], to[1] - 1, to[2], 23, 59, 59)),
+                                    dateTo: new Date(Date.UTC(to[0], to[1] - 1, to[2] - 1, 0, 0, 0)),
                                 })
                                 // console.log(price)
 
